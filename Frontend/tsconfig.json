@@ -11,6 +11,6 @@
     "src/**/*.ts",
     "src/**/*.astro",
     "src/**/*.d.tsx",
-    "src/**/*.tsx",
+    "src/**/*.tsx", "src/components/Ticket.jsx",
   ]
 }

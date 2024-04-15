@@ -1,0 +1,10 @@
+---
+
+import OrderLayout from "@/layouts/OrderLayout.astro";
+import {TicketComp} from "@/components/Ticket";
+
+---
+
+<OrderLayout >
+<TicketComp client:only='react'>
+</OrderLayout>
