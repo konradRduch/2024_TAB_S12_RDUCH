@@ -1,16 +1,88 @@
 ---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { BellIcon, CheckIcon } from "@radix-ui/react-icons"
+ 
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+import PortfolioCarousel from "@/components/PortfolioCarousel";
+import {CardWithForm} from "@/components/Form";
 
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Store"
+  description="Maciej Plonka portfolio design"
+>
+<div class="grid grid-flow-col justify-evenly">
+<Card className={cn("w-max")}>
+  <CardHeader>
+    <CardTitle>BUY TICKET</CardTitle>
+    <CardDescription>You have 3 unread messages.</CardDescription>
+  </CardHeader>
+  <CardContent className="grid gap-4">
+    <div class=" flex items-center space-x-4 rounded-md border p-4">
+      <BellIcon />
+      <div class="flex-1 space-y-1">
+        <p class="text-sm font-medium leading-none">
+          Limited Time only!
+        </p>
+        <p class="text-sm text-muted-foreground">
+          10% off only this week!
+        </p>
+      </div>
+    </div>
+    <div>
+  
+    </div>
+  </CardContent>
+  <CardFooter>
+    <Button className="w-[20vw]">
+      <CheckIcon className="mr-2 h-4 w-4" /> Buy Ticket
+    </Button>
+  </CardFooter>
+</Card>
+
+<Card className={cn("w-max")}>
+  <CardHeader>
+    <CardTitle>BUY PASS</CardTitle>
+    <CardDescription>You have 3 unread messages.</CardDescription>
+  </CardHeader>
+  <CardContent className="grid gap-4">
+    <div class=" flex items-center space-x-4 rounded-md border p-4">
+      <BellIcon />
+      <div class="flex-1 space-y-1">
+        <p class="text-sm font-medium leading-none">
+          20% OFF
+        </p>
+        <p class="text-sm text-muted-foreground">
+          only now.
+        </p>
+      </div>
+    </div>
+    <div>
+  
+    </div>
+  </CardContent>
+  <CardFooter>
+    <Button className="w-[20vw]">
+      <CheckIcon className="mr-2 h-4 w-4" /> Buy pass
+    </Button>
+  </CardFooter>
+</Card>
+
+<CardWithForm client:load/>
+
+</div>
+
+<PortfolioCarousel client:load />
+
+</BaseLayout>
