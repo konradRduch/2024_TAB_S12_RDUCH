@@ -22,7 +22,7 @@ import {
 
 export function CardWithForm() {
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Have questions?</CardTitle>
         <CardDescription>Ask us.</CardDescription>

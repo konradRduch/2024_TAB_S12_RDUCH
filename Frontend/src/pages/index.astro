@@ -1,88 +1,107 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { BellIcon, CheckIcon } from "@radix-ui/react-icons"
- 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-
-import PortfolioCarousel from "@/components/PortfolioCarousel";
+import { BellIcon } from "@radix-ui/react-icons"
 import {CardWithForm} from "@/components/Form";
+import MainCard from "@/components/Main-card.astro";
 
 ---
 
 <BaseLayout
-  title="Store"
-  description="Maciej Plonka portfolio design"
+  title="SKI"
+  description="TAB Project"
 >
-<div class="grid grid-flow-col justify-evenly">
-<Card className={cn("w-max")}>
-  <CardHeader>
-    <CardTitle>BUY TICKET</CardTitle>
-    <CardDescription>You have 3 unread messages.</CardDescription>
-  </CardHeader>
-  <CardContent className="grid gap-4">
-    <div class=" flex items-center space-x-4 rounded-md border p-4">
-      <BellIcon />
-      <div class="flex-1 space-y-1">
-        <p class="text-sm font-medium leading-none">
-          Limited Time only!
-        </p>
-        <p class="text-sm text-muted-foreground">
-          10% off only this week!
-        </p>
-      </div>
-    </div>
-    <div>
-  
-    </div>
-  </CardContent>
-  <CardFooter>
-    <Button className="w-[20vw]">
-      <CheckIcon className="mr-2 h-4 w-4" /> Buy Ticket
-    </Button>
-  </CardFooter>
-</Card>
 
-<Card className={cn("w-max")}>
-  <CardHeader>
-    <CardTitle>BUY PASS</CardTitle>
-    <CardDescription>You have 3 unread messages.</CardDescription>
-  </CardHeader>
-  <CardContent className="grid gap-4">
-    <div class=" flex items-center space-x-4 rounded-md border p-4">
-      <BellIcon />
-      <div class="flex-1 space-y-1">
-        <p class="text-sm font-medium leading-none">
-          20% OFF
-        </p>
-        <p class="text-sm text-muted-foreground">
-          only now.
-        </p>
-      </div>
+<div class="flex justify-evenly flex-col lg:flex-row lg:mt-[80vh] gap-4">
+  <div class="arrow">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+
+<MainCard title='BUY TICKET' desc='check out our wide variety of tickets'>
+  <div class=" flex items-center rounded-md border space-x-4 p-4">
+    <BellIcon />
+    <div class="flex-1 space-y-1">
+      <p class="text-sm font-medium leading-none">
+        Limited Time only!
+      </p>
+      <p class="text-sm text-muted-foreground">
+        10% off only this week!
+      </p>
     </div>
-    <div>
-  
+  </div>
+</MainCard>
+
+
+<MainCard title='BUY TICKET' desc='buy pass for all occasions'>
+  <div class=" flex items-center rounded-md border space-x-4 p-4">
+    <BellIcon />
+    <div class="flex-1 space-y-1">
+      <p class="text-sm font-medium leading-none">
+        20% OFF
+      </p>
+      <p class="text-sm text-muted-foreground">
+        only now.
+      </p>
     </div>
-  </CardContent>
-  <CardFooter>
-    <Button className="w-[20vw]">
-      <CheckIcon className="mr-2 h-4 w-4" /> Buy pass
-    </Button>
-  </CardFooter>
-</Card>
+  </div>
+</MainCard>
+
 
 <CardWithForm client:load/>
 
 </div>
 
-<PortfolioCarousel client:load />
-
 </BaseLayout>
+
+<style>
+  
+  @media (width <= 1024px) {
+  .arrow {
+    display: none;
+  }
+}
+.arrow {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform: rotate();
+    cursor: pointer;
+}
+
+.arrow span {
+    display: block;
+    width: 1.5vw;
+    height: 1.5vw;
+    border-bottom: 5px solid white;
+    border-right: 5px solid white;
+    transform: rotate(45deg);
+    margin: -10px;
+    animation: animate 2s infinite;
+}
+
+.arrow span:nth-child(2) {
+    animation-delay: -0.2s;
+}
+
+.arrow span:nth-child(3) {
+    animation-delay: -0.4s;
+}
+
+@keyframes animate {
+    0% {
+        opacity: 0;
+        transform: rotate(45deg) translate(-20px, -20px);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: rotate(45deg) translate(20px, 20px);
+    }
+}
+</style>
