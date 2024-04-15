@@ -9,6 +9,8 @@
   "include": [
     "src/**/*.d.ts",
     "src/**/*.ts",
-    "src/**/*.astro"
+    "src/**/*.astro",
+    "src/**/*.d.tsx",
+    "src/**/*.tsx",
   ]
 }

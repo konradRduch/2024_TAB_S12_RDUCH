@@ -31,29 +31,30 @@ export function CardWithForm() {
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="email" />
+              
+              <Input id="name" placeholder="Your email" />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label>Category</Label>
+              
               <Select>
                 <SelectTrigger id="category">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="pass">passes</SelectItem>
-                  <SelectItem value="ticket">tickets</SelectItem>
-                  <SelectItem value="cancelation">cancelation</SelectItem>
-                  <SelectItem value="else">else</SelectItem>
+                  <SelectItem value="pass">Pass</SelectItem>
+                  <SelectItem value="ticket">Ticket</SelectItem>
+                  <SelectItem value="cancelation">Cancel</SelectItem>
+                  <SelectItem value="else">Other</SelectItem>
                 </SelectContent>
               </Select>
-              <Textarea></Textarea>
-            </div>
+              </div>
+              <Textarea placeholder="Describe problem..."></Textarea>
+            
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex justify-center">
-        <Button className="w-[20vw]">Send</Button>
+        <Button className="w-full">Send</Button>
       </CardFooter>
     </Card>
   )
