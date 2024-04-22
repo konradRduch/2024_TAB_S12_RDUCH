@@ -12,20 +12,36 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
+//import type { CheckedState } from '@radix-ui/react-checkbox';
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+import * as React from "react"
+import { cn } from "@/lib/utils"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+ 
 
 const Values = {
-    price: 1,
-    amount: 1,
+    price: 50,
+    normal: 0,
+    discount: 0,
+    rides: 1,
+    pricePerRide: 10
   };
 
-
-
 export function TicketComp() {
+    
     const [values, setValues] = useState(Values);
     const [type, setType] = useState("Ticket");
-    const total = values.amount * values.price;
-    
+    const [date, setDate] = React.useState<Date>()
+
+    const total = (values.normal * values.price) + (values.discount*values.price*0.5);
+    const totalPerRides =  (values.normal * values.rides * values.pricePerRide) + (values.discount*values.rides*values.pricePerRide*0.5);
+
     const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -37,25 +53,45 @@ export function TicketComp() {
         )
       };
 
+   
+
+      // const handleCheckbox = (value : boolean) => { 
+      //   setValues(
+      //     (values) => ({
+      //       ...values,
+      //       discount: value,
+      //   })
+      //   )
+      // }
 
       function Ticket(){
         return<>
-        <p>ticket</p>
+        <label>NORMAL</label>
           <Input
               type="number"
-              name="amount"
+              name="normal"
               placeholder="Enter amount"
               min={0}
-              value={values.amount}
+              value={values.normal}
               onChange={handleInputChange}
              
-            />
+            /> 
+            <label>DISCOUNT</label>
             <Input
               type="number"
-              name="price"
+              name="discount"
               placeholder="Enter price"
               min={0}
-              value={values.price} 
+              value={values.discount} 
+              onChange={handleInputChange}
+            />
+            <label htmlFor="Rides">Amount of Rides</label>
+             <Input
+              type="number"
+              name="rides"
+              placeholder="Enter price"
+              min={0}
+              value={values.rides} 
               onChange={handleInputChange}
             />
             
@@ -66,34 +102,48 @@ export function TicketComp() {
         return <>
          <Select>
                 <SelectTrigger id="PassType">
-                  <SelectValue placeholder="Normal" />
+                  <SelectValue placeholder="Day" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="Normal">Normal</SelectItem>
-                  <SelectItem value="Senior">Senior</SelectItem>
-                  <SelectItem value="Kid">Kid</SelectItem>
+                  <SelectItem value="Normal">Day</SelectItem>
+                  <SelectItem value="Senior">Week</SelectItem>
+                  <SelectItem value="Kid">Month</SelectItem>
                 </SelectContent>
               </Select>
-        <Input
+              <label>NORMAL</label>
+
+          <Input
               type="number"
-              name="amount"
+              name="normal"
               placeholder="Enter amount"
               min={0}
-              value={values.amount}
+              value={values.normal}
               onChange={handleInputChange}
              
+            /> 
+            <label>DISCOUNT</label>
+            <Input
+              type="number"
+              name="discount"
+              placeholder="Enter price"
+              min={0}
+              value={values.discount} 
+              onChange={handleInputChange}
             />
+           
+            
         </>
       }
         
 
     return (
      
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-col lg:flex-row">
           
           <OrderCard title='BUY TICKET' desc='check out our wide variety of tickets'>
+          
            <div className='grid gap-4'>
-           <Select onValueChange={(value) => setType(value)}>
+           <Select onValueChange={(value : string) => setType(value)}>
                 <SelectTrigger id="category">
                   <SelectValue placeholder="Ticket" />
                 </SelectTrigger>
@@ -108,11 +158,34 @@ export function TicketComp() {
             <Ticket/> : <Pass/>
             
             } 
+<label htmlFor="Starting date">STARTING DATE</label>
+   
+
+<Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"outline"}
+          className={cn(
+            "w-[280px] justify-start text-left font-normal",
+            !date && "text-muted-foreground"
+          )}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {date ? format(date, "PPP") : <span>Pick a date</span>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
               
-              
-          
-            <div className="items-top flex space-x-2 mt-2">
-      <Checkbox id="terms1" />
+      <div className="items-top flex space-x-2 mt-2">
+      <Checkbox id="terms1"/>
       <div className="grid gap-1.5 leading-none">
         <label
           htmlFor="terms1"
@@ -128,7 +201,7 @@ export function TicketComp() {
     </div>
           </OrderCard>
           <OrderCard title='TOTAL' desc='Amount in pln'>
-            <div className="text-center font-bold">{total.toFixed(2)} PLN</div> 
+            <div className="text-center font-bold">{type === "Pass" ?  total.toFixed(2) : totalPerRides.toFixed(2)} PLN</div> 
             <CardFooter className="flex justify-center">
               <Button className="w-full">BUY</Button>
             </CardFooter>
