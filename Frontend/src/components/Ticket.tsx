@@ -35,6 +35,7 @@ export function TicketComp() {
 
       function Ticket(){
         return<>
+        <p>ticket</p>
           <Input
               type="number"
               name="amount"
@@ -58,6 +59,16 @@ export function TicketComp() {
 
       function Pass(){
         return <>
+         <Select>
+                <SelectTrigger id="PassType">
+                  <SelectValue placeholder="Normal" />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  <SelectItem value="Normal">Normal</SelectItem>
+                  <SelectItem value="Senior">Senior</SelectItem>
+                  <SelectItem value="Kid">Kid</SelectItem>
+                </SelectContent>
+              </Select>
         <Input
               type="number"
               name="amount"
@@ -82,11 +93,11 @@ export function TicketComp() {
                   <SelectValue placeholder="Ticket" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="ticket">Ticket</SelectItem>
-                  <SelectItem value="pass">Pass</SelectItem>
+                  <SelectItem value="Ticket">Ticket</SelectItem>
+                  <SelectItem value="Pass">Pass</SelectItem>
                 </SelectContent>
               </Select>
-            {type === "Ticet" ?  
+            {type === "Ticket" ?  
             
             <Ticket/> : <Pass/>
             
