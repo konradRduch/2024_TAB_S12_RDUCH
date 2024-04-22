@@ -19,17 +19,22 @@ const Values = {
     amount: 1,
   };
 
+
+
 export function TicketComp() {
     const [values, setValues] = useState(Values);
     const [type, setType] = useState("Ticket");
-
-
+    const total = values.amount * values.price;
+    
     const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setValues({
-          ...values,
-          [name]: value,
-        });
+
+        setValues(
+          (values) => ({
+            ...values,
+            [name]: value,
+        })
+        )
       };
 
 
@@ -97,6 +102,7 @@ export function TicketComp() {
                   <SelectItem value="Pass">Pass</SelectItem>
                 </SelectContent>
               </Select>
+
             {type === "Ticket" ?  
             
             <Ticket/> : <Pass/>
@@ -122,7 +128,7 @@ export function TicketComp() {
     </div>
           </OrderCard>
           <OrderCard title='TOTAL' desc='Amount in pln'>
-            <div className="text-center font-bold">{(values.amount*values.price).toFixed(2)} PLN</div> 
+            <div className="text-center font-bold">{total.toFixed(2)} PLN</div> 
             <CardFooter className="flex justify-center">
               <Button className="w-full">BUY</Button>
             </CardFooter>
