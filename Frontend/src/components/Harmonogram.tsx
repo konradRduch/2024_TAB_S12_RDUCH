@@ -30,20 +30,20 @@ export function Harmonogram() {
           <TableCell className="text-right">YES</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell className="font-medium">1</TableCell>
-          <TableCell>Biała</TableCell>
-          <TableCell>1921m.</TableCell>
-          <TableCell>8:00am</TableCell>
+          <TableCell className="font-medium">2</TableCell>
+          <TableCell>Różowa</TableCell>
+          <TableCell>921m.</TableCell>
+          <TableCell>7:00am</TableCell>
           <TableCell>9:00pm</TableCell>
           <TableCell className="text-right">YES</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell className="font-medium">1</TableCell>
-          <TableCell>Biała</TableCell>
-          <TableCell>1921m.</TableCell>
+          <TableCell className="font-medium">3</TableCell>
+          <TableCell>Tęczowa</TableCell>
+          <TableCell>2145m.</TableCell>
           <TableCell>8:00am</TableCell>
           <TableCell>9:00pm</TableCell>
-          <TableCell className="text-right">YES</TableCell>
+          <TableCell className="text-right">NO</TableCell>
         </TableRow>
       </TableBody>
     </Table>

@@ -1,7 +1,9 @@
 ---
 import OrderLayout from "@/layouts/OrderLayout.astro";
+import {AdminComp} from "@/components/Admin";
+
 ---
 
 <OrderLayout>
-  <p>Panel admina</p>
+    <AdminComp client:load/>   
 </OrderLayout>
