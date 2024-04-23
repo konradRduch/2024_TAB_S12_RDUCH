@@ -3,6 +3,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { BellIcon } from "@radix-ui/react-icons";
 import { CardWithForm } from "@/components/Form";
 import MainCard from "@/components/Main-card.astro";
+import {Harmonogram} from "@/components/Harmonogram";
+
 ---
 
 <BaseLayout title="SKI" description="TAB Project">
@@ -14,24 +16,25 @@ import MainCard from "@/components/Main-card.astro";
     </div>
 
     <MainCard
-      title="BUY TICKET"
-      desc="check out our wide variety of tickets"
-      button="simulator"
+      title="VALIDATE TICKET"
+      desc="Check your ticket or pass stats"
+      button="CHECK"
       link="/simulator"
     >
       <div class="flex items-center rounded-md border space-x-4 p-4">
         <BellIcon />
         <div class="flex-1 space-y-1">
-          <p class="text-sm font-medium leading-none">Limited Time only!</p>
-          <p class="text-sm text-muted-foreground">10% off only this week!</p>
+          <p class="text-sm font-medium leading-none">Check your ticket</p>
+          <p class="text-sm text-muted-foreground">see your statistics.</p>
+
         </div>
       </div>
     </MainCard>
 
     <MainCard
-      title="BUY TICKET"
-      desc="buy pass for all occasions"
-      button="Buy ticket"
+      title="STORE"
+      desc="Buy tickets and passes"
+      button="BUY NOW"
       link="/ticket"
     >
       <div class="flex items-center rounded-md border space-x-4 p-4">
@@ -45,6 +48,7 @@ import MainCard from "@/components/Main-card.astro";
 
     <CardWithForm client:load />
   </div>
+  <Harmonogram/>
 </BaseLayout>
 
 <style>

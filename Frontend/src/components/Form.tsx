@@ -49,8 +49,8 @@ export function CardWithForm() {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-center">
-        <Button className="w-full">Send</Button>
+      <CardFooter className="flex justify-center ">
+        <Button className="w-full font-semibold">Send</Button>
       </CardFooter>
     </Card>
   );
