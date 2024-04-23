@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   Card,
   CardContent,
@@ -6,28 +6,23 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-
-
+} from "@/components/ui/card";
 
 type Props = {
   children?: string | JSX.Element | JSX.Element[];
   content?: string | JSX.Element | JSX.Element[];
   title?: string;
   desc?: string;
-}
+};
 
-export function OrderCard({children, content, title, desc} : Props) {
+export function OrderCard({ children, content, title, desc }: Props) {
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{desc}</CardDescription>
       </CardHeader>
-      <CardContent>
-      {children}
-      </CardContent>
-
+      <CardContent>{children}</CardContent>
     </Card>
-  )
+  );
 }

@@ -6,34 +6,35 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { BellIcon, CheckIcon } from "@radix-ui/react-icons"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/card";
+import { BellIcon, CheckIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface Props {
-  title?: string | undefined
-  desc?: string | undefined
-  button?: string | undefined
-  link?: string | undefined
+  title?: string | undefined;
+  desc?: string | undefined;
+  button?: string | undefined;
+  link?: string | undefined;
 }
 
-const {title, desc, button, link} = Astro.props;
+const { title, desc, button, link } = Astro.props;
 ---
 
 <Card className={cn("w-full")}>
-    <CardHeader>
-      <CardTitle>{title}</CardTitle>
-      <CardDescription>{desc}</CardDescription>
-    </CardHeader>
-    <CardContent className="grid gap-4">
-     <slot/>
-    </CardContent>
-    <CardFooter className="flex justify-center">
-      <a href={link}>
+  <CardHeader>
+    <CardTitle>{title}</CardTitle>
+    <CardDescription>{desc}</CardDescription>
+  </CardHeader>
+  <CardContent className="grid gap-4">
+    <slot />
+  </CardContent>
+  <CardFooter className="flex justify-center">
+    <a href={link}>
       <Button className="w-full">
-        <CheckIcon className="mr-2 h-4 w-4" /> {button}
+        <CheckIcon className="mr-2 h-4 w-4" />
+        {button}
       </Button>
-      </a>
-    </CardFooter>
-  </Card>
+    </a>
+  </CardFooter>
+</Card>

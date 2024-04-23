@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from "react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,16 +8,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 export function CardWithForm() {
   return (
@@ -30,11 +30,9 @@ export function CardWithForm() {
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              
               <Input id="name" placeholder="Your email" />
             </div>
             <div className="flex flex-col space-y-1.5">
-              
               <Select>
                 <SelectTrigger id="category">
                   <SelectValue placeholder="Select" />
@@ -46,9 +44,8 @@ export function CardWithForm() {
                   <SelectItem value="else">Other</SelectItem>
                 </SelectContent>
               </Select>
-              </div>
-              <Textarea placeholder="Describe problem..."></Textarea>
-            
+            </div>
+            <Textarea placeholder="Describe problem..."></Textarea>
           </div>
         </form>
       </CardContent>
@@ -56,5 +53,5 @@ export function CardWithForm() {
         <Button className="w-full">Send</Button>
       </CardFooter>
     </Card>
-  )
+  );
 }
