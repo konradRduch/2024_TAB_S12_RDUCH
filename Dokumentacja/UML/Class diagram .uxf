@@ -1,0 +1,104 @@
+<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><help_text>Space for diagram noteslt=&lt;.lt=&gt;.</help_text><element><id>UMLClass</id><coordinates><x>380</x><y>18</y><w>189</w><h>72</h></coordinates><panel_attributes>Client
+--
+id: Long {id}
+email: String
+phone: Int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>569</x><y>630</y><w>189</w><h>81</h></coordinates><panel_attributes>Worker
+--
+id: Long {id}
+phone: int
+email: String
+role: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>425</x><y>306</y><w>189</w><h>81</h></coordinates><panel_attributes>Ticket
+--
+id: Long {id}
+AmountOfRides: Int
+pricePerRide: Real
+ticketTypeName: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>767</x><y>36</y><w>189</w><h>72</h></coordinates><panel_attributes>Order
+--
+id: Long {id}
+total: Real
+ticketList: List&lt;Ticket&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>785</x><y>306</y><w>189</w><h>90</h></coordinates><panel_attributes>Pass
+--
+id: Long {id}
+active: Bool
+passTypeName: String
+price: Real</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1082</x><y>216</y><w>108</w><h>81</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+PassTypeName
+--
+Daily
+Weekly
+Monthly</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>326</x><y>315</y><w>180</w><h>90</h></coordinates><panel_attributes>lt=-
+m1=1                                                  
+m2=0..*
+
+
+</panel_attributes><additional_attributes>10;80;100;10</additional_attributes></element><element><id>Relation</id><coordinates><x>515</x><y>99</y><w>270</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=0..*</panel_attributes><additional_attributes>280;10;10;220</additional_attributes></element><element><id>Relation</id><coordinates><x>839</x><y>99</y><w>72</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=0..*</panel_attributes><additional_attributes>10;10;40;220</additional_attributes></element><element><id>UMLClass</id><coordinates><x>335</x><y>783</y><w>189</w><h>81</h></coordinates><panel_attributes>Lift
+--
+id: Long {id}
+name: String
+active: Bool
+distance: Long
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>389</x><y>486</y><w>189</w><h>189</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>10;10;190;190</additional_attributes></element><element><id>Relation</id><coordinates><x>659</x><y>405</y><w>135</w><h>234</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>130;10;10;240</additional_attributes></element><element><id>UMLClass</id><coordinates><x>704</x><y>774</y><w>189</w><h>81</h></coordinates><panel_attributes>SkiSchedule
+--
+id: Long {id}
+lift: Lift
+open: Datetime
+close: Datetime
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1001</x><y>693</y><w>189</w><h>108</h></coordinates><panel_attributes>Report
+--
+id: Long {id}
+name: String
+description: String
+reportDate: Date
+orderList: List&lt;Order&gt;
+totalSum: Int
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>947</x><y>108</y><w>153</w><h>603</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>10;10;150;650</additional_attributes></element><element><id>Relation</id><coordinates><x>758</x><y>657</y><w>252</w><h>108</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>260;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>452</x><y>693</y><w>126</w><h>90</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>10;80;120;10</additional_attributes></element><element><id>Relation</id><coordinates><x>524</x><y>810</y><w>189</w><h>54</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+
+
+</panel_attributes><additional_attributes>10;20;190;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>110</x><y>126</y><w>189</w><h>81</h></coordinates><panel_attributes>SkiCard &lt;&lt;AbstractClass&gt;&gt;
+--
+id: Long
+timeStart: Datetime
+timeEnd: Datetime
+discount: Bool
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>488</x><y>36</y><w>369</w><h>72</h></coordinates><panel_attributes>lt=-
+																																																																																	0..*                                   
+m2=1
+
+
+</panel_attributes><additional_attributes>300;20;100;20</additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>198</y><w>153</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;150;120</additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>180</y><w>513</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;550;140</additional_attributes></element><element><id>UMLClass</id><coordinates><x>227</x><y>396</y><w>189</w><h>90</h></coordinates><panel_attributes>PriceList
+--
+id: Long
+timeStart: Date
+timeEnd: Date
+TicketPrice: TicketPrice
+PassPrice: PassPrice
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>416</x><y>387</y><w>378</w><h>81</h></coordinates><panel_attributes>lt=-
+m1=1                                                  
+m2=0..*
+
+
+</panel_attributes><additional_attributes>10;60;400;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>20</x><y>396</y><w>189</w><h>63</h></coordinates><panel_attributes>HistorySkiCard
+--
+id: Long
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>164</x><y>459</y><w>324</w><h>324</h></coordinates><panel_attributes>lt=-
+m1=1                                                  
+m2=0..*
+
+
+</panel_attributes><additional_attributes>190;340;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>137</x><y>216</y><w>198</w><h>189</h></coordinates><panel_attributes>lt=-
+m1=1                                                  
+m2=0..*
+
+
+</panel_attributes><additional_attributes>40;10;10;190</additional_attributes></element></diagram>
