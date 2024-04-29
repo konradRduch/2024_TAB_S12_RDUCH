@@ -9,18 +9,21 @@ import {
 } from "@/components/ui/card";
 import { CheckIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
 
 interface Props {
   title?: string | undefined;
   desc?: string | undefined;
   button?: string | undefined;
   link?: string | undefined;
+  className?: string | undefined;
 }
 
-const { title, desc, button, link } = Astro.props;
+const { title, desc, button, link, className } = Astro.props;
 ---
 
-<Card className="w-full">
+<Card className={cn("w-full ", className)}>
   <CardHeader>
     <CardTitle>{title}</CardTitle>
     <CardDescription>{desc}</CardDescription>
