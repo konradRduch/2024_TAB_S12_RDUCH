@@ -7,13 +7,40 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
+import axios from "axios";
+import {useState, useEffect} from 'react';
+
 
 type Props = {
   admin?: boolean | undefined;
 }
 
+
 export function Harmonogram({admin} : Props) {
+
+  const [items, setItems] = useState([])
+
+  const fetchItems = () => {
+    axios.get('http://localhost:8080/Harmonogram')
+        .then(response => setItems(response.data))
+        .catch(error => console.error('Error:', error));
+  };
+  
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  
+const handleDelete = (id : any) => {
+  axios.delete(`http://localhost:8080/deleteHarmonogram/${id}`)
+      .then(response => {
+          fetchItems(); 
+      })
+      .catch(error => console.error('Error:', error));
+};
+
   return (
+  
     <Table className="mt-12 w-1/2 mx-auto">
       <TableHeader>
         <TableRow>
@@ -22,8 +49,8 @@ export function Harmonogram({admin} : Props) {
           <TableHead>Distance</TableHead>
           <TableHead>Open</TableHead>
           <TableHead>Close</TableHead>
-          <TableHead className="text-right">Active</TableHead>
-          {admin? <TableHead className="text-right">Delete</TableHead> : undefined}
+          <TableHead>Active</TableHead>
+          {admin? <TableHead >Delete</TableHead> : undefined}
 
         </TableRow>
       </TableHeader>
@@ -34,8 +61,8 @@ export function Harmonogram({admin} : Props) {
           <TableCell>1921m.</TableCell>
           <TableCell>8:00am</TableCell>
           <TableCell>9:00pm</TableCell>
-          <TableCell className="text-right">YES</TableCell>
-          {admin? <Button className="mx-2 my-4 w-full">x</Button> : undefined}
+          <TableCell>YES</TableCell>
+          {admin? <TableCell ><Button className="w-full" onClick={handleDelete}>x</Button></TableCell> : undefined}
         </TableRow>
         <TableRow>
           <TableCell className="font-medium">2</TableCell>
@@ -43,8 +70,8 @@ export function Harmonogram({admin} : Props) {
           <TableCell>921m.</TableCell>
           <TableCell>7:00am</TableCell>
           <TableCell>9:00pm</TableCell>
-          <TableCell className="text-right">YES</TableCell>
-          {admin? <Button className="mx-2 my-4 w-full">x</Button> : undefined}
+          <TableCell>YES</TableCell>
+          {admin? <TableCell ><Button className="w-full" onClick={handleDelete}>x</Button></TableCell> : undefined}
 
         </TableRow>
         <TableRow>
@@ -53,8 +80,8 @@ export function Harmonogram({admin} : Props) {
           <TableCell>2145m.</TableCell>
           <TableCell>8:00am</TableCell>
           <TableCell>9:00pm</TableCell>
-          <TableCell className="text-right">NO</TableCell>
-          {admin? <Button className="mx-2 my-4 w-full">x</Button> : undefined}
+          <TableCell>NO</TableCell>
+          {admin? <TableCell ><Button className="w-full" onClick={handleDelete}>x</Button></TableCell> : undefined}
 
         </TableRow>
       </TableBody>
