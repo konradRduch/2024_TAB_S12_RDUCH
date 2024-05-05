@@ -27,6 +27,11 @@ public class Ticket
     @JoinColumn(name = "price_list_id")
     private PriceList priceList;
 
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id", nullable = false)
+    private SkiCard skiCard;
+
     public Integer getId() {
         return id;
     }

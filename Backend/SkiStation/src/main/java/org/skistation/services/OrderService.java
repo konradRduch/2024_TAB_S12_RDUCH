@@ -41,6 +41,6 @@ public class OrderService
     }
 
     List<Order> getOrdersByClientId(Integer clientId) {
-        return orderRepository.findByUserId(clientId);
+        return orderRepository.findByClientId(clientId);
     }
 }

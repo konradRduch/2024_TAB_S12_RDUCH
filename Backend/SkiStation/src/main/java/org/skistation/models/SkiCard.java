@@ -17,6 +17,11 @@ public class SkiCard
     @JoinColumn(name = "id", nullable = false)
     private Ticket ticket;
 
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id", nullable = false)
+    private Pass pass;
+
     @Column(name = "time_start", nullable = false)
     private LocalDate timeStart;
 

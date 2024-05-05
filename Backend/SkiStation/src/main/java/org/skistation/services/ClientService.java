@@ -39,4 +39,12 @@ public class ClientService
     List<Client> getAllClients() {
         return clientRepository.findAll();
     }
+
+    List<Client> getClientsByEmailAddress(String emailAddress) {
+        return clientRepository.findByEmail(emailAddress);
+    }
+
+    List<Client> getClientsByPhoneNumber(Integer phoneNumber) {
+        return clientRepository.findByPhone(phoneNumber);
+    }
 }
