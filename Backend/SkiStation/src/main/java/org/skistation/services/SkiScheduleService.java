@@ -16,11 +16,11 @@ public class SkiScheduleService
         this.skiScheduleRepository = skiScheduleRepository;
     }
 
-    Optional<SkiSchedule> getSkiScheduleById(Integer id) {
+    public Optional<SkiSchedule> getSkiScheduleById(Integer id) {
         return skiScheduleRepository.findById(id);
     }
 
-    Optional<SkiSchedule> modifySkiSchedule(SkiSchedule skiSchedule) {
+    public Optional<SkiSchedule> updateSkiSchedule(SkiSchedule skiSchedule) {
         Optional<SkiSchedule> skiScheduleOptional = skiScheduleRepository.findById(skiSchedule.getId());
         if (skiScheduleOptional.isPresent()) {
             skiScheduleRepository.save(skiSchedule);
@@ -28,19 +28,19 @@ public class SkiScheduleService
         return skiScheduleOptional;
     }
 
-    SkiSchedule saveSkiSchedule(SkiSchedule skiSchedule) {
+    public SkiSchedule saveSkiSchedule(SkiSchedule skiSchedule) {
         return skiScheduleRepository.save(skiSchedule);
     }
 
-    void deleteSkiSchedule(Integer id) {
+    public void deleteSkiSchedule(Integer id) {
         skiScheduleRepository.deleteById(id);
     }
 
-    List<SkiSchedule> getAllSkiSchedules() {
+    public List<SkiSchedule> getAllSkiSchedules() {
         return skiScheduleRepository.findAll();
     }
 
-    List<SkiSchedule> getSkiSchedulesByLiftId(Integer liftId) {
+    public List<SkiSchedule> getSkiSchedulesByLiftId(Integer liftId) {
         return skiScheduleRepository.findByLiftId(liftId);
     }
 }
