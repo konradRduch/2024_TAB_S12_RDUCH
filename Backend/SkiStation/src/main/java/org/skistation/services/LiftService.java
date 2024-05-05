@@ -16,11 +16,11 @@ public class LiftService
         this.liftRepository = liftRepository;
     }
 
-    Optional<Lift> getLiftById(Integer id) {
+    public Optional<Lift> getLiftById(Integer id) {
         return liftRepository.findById(id);
     }
 
-    Optional<Lift> modifyLift(Lift lift) {
+    public Optional<Lift> modifyLift(Lift lift) {
         Optional<Lift> liftOptional = liftRepository.findById(lift.getId());
         if (liftOptional.isPresent()) {
             liftRepository.save(lift);
@@ -28,15 +28,15 @@ public class LiftService
         return liftOptional;
     }
 
-    Lift saveLift(Lift lift) {
+    public Lift saveLift(Lift lift) {
         return liftRepository.save(lift);
     }
 
-    void deleteLift(Integer id) {
+    public void deleteLift(Integer id) {
         liftRepository.deleteById(id);
     }
 
-    List<Lift> getAllLifts() {
+    public List<Lift> getAllLifts() {
         return liftRepository.findAll();
     }
 }

@@ -16,11 +16,11 @@ public class TicketService
         this.ticketRepository = ticketRepository;
     }
 
-    Optional<Ticket> getTicketById(Integer id) {
+    public Optional<Ticket> getTicketById(Integer id) {
         return ticketRepository.findById(id);
     }
 
-    Optional<Ticket> modifyTicket(Ticket ticket) {
+    public Optional<Ticket> modifyTicket(Ticket ticket) {
         Optional<Ticket> ticketOptional = ticketRepository.findById(ticket.getId());
         if (ticketOptional.isPresent()) {
             ticketRepository.save(ticket);
@@ -28,23 +28,23 @@ public class TicketService
         return ticketOptional;
     }
 
-    Ticket saveTicket(Ticket ticket) {
+    public Ticket saveTicket(Ticket ticket) {
         return ticketRepository.save(ticket);
     }
 
-    void deleteTicket(Integer id) {
+    public void deleteTicket(Integer id) {
         ticketRepository.deleteById(id);
     }
 
-    List<Ticket> getAllTickets() {
+    public List<Ticket> getAllTickets() {
         return ticketRepository.findAll();
     }
 
-    List<Ticket> getTicketsByOrderId(Integer orderId) {
+    public List<Ticket> getTicketsByOrderId(Integer orderId) {
         return ticketRepository.findByOrderId(orderId);
     }
 
-    List<Ticket> getTicketsByPriceListId(Integer priceListId) {
+    public List<Ticket> getTicketsByPriceListId(Integer priceListId) {
         return ticketRepository.findByPriceListId(priceListId);
     }
 }
