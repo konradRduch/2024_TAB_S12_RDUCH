@@ -16,11 +16,11 @@ public class ClientService
         this.clientRepository = clientRepository;
     }
 
-    Optional<Client> getClientById(Integer id) {
+    public Optional<Client> getClientById(Integer id) {
         return clientRepository.findById(id);
     }
 
-    Optional<Client> modifyClient(Client client) {
+    public Optional<Client> updateClient(Client client) {
         Optional<Client> clientOptional = clientRepository.findById(client.getId());
         if (clientOptional.isPresent()) {
             clientRepository.save(client);
@@ -28,23 +28,23 @@ public class ClientService
         return clientOptional;
     }
 
-    Client saveClient(Client client) {
+    public Client saveClient(Client client) {
         return clientRepository.save(client);
     }
 
-    void deleteClient(Integer id) {
+    public void deleteClient(Integer id) {
         clientRepository.deleteById(id);
     }
 
-    List<Client> getAllClients() {
+    public List<Client> getAllClients() {
         return clientRepository.findAll();
     }
 
-    List<Client> getClientsByEmailAddress(String emailAddress) {
-        return clientRepository.findByEmail(emailAddress);
+    public  Client getClientsByEmailAddress(String emailAddress) {
+        return clientRepository.findByEmail(emailAddress).get(0);
     }
 
-    List<Client> getClientsByPhoneNumber(Integer phoneNumber) {
-        return clientRepository.findByPhone(phoneNumber);
+    public Client getClientsByPhoneNumber(Integer phoneNumber) {
+        return clientRepository.findByPhone(phoneNumber).get(0);
     }
 }
