@@ -16,11 +16,11 @@ public class PassService
         this.passRepository = passRepository;
     }
 
-    Optional<Pass> getPassById(Integer id) {
+    public Optional<Pass> getPassById(Integer id) {
         return passRepository.findById(id);
     }
 
-    Optional<Pass> modifyPass(Pass pass) {
+    public Optional<Pass> modifyPass(Pass pass) {
         Optional<Pass> passOptional = passRepository.findById(pass.getId());
         if (passOptional.isPresent()) {
             passRepository.save(pass);
@@ -28,23 +28,23 @@ public class PassService
         return passOptional;
     }
 
-    Pass savePass(Pass pass) {
+    public Pass savePass(Pass pass) {
         return passRepository.save(pass);
     }
 
-    void deletePass(Integer id) {
+    public void deletePass(Integer id) {
         passRepository.deleteById(id);
     }
 
-    List<Pass> getAllPass() {
+    public List<Pass> getAllPass() {
         return passRepository.findAll();
     }
 
-    List<Pass> getPassByOrderId(Integer orderId) {
+    public List<Pass> getPassByOrderId(Integer orderId) {
         return passRepository.findByOrderId(orderId);
     }
 
-    List<Pass> getPassByPriceListId(Integer priceListId) {
+    public List<Pass> getPassByPriceListId(Integer priceListId) {
         return passRepository.findByPriceListId(priceListId);
     }
 }

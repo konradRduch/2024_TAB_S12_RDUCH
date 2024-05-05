@@ -16,11 +16,11 @@ public class OrderService
         this.orderRepository = orderRepository;
     }
 
-    Optional<Order> getOrderById(Integer id) {
+    public Optional<Order> getOrderById(Integer id) {
         return orderRepository.findById(id);
     }
 
-    Optional<Order> modifyOrder(Order order) {
+    public Optional<Order> modifyOrder(Order order) {
         Optional<Order> orderOptional = orderRepository.findById(order.getId());
         if (orderOptional.isPresent()) {
             orderRepository.save(order);
@@ -28,19 +28,19 @@ public class OrderService
         return orderOptional;
     }
 
-    Order saveOrder(Order order) {
+    public Order saveOrder(Order order) {
         return orderRepository.save(order);
     }
 
-    void deleteOrder(Integer id) {
+    public void deleteOrder(Integer id) {
         orderRepository.deleteById(id);
     }
 
-    List<Order> getAllOrders() {
+    public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
-    List<Order> getOrdersByClientId(Integer clientId) {
+    public List<Order> getOrdersByClientId(Integer clientId) {
         return orderRepository.findByClientId(clientId);
     }
 }
