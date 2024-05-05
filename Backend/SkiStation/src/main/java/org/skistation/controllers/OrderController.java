@@ -10,8 +10,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
-public class OrderController {
-
+public class OrderController
+{
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
@@ -20,25 +20,25 @@ public class OrderController {
 
 
     @GetMapping("")
-    public List<Order> getAllOrder(){
+    public List<Order> getAllOrder() {
         return orderService.getAllOrders();
     }
 
     @GetMapping("{id}")
-    public Order getOrderById(@PathVariable("id") Integer id){
+    public Order getOrderById(@PathVariable("id") Integer id) {
         return orderService.getOrderById(id).get();
     }
 
     @PostMapping("/addOrder")
-    public String addOrder(@RequestBody Order ticket){
+    public String addOrder(@RequestBody Order ticket) {
         orderService.saveOrder(ticket);
 
         return "redirect:/tickets";
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateTask(@RequestBody  Order toUpdate, @PathVariable("id") Integer id){
-        if (orderService.getOrderById(id).isEmpty()){
+    ResponseEntity<?> updateTask(@RequestBody Order toUpdate, @PathVariable("id") Integer id) {
+        if (orderService.getOrderById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         toUpdate.setId(id);
@@ -47,7 +47,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteOrder(@PathVariable("id") Integer id){
+    public String deleteOrder(@PathVariable("id") Integer id) {
         orderService.deleteOrder(id);
         return "redirect:/tickets";
     }

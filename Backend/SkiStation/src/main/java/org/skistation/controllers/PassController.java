@@ -9,8 +9,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/passes")
-public class PassController {
-
+public class PassController
+{
     private final PassService passService;
 
     public PassController(PassService passService) {
@@ -19,25 +19,25 @@ public class PassController {
 
 
     @GetMapping("")
-    public List<Pass> getAllPasss(){
+    public List<Pass> getAllPasss() {
         return passService.getAllPass();
     }
 
     @GetMapping("{id}")
-    public Pass getPassById(@PathVariable("id") Integer id){
+    public Pass getPassById(@PathVariable("id") Integer id) {
         return passService.getPassById(id).get();
     }
 
     @PostMapping("/addPass")
-    public String addPass(@RequestBody Pass ticket){
+    public String addPass(@RequestBody Pass ticket) {
         passService.savePass(ticket);
 
         return "redirect:/tickets";
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateTask(@RequestBody  Pass toUpdate, @PathVariable("id") Integer id){
-        if (passService.getPassById(id).isEmpty()){
+    ResponseEntity<?> updateTask(@RequestBody Pass toUpdate, @PathVariable("id") Integer id) {
+        if (passService.getPassById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         toUpdate.setId(id);
@@ -46,7 +46,7 @@ public class PassController {
     }
 
     @DeleteMapping("/{id}")
-    public String deletePass(@PathVariable("id") Integer id){
+    public String deletePass(@PathVariable("id") Integer id) {
         passService.deletePass(id);
         return "redirect:/tickets";
     }
