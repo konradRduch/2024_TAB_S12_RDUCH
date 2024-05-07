@@ -3,11 +3,11 @@ package org.skistation.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "\"Pass\"")
 public class Pass
 {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "active")

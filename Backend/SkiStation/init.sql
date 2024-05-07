@@ -1,22 +1,22 @@
-CREATE TABLE IF NOT EXISTS public."Client"
+CREATE TABLE IF NOT EXISTS public.client
 (
-    id    integer,
+    id    SERIAL,
     email text,
     phone integer,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Order"
+CREATE TABLE IF NOT EXISTS public.order
 (
-    id        integer,
+    id        SERIAL,
     total     real,
     client_id integer,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Ticket"
+CREATE TABLE IF NOT EXISTS public.ticket
 (
-    id               integer,
+    id               SERIAL,
     amount_of_rides  integer,
     price_per_ride   real,
     ticket_type_name text,
@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS public."Ticket"
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Pass"
+CREATE TABLE IF NOT EXISTS public.pass
 (
-    id             integer,
+    id             SERIAL,
     active         boolean,
     pass_type_name text,
     price          real,
@@ -36,36 +36,36 @@ CREATE TABLE IF NOT EXISTS public."Pass"
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Worker"
+CREATE TABLE IF NOT EXISTS public.worker
 (
-    id    integer,
+    id    SERIAL,
     phone integer NOT NULL,
     email text    NOT NULL,
     role  text    NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."SkiSchedule"
+CREATE TABLE IF NOT EXISTS public.skiSchedule
 (
-    id      integer,
+    id      SERIAL,
     open    date,
     close   date,
     lift_id integer,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Lift"
+CREATE TABLE IF NOT EXISTS public.lift
 (
-    id       integer,
+    id       SERIAL,
     name     text,
     active   boolean,
     distance real,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."PriceList"
+CREATE TABLE IF NOT EXISTS public.priceList
 (
-    id           integer,
+    id           SERIAL,
     time_start   date NOT NULL,
     time_end     date NOT NULL,
     ticket_price real NOT NULL,
@@ -73,89 +73,89 @@ CREATE TABLE IF NOT EXISTS public."PriceList"
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."HistorySkiCard"
+CREATE TABLE IF NOT EXISTS public.historySkiCard
 (
-    id          integer,
+    id          SERIAL,
     lift_id     integer,
     ski_card_id integer,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public."SkiCard"
+CREATE TABLE IF NOT EXISTS public.skiCard
 (
-    id         integer,
+    id         SERIAL,
     time_start date NOT NULL,
     time_end   date NOT NULL,
     discount   boolean,
     PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS public."Order"
+ALTER TABLE IF EXISTS public.order
     ADD CONSTRAINT client_id FOREIGN KEY (client_id)
-        REFERENCES public."Client" (id) MATCH SIMPLE
+        REFERENCES public.client (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;
 
-ALTER TABLE IF EXISTS public."Ticket"
+ALTER TABLE IF EXISTS public.ticket
     ADD CONSTRAINT order_fk FOREIGN KEY (order_id)
-        REFERENCES public."Order" (id) MATCH SIMPLE
+        REFERENCES public.order (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;
 
-ALTER TABLE IF EXISTS public."Ticket"
+ALTER TABLE IF EXISTS public.ticket
     ADD CONSTRAINT price_list_id FOREIGN KEY (price_list_id)
-        REFERENCES public."PriceList" (id) MATCH SIMPLE
+        REFERENCES public.priceList (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;
 
-ALTER TABLE IF EXISTS public."Pass"
+ALTER TABLE IF EXISTS public.pass
     ADD CONSTRAINT order_fk FOREIGN KEY (order_id)
-        REFERENCES public."Order" (id) MATCH SIMPLE
+        REFERENCES public.order (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;
 
-ALTER TABLE IF EXISTS public."Pass"
+ALTER TABLE IF EXISTS public.pass
     ADD CONSTRAINT price_list_fk FOREIGN KEY (price_list_id)
-        REFERENCES public."PriceList" (id) MATCH SIMPLE
+        REFERENCES public.priceList (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;
 
-ALTER TABLE IF EXISTS public."SkiSchedule"
+ALTER TABLE IF EXISTS public.skiSchedule
     ADD CONSTRAINT lift_fk FOREIGN KEY (lift_id)
-        REFERENCES public."Lift" (id) MATCH SIMPLE
+        REFERENCES public.lift (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;
 
-ALTER TABLE IF EXISTS public."HistorySkiCard"
+ALTER TABLE IF EXISTS public.historySkiCard
     ADD CONSTRAINT ski_card_fk FOREIGN KEY (ski_card_id)
-        REFERENCES public."SkiCard" (id) MATCH SIMPLE
+        REFERENCES public.skiCard (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;
 
-ALTER TABLE IF EXISTS public."HistorySkiCard"
+ALTER TABLE IF EXISTS public.historySkiCard
     ADD CONSTRAINT lift_fk FOREIGN KEY (lift_id)
-        REFERENCES public."Lift" (id) MATCH SIMPLE
+        REFERENCES public.lift (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;
 
-ALTER TABLE IF EXISTS public."SkiCard"
+ALTER TABLE IF EXISTS public.skiCard
     ADD FOREIGN KEY (id)
-        REFERENCES public."Ticket" (id) MATCH SIMPLE
+        REFERENCES public.ticket (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;
 
-ALTER TABLE IF EXISTS public."SkiCard"
+ALTER TABLE IF EXISTS public.skiCard
     ADD FOREIGN KEY (id)
-        REFERENCES public."Pass" (id) MATCH SIMPLE
+        REFERENCES public.pass (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
         NOT VALID;

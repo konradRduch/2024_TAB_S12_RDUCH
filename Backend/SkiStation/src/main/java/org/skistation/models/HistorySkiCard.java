@@ -3,11 +3,11 @@ package org.skistation.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "\"HistorySkiCard\"")
 public class HistorySkiCard
 {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
