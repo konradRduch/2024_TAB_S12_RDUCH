@@ -10,35 +10,34 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/lifts")
-public class LiftController {
-
-
+public class LiftController
+{
     private final LiftService liftService;
-
 
     public LiftController(LiftService liftService) {
         this.liftService = liftService;
     }
 
+
     @GetMapping("/{id}")
-    public Lift getLiftById(@PathVariable Integer id){
+    public Lift getLiftById(@PathVariable Integer id) {
         return liftService.getLiftById(id).get();
     }
 
     @PostMapping("/addLift")
-    public String addLift(@RequestBody Lift lift){
+    public String addLift(@RequestBody Lift lift) {
         liftService.saveLift(lift);
         return "redirect:/lifts?success";
     }
 
     @GetMapping("")
-    public List<Lift> getAllLifts(){
+    public List<Lift> getAllLifts() {
         return liftService.getAllLifts();
     }
 
     @PutMapping("/updateLift/{id}")
-    public ResponseEntity<?> updateLift(@RequestBody Lift updateLift, @PathVariable("id") Integer id){
-        if (liftService.getLiftById(id).isEmpty()){
+    public ResponseEntity<?> updateLift(@RequestBody Lift updateLift, @PathVariable("id") Integer id) {
+        if (liftService.getLiftById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         updateLift.setId(id);
@@ -47,7 +46,7 @@ public class LiftController {
     }
 
     @DeleteMapping("/deleteLift/{id}")
-    public String deleteLift(@PathVariable("id") Integer id){
+    public String deleteLift(@PathVariable("id") Integer id) {
         liftService.deleteLift(id);
         return "redirect:/lifts";
     }

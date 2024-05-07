@@ -20,6 +20,14 @@ public class WorkerService
         return workerRepository.findById(id);
     }
 
+    public Optional<Worker> getWorkerByEmail(String email) {
+        return workerRepository.findByEmail(email);
+    }
+
+    public Optional<Worker> getWorkerByPhone(Integer phone) {
+        return workerRepository.findByPhone(phone);
+    }
+
     public Optional<Worker> updateWorker(Worker worker) {
         Optional<Worker> workerOptional = workerRepository.findById(worker.getId());
         if (workerOptional.isPresent()) {
