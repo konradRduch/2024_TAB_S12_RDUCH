@@ -3,11 +3,11 @@ package org.skistation.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "\"Ticket\"")
 public class Ticket
 {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "amount_of_rides")
