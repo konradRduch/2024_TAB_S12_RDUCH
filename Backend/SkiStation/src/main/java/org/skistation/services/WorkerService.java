@@ -16,11 +16,11 @@ public class WorkerService
         this.workerRepository = workerRepository;
     }
 
-    Optional<Worker> getWorkerById(Integer id) {
+    public Optional<Worker> getWorkerById(Integer id) {
         return workerRepository.findById(id);
     }
 
-    Optional<Worker> modifyWorker(Worker worker) {
+    public Optional<Worker> updateWorker(Worker worker) {
         Optional<Worker> workerOptional = workerRepository.findById(worker.getId());
         if (workerOptional.isPresent()) {
             workerRepository.save(worker);
@@ -28,15 +28,15 @@ public class WorkerService
         return workerOptional;
     }
 
-    Worker saveWorker(Worker worker) {
+    public Worker saveWorker(Worker worker) {
         return workerRepository.save(worker);
     }
 
-    void deleteWorker(Integer id) {
+    public void deleteWorker(Integer id) {
         workerRepository.deleteById(id);
     }
 
-    List<Worker> getAllWorkers() {
+    public List<Worker> getAllWorkers() {
         return workerRepository.findAll();
     }
 }

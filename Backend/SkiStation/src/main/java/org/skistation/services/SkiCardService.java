@@ -16,11 +16,11 @@ public class SkiCardService
         this.skiCardRepository = skiCardRepository;
     }
 
-    Optional<SkiCard> getSkiCardById(Integer id) {
+    public Optional<SkiCard> getSkiCardById(Integer id) {
         return skiCardRepository.findById(id);
     }
 
-    Optional<SkiCard> modifySkiCard(SkiCard skiCard) {
+    public Optional<SkiCard> updateSkiCard(SkiCard skiCard) {
         Optional<SkiCard> skiCardOptional = skiCardRepository.findById(skiCard.getId());
         if (skiCardOptional.isPresent()) {
             skiCardRepository.save(skiCard);
@@ -28,15 +28,15 @@ public class SkiCardService
         return skiCardOptional;
     }
 
-    SkiCard saveSkiCard(SkiCard skiCard) {
+    public SkiCard saveSkiCard(SkiCard skiCard) {
         return skiCardRepository.save(skiCard);
     }
 
-    void deleteSkiCard(Integer id) {
+    public void deleteSkiCard(Integer id) {
         skiCardRepository.deleteById(id);
     }
 
-    List<SkiCard> getAllSkiCards() {
+    public List<SkiCard> getAllSkiCards() {
         return skiCardRepository.findAll();
     }
 }

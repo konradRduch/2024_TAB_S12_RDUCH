@@ -16,11 +16,11 @@ public class HistorySkiCardService
         this.historySkiCardRepository = historySkiCardRepository;
     }
 
-    Optional<HistorySkiCard> getHistorySkiCardById(Integer id) {
+    public Optional<HistorySkiCard> getHistorySkiCardById(Integer id) {
         return historySkiCardRepository.findById(id);
     }
 
-    Optional<HistorySkiCard> modifyHistorySkiCard(HistorySkiCard historySkiCard) {
+    public Optional<HistorySkiCard> updateHistorySkiCard(HistorySkiCard historySkiCard) {
         Optional<HistorySkiCard> historySkiCardOptional = historySkiCardRepository.findById(historySkiCard.getId());
         if (historySkiCardOptional.isPresent()) {
             historySkiCardRepository.save(historySkiCard);
@@ -28,23 +28,23 @@ public class HistorySkiCardService
         return historySkiCardOptional;
     }
 
-    HistorySkiCard saveHistorySkiCard(HistorySkiCard historySkiCard) {
+    public HistorySkiCard saveHistorySkiCard(HistorySkiCard historySkiCard) {
         return historySkiCardRepository.save(historySkiCard);
     }
 
-    void deleteHistorySkiCard(Integer id) {
+    public void deleteHistorySkiCard(Integer id) {
         historySkiCardRepository.deleteById(id);
     }
 
-    List<HistorySkiCard> getAllHistorySkiCards() {
+    public List<HistorySkiCard> getAllHistorySkiCards() {
         return historySkiCardRepository.findAll();
     }
 
-    List<HistorySkiCard> getHistorySkiCardsByLiftId(Integer clientId) {
+    public List<HistorySkiCard> getHistorySkiCardsByLiftId(Integer clientId) {
         return historySkiCardRepository.findByLiftId(clientId);
     }
 
-    List<HistorySkiCard> getHistorySkiCardsBySkiCardId(Integer skiCardId) {
+    public List<HistorySkiCard> getHistorySkiCardsBySkiCardId(Integer skiCardId) {
         return historySkiCardRepository.findBySkiCardId(skiCardId);
     }
 }

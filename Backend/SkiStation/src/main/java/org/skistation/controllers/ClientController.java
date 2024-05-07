@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/clients")
-public class ClientController {
-
+public class ClientController
+{
     private final ClientService clientService;
 
 
@@ -21,34 +21,30 @@ public class ClientController {
     }
 
     @GetMapping("")
-    public List<Client> getClients(){
+    public List<Client> getClients() {
         return clientService.getAllClients();
     }
 
     @GetMapping("/{id}")
-    public Client findClientById(@PathVariable("id") Integer id){
+    public Client findClientById(@PathVariable("id") Integer id) {
         return clientService.getClientById(id).get();
     }
 
     @GetMapping("/{email}")
-    public Client findClientByEmail(@PathVariable("email") String email){
+    public Client findClientByEmail(@PathVariable("email") String email) {
         return clientService.getClientsByEmailAddress(email);
     }
 
     @GetMapping("/{phone}")
-    public Client findClientByPhoneNumber(@PathVariable("phone") Integer phoneNumber){
+    public Client findClientByPhoneNumber(@PathVariable("phone") Integer phoneNumber) {
         return clientService.getClientsByPhoneNumber(phoneNumber);
     }
 
-
     @PostMapping("/addClient")
-    public String addClient(@RequestBody Client client){
+    public String addClient(@RequestBody Client client) {
         clientService.saveClient(client);
         return "redirect:/clients";
     }
-
-
-
 
     @GetMapping("/editClient/{clientId}")
     public String showEditForm(@PathVariable Integer clientId, Model model) {
@@ -60,7 +56,7 @@ public class ClientController {
     }
 
     @PostMapping("/editClient/save")
-    public String saveEditedClient( @ModelAttribute("client") Client editedClient, BindingResult result, Model model) {
+    public String saveEditedClient(@ModelAttribute("client") Client editedClient, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute("client", editedClient);
@@ -72,7 +68,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/deleteClient/{id}")
-    public String deleteClient(@PathVariable("id")Integer id,Model model){
+    public String deleteClient(@PathVariable("id") Integer id, Model model) {
         clientService.deleteClient(id);
         return "redirect:/clients";
     }

@@ -1,6 +1,5 @@
 package org.skistation.controllers;
 
-import java.util.List;
 import org.skistation.models.Lift;
 import org.skistation.services.LiftService;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +22,8 @@ public class LiftController {
         return liftService.getLiftById(id).get();
     }
 
-    @GetMapping("")
-    public List<Lift> getAllLifts(){
-        return liftService.getAllLifts();
-    }
-
     @PostMapping("/addLift")
     public String addLift(@RequestBody Lift lift){
-        Lift lift1 = new Lift("Name1",true,123.3f);
         liftService.saveLift(lift);
         return "redirect:/lifts";
     }
