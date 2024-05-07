@@ -11,13 +11,14 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/skiSchedules")
-public class SkiScheduleController {
-
+public class SkiScheduleController
+{
     private final SkiScheduleService skiScheduleService;
 
     public SkiScheduleController(SkiScheduleService skiScheduleService) {
         this.skiScheduleService = skiScheduleService;
     }
+
 
     @GetMapping("")
     public List<SkiSchedule> getAllSkiSchedule() {
@@ -30,7 +31,7 @@ public class SkiScheduleController {
     }
 
     @GetMapping("/{liftId}")
-    public List<SkiSchedule> getSkiSchedulesByLiftId(@PathVariable("liftId")Integer liftId){
+    public List<SkiSchedule> getSkiSchedulesByLiftId(@PathVariable("liftId") Integer liftId) {
         return skiScheduleService.getSkiSchedulesByLiftId(liftId);
     }
 
