@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS public.client
 (
-    id    integer,
+    id    SERIAL,
     email text,
     phone integer,
     PRIMARY KEY (id)
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS public.client
 
 CREATE TABLE IF NOT EXISTS public.order
 (
-    id        integer,
+    id        SERIAL,
     total     real,
     client_id integer,
     PRIMARY KEY (id)
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS public.order
 
 CREATE TABLE IF NOT EXISTS public.ticket
 (
-    id               integer,
+    id               SERIAL,
     amount_of_rides  integer,
     price_per_ride   real,
     ticket_type_name text,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS public.ticket
 
 CREATE TABLE IF NOT EXISTS public.pass
 (
-    id             integer,
+    id             SERIAL,
     active         boolean,
     pass_type_name text,
     price          real,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS public.pass
 
 CREATE TABLE IF NOT EXISTS public.worker
 (
-    id    integer,
+    id    SERIAL,
     phone integer NOT NULL,
     email text    NOT NULL,
     role  text    NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS public.worker
 
 CREATE TABLE IF NOT EXISTS public.skiSchedule
 (
-    id      integer,
+    id      SERIAL,
     open    date,
     close   date,
     lift_id integer,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS public.skiSchedule
 
 CREATE TABLE IF NOT EXISTS public.lift
 (
-    id       integer,
+    id       SERIAL,
     name     text,
     active   boolean,
     distance real,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS public.lift
 
 CREATE TABLE IF NOT EXISTS public.priceList
 (
-    id           integer,
+    id           SERIAL,
     time_start   date NOT NULL,
     time_end     date NOT NULL,
     ticket_price real NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS public.priceList
 
 CREATE TABLE IF NOT EXISTS public.historySkiCard
 (
-    id          integer,
+    id          SERIAL,
     lift_id     integer,
     ski_card_id integer,
     PRIMARY KEY (id)
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS public.historySkiCard
 
 CREATE TABLE IF NOT EXISTS public.skiCard
 (
-    id         integer,
+    id         SERIAL,
     time_start date NOT NULL,
     time_end   date NOT NULL,
     discount   boolean,
