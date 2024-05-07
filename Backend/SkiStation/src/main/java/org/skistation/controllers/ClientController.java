@@ -15,10 +15,10 @@ public class ClientController
 {
     private final ClientService clientService;
 
-
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
+
 
     @GetMapping("")
     public List<Client> getClients() {

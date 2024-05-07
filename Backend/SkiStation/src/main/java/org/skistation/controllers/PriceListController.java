@@ -24,7 +24,7 @@ public class PriceListController {
         return priceListService.getPriceListById(id).get();
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public List<PriceList> getAllPriceLists(){
         return priceListService.getAllPriceLists();
     }
@@ -32,7 +32,8 @@ public class PriceListController {
     @PostMapping("/addPriceList")
     public String addPriceList(@RequestBody PriceList priceList) {
         priceListService.savePriceList(priceList);
-        return "redirect:/priceLists?success";
+
+        return "redirect:/priceLists";
     }
 
     @PutMapping("/{id}")
