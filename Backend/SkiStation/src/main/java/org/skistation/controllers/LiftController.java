@@ -5,7 +5,10 @@ import org.skistation.services.LiftService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@CrossOrigin
 @RequestMapping("/lifts")
 public class LiftController {
 
@@ -25,7 +28,12 @@ public class LiftController {
     @PostMapping("/addLift")
     public String addLift(@RequestBody Lift lift){
         liftService.saveLift(lift);
-        return "redirect:/lifts";
+        return "redirect:/lifts?success";
+    }
+
+    @GetMapping("")
+    public List<Lift> getAllLifts(){
+        return liftService.getAllLifts();
     }
 
     @PutMapping("/updateLift/{id}")
