@@ -12,22 +12,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/priceLists")
-public class PriceListController
-{
+public class PriceListController {
+
     private final PriceListService priceListService;
 
     public PriceListController(PriceListService priceListService) {
         this.priceListService = priceListService;
     }
-
-
     @GetMapping("/{id}")
-    public PriceList getPriceListById(@PathVariable("id") Integer id) {
+    public PriceList getPriceListById(@PathVariable("id")Integer id){
         return priceListService.getPriceListById(id).get();
     }
 
-    @GetMapping("/")
-    public List<PriceList> getAllPriceLists() {
+    @GetMapping("")
+    public List<PriceList> getAllPriceLists(){
         return priceListService.getAllPriceLists();
     }
 
@@ -35,7 +33,7 @@ public class PriceListController
     public String addPriceList(@RequestBody PriceList priceList) {
         priceListService.savePriceList(priceList);
 
-        return "redirect:/priceLists";
+        return "redirect:/priceLists?success";
     }
 
     @PutMapping("/{id}")

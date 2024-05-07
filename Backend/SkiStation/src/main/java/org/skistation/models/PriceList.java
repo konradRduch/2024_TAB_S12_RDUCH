@@ -24,6 +24,18 @@ public class PriceList
     @Column(name = "pass_price", nullable = false)
     private Float passPrice;
 
+    public PriceList(LocalDate timeStart, LocalDate timeEnd, Float ticketPrice, Float passPrice) {
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.ticketPrice = ticketPrice;
+        this.passPrice = passPrice;
+    }
+
+    public PriceList() {
+
+    }
+
+
     public Integer getId() {
         return id;
     }
