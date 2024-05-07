@@ -5,9 +5,9 @@ import { Button } from "./ui/button";
   export function AdminComp() {
     return (
         <div className="flex gap-4 flex-col lg:flex-row">
-          <OrderCard title="Harmonogram">
-            <p className="mb-4">See harmonogram, you can delete and add new ones here</p>
-            <a href="/admin/adminHarmonogram"><Button>Harmonogram</Button></a>
+          <OrderCard title="Lifts">
+            <p className="mb-4">See a list of lifts, you can delete and add new ones here</p>
+            <a href="/admin/adminHarmonogram"><Button>Lifts</Button></a>
           </OrderCard>
           <OrderCard title="Prices">
           <p className="mb-4">Change prices of the tickets and passes here</p>

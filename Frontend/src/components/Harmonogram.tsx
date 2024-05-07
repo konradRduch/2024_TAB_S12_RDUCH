@@ -11,17 +11,23 @@ import axios from "axios";
 import {useState, useEffect} from 'react';
 
 
+interface Items {
+  id : number;
+  name: string;
+  distance: number;
+  active: boolean;
+}
+
 type Props = {
   admin?: boolean | undefined;
 }
 
-
 export function Harmonogram({admin} : Props) {
 
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState<Items[]>([])
 
   const fetchItems = () => {
-    axios.get('http://localhost:8080/Harmonogram')
+    axios.get('http://localhost:8080/lifts')
         .then(response => setItems(response.data))
         .catch(error => console.error('Error:', error));
   };
@@ -32,7 +38,7 @@ export function Harmonogram({admin} : Props) {
 
   
 const handleDelete = (id : any) => {
-  axios.delete(`http://localhost:8080/deleteHarmonogram/${id}`)
+  axios.delete(`http://localhost:8080/lifts/deleteLift/${id}`)
       .then(response => {
           fetchItems(); 
       })
@@ -41,49 +47,30 @@ const handleDelete = (id : any) => {
 
   return (
   
+
+
+
     <Table className="mt-12 w-1/2 mx-auto">
+          
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">ID</TableHead>
+          <TableHead>ID</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Distance</TableHead>
-          <TableHead>Open</TableHead>
-          <TableHead>Close</TableHead>
           <TableHead>Active</TableHead>
           {admin? <TableHead >Delete</TableHead> : undefined}
-
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">1</TableCell>
-          <TableCell>Biała</TableCell>
-          <TableCell>1921m.</TableCell>
-          <TableCell>8:00am</TableCell>
-          <TableCell>9:00pm</TableCell>
-          <TableCell>YES</TableCell>
-          {admin? <TableCell ><Button className="w-full" onClick={handleDelete}>x</Button></TableCell> : undefined}
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-medium">2</TableCell>
-          <TableCell>Różowa</TableCell>
-          <TableCell>921m.</TableCell>
-          <TableCell>7:00am</TableCell>
-          <TableCell>9:00pm</TableCell>
-          <TableCell>YES</TableCell>
-          {admin? <TableCell ><Button className="w-full" onClick={handleDelete}>x</Button></TableCell> : undefined}
-
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-medium">3</TableCell>
-          <TableCell>Tęczowa</TableCell>
-          <TableCell>2145m.</TableCell>
-          <TableCell>8:00am</TableCell>
-          <TableCell>9:00pm</TableCell>
-          <TableCell>NO</TableCell>
-          {admin? <TableCell ><Button className="w-full" onClick={handleDelete}>x</Button></TableCell> : undefined}
-
-        </TableRow>
+      {Array.isArray(items) && items.map((item, index) => (
+      <TableRow key={index}>
+          <TableCell className="font-medium">{index+1}</TableCell>
+          <TableCell>{item.name}</TableCell>
+          <TableCell>{item.distance}</TableCell>
+          <TableCell>{item.active? "YES" : "NO"}</TableCell>
+          {admin? <TableCell ><Button className="w-full" onClick={() => handleDelete(item.id)}>x</Button></TableCell> : undefined}
+      </TableRow>
+  ))} 
       </TableBody>
     </Table>
   );

@@ -11,8 +11,6 @@ export function AdminHarmonogramComp() {
   const [newHarmonogram, setNewHarmonogram] = useState({
     name: '',
     distance: '',
-    open: '',
-    close: '',
     active: ''
   });
   const [items, setItems] = useState([])
@@ -21,23 +19,23 @@ export function AdminHarmonogramComp() {
   const handleSubmit = (event : any) => {
     event.preventDefault();
   
-    axios.post('http://localhost:8080/addHarmonogram', newHarmonogram)
+    axios.post('http://localhost:8080/lifts/addLift', newHarmonogram)
         .then(response => {
             setNewHarmonogram({
               name: '',
               distance: '',
-              open: '',
-              close: '',
               active: ''
             });
-            fetchItems();  // Fetch the updated list of cars
+            fetchItems();  
+            window.location.reload();
+
         })
         .catch(error => console.error('Error:', error));
   };
 
   
 const fetchItems = () => {
-  axios.get('http://localhost:8080/Harmonogram')
+  axios.get('http://localhost:8080/lifts')
       .then(response => setItems(response.data))
       .catch(error => console.error('Error:', error));
 };
@@ -68,8 +66,6 @@ const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         <div className="flex gap-4 p-10">
           <Input placeholder="Name" name="name" value={newHarmonogram.name} onChange={handleInputChange}></Input>
           <Input placeholder="Distance" name="distance" value={newHarmonogram.distance} onChange={handleInputChange}></Input>
-          <Input placeholder="Open" name="open" value={newHarmonogram.open} onChange={handleInputChange}></Input>
-          <Input placeholder="Close" name="close" value={newHarmonogram.close} onChange={handleInputChange}></Input>
           <Input placeholder="Active" name="active" value={newHarmonogram.active} onChange={handleInputChange}></Input>
           <Button onClick={handleSubmit}>ADD</Button>
         </div>
