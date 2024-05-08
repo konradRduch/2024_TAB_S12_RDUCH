@@ -3,6 +3,7 @@ package org.skistation.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class SkiCard
@@ -23,10 +24,10 @@ public class SkiCard
     private Pass pass;
 
     @Column(name = "time_start", nullable = false)
-    private LocalDate timeStart;
+    private LocalDateTime timeStart;
 
     @Column(name = "time_end", nullable = false)
-    private LocalDate timeEnd;
+    private LocalDateTime timeEnd;
 
     @Column(name = "discount")
     private Boolean discount;
@@ -34,7 +35,7 @@ public class SkiCard
     public SkiCard() {
     }
 
-    public SkiCard(Ticket ticket, Pass pass, LocalDate timeStart, LocalDate timeEnd, Boolean discount) {
+    public SkiCard(Ticket ticket, Pass pass, LocalDateTime timeStart, LocalDateTime timeEnd, Boolean discount) {
         this.ticket = ticket;
         this.pass = pass;
         this.timeStart = timeStart;
@@ -58,19 +59,19 @@ public class SkiCard
         this.ticket = ticket;
     }
 
-    public LocalDate getTimeStart() {
+    public LocalDateTime getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(LocalDate timeStart) {
+    public void setTimeStart(LocalDateTime timeStart) {
         this.timeStart = timeStart;
     }
 
-    public LocalDate getTimeEnd() {
+    public LocalDateTime getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(LocalDate timeEnd) {
+    public void setTimeEnd(LocalDateTime timeEnd) {
         this.timeEnd = timeEnd;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @CrossOrigin
@@ -22,10 +23,16 @@ public class SkiScheduleController
     }
 
 
-    @GetMapping("")
-    public List<SkiScheduleDTO> getAllSkiSchedule() {
+    @GetMapping("/dto")
+    public List<SkiScheduleDTO> getAllSkiScheduleDTO() {
         List<SkiSchedule> skiSchedules = skiScheduleService.getAllSkiSchedules();
         return mapSkiSchedulesToDTOs(skiSchedules);
+    }
+
+    @GetMapping("")
+    public List<SkiSchedule> getAllSkiSchedule() {
+          return skiScheduleService.getAllSkiSchedules();
+
     }
 
     @GetMapping("/name")
@@ -56,9 +63,15 @@ public class SkiScheduleController
     }
 
     private SkiScheduleDTO mapSkiScheduleDTO(SkiSchedule skiSchedule) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        String openTime = skiSchedule.getOpen().format(formatter);
+        String closeTime = skiSchedule.getClose().format(formatter);
+
         return new SkiScheduleDTO(
-                skiSchedule.getOpen(),
-                skiSchedule.getClose(),
+                openTime,
+                closeTime,
                 skiSchedule.getLift().getId(),
                 skiSchedule.getLift().getName(),
                 skiSchedule.getLift().getActive(),

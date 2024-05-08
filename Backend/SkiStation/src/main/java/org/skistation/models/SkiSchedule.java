@@ -3,6 +3,7 @@ package org.skistation.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class SkiSchedule
@@ -13,19 +14,19 @@ public class SkiSchedule
     private Integer id;
 
     @Column(name = "open")
-    private LocalDate open;
+    private LocalDateTime open;
 
     @Column(name = "close")
-    private LocalDate close;
+    private LocalDateTime close;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "lift_id")
     private Lift lift;
 
     public SkiSchedule() {
     }
 
-    public SkiSchedule(LocalDate open, LocalDate close, Lift lift) {
+    public SkiSchedule(LocalDateTime open, LocalDateTime close, Lift lift) {
         this.open = open;
         this.close = close;
         this.lift = lift;
@@ -44,19 +45,19 @@ public class SkiSchedule
         this.id = id;
     }
 
-    public LocalDate getOpen() {
+    public LocalDateTime getOpen() {
         return open;
     }
 
-    public void setOpen(LocalDate open) {
+    public void setOpen(LocalDateTime open) {
         this.open = open;
     }
 
-    public LocalDate getClose() {
+    public LocalDateTime getClose() {
         return close;
     }
 
-    public void setClose(LocalDate close) {
+    public void setClose(LocalDateTime close) {
         this.close = close;
     }
 
