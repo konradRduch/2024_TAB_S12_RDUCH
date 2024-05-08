@@ -12,11 +12,14 @@ import {useState, useEffect} from 'react';
 
 
 interface Items {
-  id : number;
-  name: string;
-  distance: number;
-  active: boolean;
+  open: string
+  close: string
+  id: number
+  liftName: string
+  active: boolean
+  distance: number
 }
+
 
 type Props = {
   admin?: boolean | undefined;
@@ -27,7 +30,7 @@ export function Harmonogram({admin} : Props) {
   const [items, setItems] = useState<Items[]>([])
 
   const fetchItems = () => {
-    axios.get('http://localhost:8080/lifts')
+    axios.get('http://localhost:8080/skiSchedules/dto')
         .then(response => setItems(response.data))
         .catch(error => console.error('Error:', error));
   };
@@ -38,7 +41,7 @@ export function Harmonogram({admin} : Props) {
 
   
 const handleDelete = (id : any) => {
-  axios.delete(`http://localhost:8080/lifts/deleteLift/${id}`)
+  axios.delete(`http://localhost:8080/skiSchedules/${id}`)
       .then(response => {
           fetchItems(); 
       })
@@ -57,6 +60,8 @@ const handleDelete = (id : any) => {
           <TableHead>ID</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Distance</TableHead>
+          <TableHead>Start</TableHead>
+          <TableHead>End</TableHead>
           <TableHead>Active</TableHead>
           {admin? <TableHead >Delete</TableHead> : undefined}
         </TableRow>
@@ -65,8 +70,10 @@ const handleDelete = (id : any) => {
       {Array.isArray(items) && items.map((item, index) => (
       <TableRow key={index}>
           <TableCell className="font-medium">{index+1}</TableCell>
-          <TableCell>{item.name}</TableCell>
+          <TableCell>{item.liftName}</TableCell>
           <TableCell>{item.distance}</TableCell>
+          <TableCell>{item.open}</TableCell>
+          <TableCell>{item.close}</TableCell>
           <TableCell>{item.active? "YES" : "NO"}</TableCell>
           {admin? <TableCell ><Button className="w-full" onClick={() => handleDelete(item.id)}>x</Button></TableCell> : undefined}
       </TableRow>

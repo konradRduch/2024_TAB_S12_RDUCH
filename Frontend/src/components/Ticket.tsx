@@ -58,7 +58,7 @@ export function TicketComp() {
 
   const fetchItems = () => {
     axios
-      .get("http://localhost:8080/priceLists")
+      .get("http://localhost:8080/priceLists/actual")
       .then((response) => setItems(response.data))
       .catch((error) => console.error("Error:", error));
   };
@@ -168,9 +168,9 @@ export function TicketComp() {
     if (values.passType === "Day") {
       discountFactor = 1; // Day pass, no discount
     } else if (values.passType === "Week") {
-      discountFactor = 0.85; // Week pass, 15% discount
+      discountFactor = 7 * 0.60; // Week pass, 15% discount
     } else if (values.passType === "Month") {
-      discountFactor = 0.7; // Month pass, 30% discount
+      discountFactor = 30 * 0.40; // Month pass, 30% discount
     }
     return normal * price * discountFactor + discount * price * 0.5 * discountFactor;
   };
