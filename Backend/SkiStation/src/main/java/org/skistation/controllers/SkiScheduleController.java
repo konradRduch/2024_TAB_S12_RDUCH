@@ -43,8 +43,8 @@ public class SkiScheduleController
         return skiScheduleService.getSkiSchedulesByLiftId(liftId);
     }
 
-    @GetMapping("/{liftId}/name")
-    public List<SkiScheduleDTO> getSkiSchedulesByLiftIdWithLiftName(@PathVariable("liftId") Integer liftId) {
+    @GetMapping("/{liftId}/details")
+    public List<SkiScheduleDTO> getSkiSchedulesByLiftIdWithLiftDetails(@PathVariable("liftId") Integer liftId) {
         List<SkiSchedule> skiSchedules = skiScheduleService.getSkiSchedulesByLiftId(liftId);
         return mapSkiSchedulesToDTOs(skiSchedules);
     }
