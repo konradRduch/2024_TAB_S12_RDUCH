@@ -30,7 +30,7 @@ public class SkiScheduleController
     }
 
     @GetMapping("")
-    public List<SkiSchedule> getAllSkiSchedule() {
+    public List<SkiSchedule> getAllSkiSchedule() {   //TODO fix it
           return skiScheduleService.getAllSkiSchedules();
 
     }

@@ -14,10 +14,10 @@ public class PriceList
     private Integer id;
 
     @Column(name = "time_start", nullable = false)
-    private LocalDateTime timeStart;
+    private LocalDate timeStart;
 
     @Column(name = "time_end", nullable = false)
-    private LocalDateTime timeEnd;
+    private LocalDate timeEnd;
 
     @Column(name = "ticket_price", nullable = false)
     private Float ticketPrice;
@@ -25,7 +25,7 @@ public class PriceList
     @Column(name = "pass_price", nullable = false)
     private Float passPrice;
 
-    public PriceList(LocalDateTime timeStart, LocalDateTime timeEnd, Float ticketPrice, Float passPrice) {
+    public PriceList(LocalDate timeStart, LocalDate timeEnd, Float ticketPrice, Float passPrice) {
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.ticketPrice = ticketPrice;
@@ -45,19 +45,19 @@ public class PriceList
         this.id = id;
     }
 
-    public LocalDateTime getTimeStart() {
+    public LocalDate getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(LocalDateTime timeStart) {
+    public void setTimeStart(LocalDate timeStart) {
         this.timeStart = timeStart;
     }
 
-    public LocalDateTime getTimeEnd() {
+    public LocalDate getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(LocalDateTime timeEnd) {
+    public void setTimeEnd(LocalDate timeEnd) {
         this.timeEnd = timeEnd;
     }
 
