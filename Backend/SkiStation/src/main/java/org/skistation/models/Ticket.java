@@ -32,6 +32,18 @@ public class Ticket
     @JoinColumn(name = "id", nullable = false)
     private SkiCard skiCard;
 
+    public Ticket() {
+    }
+
+    public Ticket(Integer amountOfRides, Float pricePerRide, String ticketTypeName, Order order, PriceList priceList, SkiCard skiCard) {
+        this.amountOfRides = amountOfRides;
+        this.pricePerRide = pricePerRide;
+        this.ticketTypeName = ticketTypeName;
+        this.order = order;
+        this.priceList = priceList;
+        this.skiCard = skiCard;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -32,6 +32,18 @@ public class Pass
     @JoinColumn(name = "id", nullable = false)
     private SkiCard skiCard;
 
+    public Pass() {
+    }
+
+    public Pass(Boolean active, String passTypeName, Float price, Order order, PriceList priceList, SkiCard skiCard) {
+        this.active = active;
+        this.passTypeName = passTypeName;
+        this.price = price;
+        this.order = order;
+        this.priceList = priceList;
+        this.skiCard = skiCard;
+    }
+
     public Integer getId() {
         return id;
     }

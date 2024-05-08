@@ -18,6 +18,14 @@ public class HistorySkiCard
     @JoinColumn(name = "ski_card_id")
     private SkiCard skiCard;
 
+    public HistorySkiCard() {
+    }
+
+    public HistorySkiCard(Lift lift, SkiCard skiCard) {
+        this.lift = lift;
+        this.skiCard = skiCard;
+    }
+
     public Integer getId() {
         return id;
     }

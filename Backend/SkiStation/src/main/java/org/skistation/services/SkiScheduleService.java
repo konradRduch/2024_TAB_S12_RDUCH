@@ -1,5 +1,6 @@
 package org.skistation.services;
 
+import org.skistation.models.DTO.SkiScheduleDTO;
 import org.skistation.models.SkiSchedule;
 import org.skistation.repositories.SkiScheduleRepository;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ public class SkiScheduleService
         }
         return skiScheduleOptional;
     }
+
+
 
     public SkiSchedule saveSkiSchedule(SkiSchedule skiSchedule) {
         return skiScheduleRepository.save(skiSchedule);

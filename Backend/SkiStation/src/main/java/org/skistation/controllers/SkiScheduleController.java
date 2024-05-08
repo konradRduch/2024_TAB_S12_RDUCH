@@ -1,12 +1,15 @@
 package org.skistation.controllers;
 
 
+import org.skistation.models.DTO.SkiScheduleDTO;
 import org.skistation.models.SkiSchedule;
 import org.skistation.services.SkiScheduleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @CrossOrigin
@@ -20,8 +23,20 @@ public class SkiScheduleController
     }
 
 
+    @GetMapping("/dto")
+    public List<SkiScheduleDTO> getAllSkiScheduleDTO() {
+        List<SkiSchedule> skiSchedules = skiScheduleService.getAllSkiSchedules();
+        return mapSkiSchedulesToDTOs(skiSchedules);
+    }
+
     @GetMapping("")
     public List<SkiSchedule> getAllSkiSchedule() {
+          return skiScheduleService.getAllSkiSchedules();
+
+    }
+
+    @GetMapping("/name")
+    public List<SkiSchedule> getAllSkiScheduleWithName() {
         return skiScheduleService.getAllSkiSchedules();
     }
 
@@ -33,6 +48,35 @@ public class SkiScheduleController
     @GetMapping("/{liftId}")
     public List<SkiSchedule> getSkiSchedulesByLiftId(@PathVariable("liftId") Integer liftId) {
         return skiScheduleService.getSkiSchedulesByLiftId(liftId);
+    }
+
+    @GetMapping("/{liftId}/details")
+    public List<SkiScheduleDTO> getSkiSchedulesByLiftIdWithLiftDetails(@PathVariable("liftId") Integer liftId) {
+        List<SkiSchedule> skiSchedules = skiScheduleService.getSkiSchedulesByLiftId(liftId);
+        return mapSkiSchedulesToDTOs(skiSchedules);
+    }
+
+    private List<SkiScheduleDTO> mapSkiSchedulesToDTOs(List<SkiSchedule> skiSchedules) {
+        return skiSchedules.stream()
+                .map(this::mapSkiScheduleDTO)
+                .collect(Collectors.toList());
+    }
+
+    private SkiScheduleDTO mapSkiScheduleDTO(SkiSchedule skiSchedule) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        String openTime = skiSchedule.getOpen().format(formatter);
+        String closeTime = skiSchedule.getClose().format(formatter);
+
+        return new SkiScheduleDTO(
+                openTime,
+                closeTime,
+                skiSchedule.getLift().getId(),
+                skiSchedule.getLift().getName(),
+                skiSchedule.getLift().getActive(),
+                skiSchedule.getLift().getDistance()
+        );
     }
 
     @PostMapping("/addSkiSchedule")

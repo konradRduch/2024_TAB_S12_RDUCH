@@ -19,6 +19,15 @@ public class Worker
     @Column(name = "role", nullable = false, length = Integer.MAX_VALUE)
     private String role;
 
+    public Worker() {
+    }
+
+    public Worker(Integer phone, String email, String role) {
+        this.phone = phone;
+        this.email = email;
+        this.role = role;
+    }
+
     public Integer getId() {
         return id;
     }

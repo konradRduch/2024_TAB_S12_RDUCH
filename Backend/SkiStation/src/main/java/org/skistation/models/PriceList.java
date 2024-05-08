@@ -3,6 +3,7 @@ package org.skistation.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class PriceList
@@ -13,10 +14,10 @@ public class PriceList
     private Integer id;
 
     @Column(name = "time_start", nullable = false)
-    private LocalDate timeStart;
+    private LocalDateTime timeStart;
 
     @Column(name = "time_end", nullable = false)
-    private LocalDate timeEnd;
+    private LocalDateTime timeEnd;
 
     @Column(name = "ticket_price", nullable = false)
     private Float ticketPrice;
@@ -24,7 +25,7 @@ public class PriceList
     @Column(name = "pass_price", nullable = false)
     private Float passPrice;
 
-    public PriceList(LocalDate timeStart, LocalDate timeEnd, Float ticketPrice, Float passPrice) {
+    public PriceList(LocalDateTime timeStart, LocalDateTime timeEnd, Float ticketPrice, Float passPrice) {
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.ticketPrice = ticketPrice;
@@ -44,19 +45,19 @@ public class PriceList
         this.id = id;
     }
 
-    public LocalDate getTimeStart() {
+    public LocalDateTime getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(LocalDate timeStart) {
+    public void setTimeStart(LocalDateTime timeStart) {
         this.timeStart = timeStart;
     }
 
-    public LocalDate getTimeEnd() {
+    public LocalDateTime getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(LocalDate timeEnd) {
+    public void setTimeEnd(LocalDateTime timeEnd) {
         this.timeEnd = timeEnd;
     }
 
