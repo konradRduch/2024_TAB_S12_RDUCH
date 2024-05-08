@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS public.worker
 CREATE TABLE IF NOT EXISTS public.ski_schedule
 (
     id      SERIAL,
-    open    date,
-    close   date,
+    open    timestamp without time zone,
+    close   timestamp without time zone,
     lift_id integer,
     PRIMARY KEY (id)
 );
@@ -84,8 +84,8 @@ CREATE TABLE IF NOT EXISTS public.history_ski_card
 CREATE TABLE IF NOT EXISTS public.ski_card
 (
     id         SERIAL,
-    time_start date NOT NULL,
-    time_end   date NOT NULL,
+    time_start timestamp without time zone NOT NULL,
+    time_end   timestamp without time zone NOT NULL,
     discount   boolean,
     PRIMARY KEY (id)
 );
