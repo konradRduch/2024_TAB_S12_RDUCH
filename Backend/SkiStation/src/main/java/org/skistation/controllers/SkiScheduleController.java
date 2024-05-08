@@ -1,12 +1,14 @@
 package org.skistation.controllers;
 
 
+import org.skistation.models.DTO.SkiScheduleDTO;
 import org.skistation.models.SkiSchedule;
 import org.skistation.services.SkiScheduleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -21,7 +23,13 @@ public class SkiScheduleController
 
 
     @GetMapping("")
-    public List<SkiSchedule> getAllSkiSchedule() {
+    public List<SkiScheduleDTO> getAllSkiSchedule() {
+        List<SkiSchedule> skiSchedules = skiScheduleService.getAllSkiSchedules();
+        return mapSkiSchedulesToDTOs(skiSchedules);
+    }
+
+    @GetMapping("/name")
+    public List<SkiSchedule> getAllSkiScheduleWithName() {
         return skiScheduleService.getAllSkiSchedules();
     }
 
@@ -33,6 +41,26 @@ public class SkiScheduleController
     @GetMapping("/{liftId}")
     public List<SkiSchedule> getSkiSchedulesByLiftId(@PathVariable("liftId") Integer liftId) {
         return skiScheduleService.getSkiSchedulesByLiftId(liftId);
+    }
+
+    @GetMapping("/{liftId}/name")
+    public List<SkiScheduleDTO> getSkiSchedulesByLiftIdWithLiftName(@PathVariable("liftId") Integer liftId) {
+        List<SkiSchedule> skiSchedules = skiScheduleService.getSkiSchedulesByLiftId(liftId);
+        return mapSkiSchedulesToDTOs(skiSchedules);
+    }
+
+    private List<SkiScheduleDTO> mapSkiSchedulesToDTOs(List<SkiSchedule> skiSchedules) {
+        return skiSchedules.stream()
+                .map(this::mapSkiScheduleDTO)
+                .collect(Collectors.toList());
+    }
+
+    private SkiScheduleDTO mapSkiScheduleDTO(SkiSchedule skiSchedule) {
+        return new SkiScheduleDTO(
+                skiSchedule.getOpen(),
+                skiSchedule.getClose(),
+                skiSchedule.getLift().getName()
+        );
     }
 
     @PostMapping("/addSkiSchedule")

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PriceListService
@@ -46,4 +47,11 @@ public class PriceListService
         priceLists.removeIf(priceList -> priceList.getTimeStart().isBefore(timeStart) || priceList.getTimeEnd().isAfter(timeEnd));
         return priceLists;
     }
+
+    public List<PriceList> getPriceListWithinTimeRange(LocalDate timeNow) {
+        List<PriceList> priceLists = priceListRepository.findAll();
+        priceLists.removeIf(pL->timeNow.isBefore(pL.getTimeStart()) || timeNow.isAfter(pL.getTimeEnd()));
+        return priceLists;
+    }
+
 }

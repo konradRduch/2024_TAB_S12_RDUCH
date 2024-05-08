@@ -18,6 +18,14 @@ public class Order
     @JoinColumn(name = "client_id")
     private Client client;
 
+    public Order() {
+    }
+
+    public Order(Float total, Client client) {
+        this.total = total;
+        this.client = client;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -22,6 +22,20 @@ public class SkiSchedule
     @JoinColumn(name = "lift_id")
     private Lift lift;
 
+    public SkiSchedule() {
+    }
+
+    public SkiSchedule(LocalDate open, LocalDate close, Lift lift) {
+        this.open = open;
+        this.close = close;
+        this.lift = lift;
+    }
+
+
+
+
+
+
     public Integer getId() {
         return id;
     }

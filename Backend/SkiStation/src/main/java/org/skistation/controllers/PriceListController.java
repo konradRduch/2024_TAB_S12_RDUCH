@@ -1,6 +1,7 @@
 package org.skistation.controllers;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.skistation.models.PriceList;
@@ -27,6 +28,11 @@ public class PriceListController {
     @GetMapping("")
     public List<PriceList> getAllPriceLists(){
         return priceListService.getAllPriceLists();
+    }
+
+    @GetMapping("/actual")
+    public List<PriceList> getActualPriceLists(){
+        return priceListService.getPriceListWithinTimeRange(LocalDate.now());
     }
 
     @PostMapping("/addPriceList")

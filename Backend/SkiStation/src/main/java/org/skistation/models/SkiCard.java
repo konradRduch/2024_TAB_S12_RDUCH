@@ -31,6 +31,17 @@ public class SkiCard
     @Column(name = "discount")
     private Boolean discount;
 
+    public SkiCard() {
+    }
+
+    public SkiCard(Ticket ticket, Pass pass, LocalDate timeStart, LocalDate timeEnd, Boolean discount) {
+        this.ticket = ticket;
+        this.pass = pass;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.discount = discount;
+    }
+
     public Integer getId() {
         return id;
     }

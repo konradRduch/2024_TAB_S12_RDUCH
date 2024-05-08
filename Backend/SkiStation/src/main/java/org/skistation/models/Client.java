@@ -16,6 +16,14 @@ public class Client
     @Column(name = "phone")
     private Integer phone;
 
+    public Client() {
+    }
+
+    public Client(String email, Integer phone) {
+        this.email = email;
+        this.phone = phone;
+    }
+
     public Integer getId() {
         return id;
     }
