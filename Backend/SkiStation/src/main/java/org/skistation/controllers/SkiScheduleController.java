@@ -59,7 +59,10 @@ public class SkiScheduleController
         return new SkiScheduleDTO(
                 skiSchedule.getOpen(),
                 skiSchedule.getClose(),
-                skiSchedule.getLift().getName()
+                skiSchedule.getLift().getId(),
+                skiSchedule.getLift().getName(),
+                skiSchedule.getLift().getActive(),
+                skiSchedule.getLift().getDistance()
         );
     }
 
