@@ -57,6 +57,7 @@ const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
   const { name, value } = e.target;
 
   setNewHarmonogram(prevState => ({
+
     ...prevState,
     [name]: value,
     lift: {
@@ -85,3 +86,5 @@ const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>) => {
     </>  
   );
 }
+
+

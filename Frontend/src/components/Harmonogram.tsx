@@ -62,22 +62,38 @@ const handleDelete = (id : any) => {
           <TableHead>Distance</TableHead>
           <TableHead>Start</TableHead>
           <TableHead>End</TableHead>
-          <TableHead>Active</TableHead>
+          {admin? <TableHead>Active</TableHead>: undefined}
           {admin? <TableHead >Delete</TableHead> : undefined}
         </TableRow>
       </TableHeader>
       <TableBody>
-      {Array.isArray(items) && items.map((item, index) => (
-      <TableRow key={index}>
-          <TableCell className="font-medium">{index+1}</TableCell>
-          <TableCell>{item.liftName}</TableCell>
-          <TableCell>{item.distance}</TableCell>
-          <TableCell>{item.open}</TableCell>
-          <TableCell>{item.close}</TableCell>
-          <TableCell>{item.active? "YES" : "NO"}</TableCell>
-          {admin? <TableCell ><Button className="w-full" onClick={() => handleDelete(item.id)}>x</Button></TableCell> : undefined}
-      </TableRow>
-  ))} 
+      
+{admin?  <>{Array.isArray(items) && items.map((item, index) => (
+        
+        <TableRow key={index}>
+          {item.active?  <><TableCell className="font-medium">{index+1}</TableCell>
+            <TableCell>{item.liftName}</TableCell>
+            <TableCell>{item.distance}</TableCell>
+            <TableCell>{item.open}</TableCell>
+            <TableCell>{item.close}</TableCell></> : undefined}
+            <TableCell>{item.active? "YES" : "NO"}</TableCell>
+            <TableCell ><Button className="w-full" onClick={() => handleDelete(item.id)}>x</Button></TableCell>
+        </TableRow>
+    ))} </> : <>
+    
+    {Array.isArray(items) && items.map((item, index) => (
+        
+        <TableRow key={index}>
+          {item.active?  <><TableCell className="font-medium">{index+1}</TableCell>
+            <TableCell>{item.liftName}</TableCell>
+            <TableCell>{item.distance}</TableCell>
+            <TableCell>{item.open}</TableCell>
+            <TableCell>{item.close}</TableCell></> : undefined}
+        </TableRow>
+    ))} 
+
+    </>}
+
       </TableBody>
     </Table>
   );
