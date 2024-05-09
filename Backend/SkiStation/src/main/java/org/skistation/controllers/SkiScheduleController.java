@@ -31,8 +31,7 @@ public class SkiScheduleController
 
     @GetMapping("")
     public List<SkiSchedule> getAllSkiSchedule() {
-          return skiScheduleService.getAllSkiSchedules();
-
+        return skiScheduleService.getAllSkiSchedules();
     }
 
     @GetMapping("/name")
@@ -74,6 +73,7 @@ public class SkiScheduleController
                 closeTime,
                 skiSchedule.getLift().getId(),
                 skiSchedule.getLift().getName(),
+                skiSchedule.getLift().getId(),
                 skiSchedule.getLift().getActive(),
                 skiSchedule.getLift().getDistance()
         );

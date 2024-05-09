@@ -33,7 +33,7 @@ public class PriceListController {
 
     @GetMapping("/actual")
     public List<PriceList> getActualPriceLists(){
-        return priceListService.getPriceListWithinTimeRange(LocalDateTime.now());
+        return priceListService.getPriceListWithinTimeRange(LocalDate.now());
     }
 
     @PostMapping("/addPriceList")
