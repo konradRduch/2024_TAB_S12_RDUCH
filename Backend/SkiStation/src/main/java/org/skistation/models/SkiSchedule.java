@@ -19,7 +19,7 @@ public class SkiSchedule
     @Column(name = "close")
     private LocalDateTime close;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "lift_id")
     private Lift lift;
 
