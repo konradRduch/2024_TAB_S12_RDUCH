@@ -6,7 +6,4 @@ import java.time.LocalDateTime;
 public record  SkiScheduleDTO(String open, String close, Integer id, String liftName, Boolean active, Float distance) {
 
 
-
-
-
 }

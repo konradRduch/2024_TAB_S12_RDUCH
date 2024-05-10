@@ -2,7 +2,10 @@ package org.skistation.controllers;
 
 
 import org.skistation.models.DTO.SkiScheduleDTO;
+import org.skistation.models.DTO.SkiScheduleRequest;
+import org.skistation.models.Lift;
 import org.skistation.models.SkiSchedule;
+import org.skistation.services.LiftService;
 import org.skistation.services.SkiScheduleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +20,11 @@ import java.time.format.DateTimeFormatter;
 public class SkiScheduleController
 {
     private final SkiScheduleService skiScheduleService;
+    private final LiftService liftService;
 
-    public SkiScheduleController(SkiScheduleService skiScheduleService) {
+    public SkiScheduleController(SkiScheduleService skiScheduleService, LiftService liftService) {
         this.skiScheduleService = skiScheduleService;
+        this.liftService = liftService;
     }
 
 
@@ -82,6 +87,15 @@ public class SkiScheduleController
     @PostMapping("/addSkiSchedule")
     public String addSkiSchedule(@RequestBody SkiSchedule skiSchedule) {
         skiScheduleService.saveSkiSchedule(skiSchedule);
+
+        return "redirect:/skiSchedules";
+    }
+
+    @PostMapping("/addSkiScheduleRequest")
+    public String addSkiScheduleRequest(@RequestBody SkiScheduleRequest skiScheduleRequest){
+        Lift liftToAdd = liftService.getLiftById(skiScheduleRequest.getLiftId()).get();
+        SkiSchedule skiScheduleToAdd = new SkiSchedule(skiScheduleRequest.getOpen(),skiScheduleRequest.getClose(),liftToAdd);
+        skiScheduleService.saveSkiSchedule(skiScheduleToAdd);
 
         return "redirect:/skiSchedules";
     }
