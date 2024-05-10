@@ -19,7 +19,7 @@ public class SkiSchedule
     @Column(name = "close")
     private LocalDateTime close;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "lift_id")
     private Lift lift;
 
