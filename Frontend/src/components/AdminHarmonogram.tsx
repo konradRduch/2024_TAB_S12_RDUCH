@@ -39,7 +39,7 @@ export function AdminHarmonogramComp() {
       close: `${new Date().toISOString().split('T')[0]}T${newHarmonogram.close}`
     };
 
-    axios.post('http://localhost:8080/skiSchedules/addSkiSchedule', formattedHarmonogram)
+    axios.post('http://localhost:8080/skiSchedules/addSkiScheduleRequest', formattedHarmonogram)
         .then(response => {
             setNewHarmonogram({
               open: '',

@@ -71,8 +71,8 @@ export function TicketComp() {
     if (items.length > 0) {
       setValues((prevValues) => ({
         ...prevValues,
-        price: items[0].ticketPrice,
-        pricePerRide: items[0].passPrice,
+        price: items[0].passPrice,
+        pricePerRide: items[0].ticketPrice,
       }));
     }
   }, [items]);
@@ -172,7 +172,9 @@ export function TicketComp() {
     } else if (values.passType === "Month") {
       discountFactor = 30 * 0.40; // Month pass, 30% discount
     }
-    return normal * price * discountFactor + discount * price * 0.5 * discountFactor;
+    const discountedNormalPrice = normal * price * discountFactor;
+    const discountedDiscountPrice = discount * price * 0.5 * discountFactor;
+    return discountedNormalPrice + discountedDiscountPrice;
   };
 
   const total = calculateTotal();
