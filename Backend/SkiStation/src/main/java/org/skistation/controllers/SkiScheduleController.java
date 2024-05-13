@@ -78,7 +78,6 @@ public class SkiScheduleController
                 closeTime,
                 skiSchedule.getLift().getId(),
                 skiSchedule.getLift().getName(),
-                skiSchedule.getLift().getId(),
                 skiSchedule.getLift().getActive(),
                 skiSchedule.getLift().getDistance()
         );
