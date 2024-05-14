@@ -59,7 +59,20 @@ export function TicketComp() {
   const fetchItems = () => {
     axios
       .get("http://localhost:8080/priceLists/actual")
-      .then((response) => setItems(response.data))
+      .then((response) => {
+        // Sort items by some criteria, e.g., ID in descending order
+        const sortedItems = response.data.sort((a : Items, b : Items) => b.id - a.id);
+        // Get the last item from the sorted list
+        const lastItem = sortedItems[0];
+        // Update state with the last pass price and ticket price
+        setValues((prevValues) => ({
+          ...prevValues,
+          price: lastItem.passPrice,
+          pricePerRide: lastItem.ticketPrice,
+        }));
+        // Update state with all items
+        setItems(sortedItems);
+      })
       .catch((error) => console.error("Error:", error));
   };
 
@@ -194,16 +207,15 @@ export function TicketComp() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.isArray(items) &&
-            items.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell>{item.passPrice}</TableCell>
-                <TableCell>{item.ticketPrice}</TableCell>
-                <TableCell>{item.timeStart}</TableCell>
-                <TableCell>{item.timeEnd}</TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
+  {items.length > 0 && (
+    <TableRow>
+      <TableCell>{items[0].passPrice}</TableCell>
+      <TableCell>{items[0].ticketPrice}</TableCell>
+      <TableCell>{items[0].timeStart}</TableCell>
+      <TableCell>{items[0].timeEnd}</TableCell>
+    </TableRow>
+  )}
+</TableBody>
       </Table>
 
       <div className="flex gap-4 flex-col lg:flex-row">

@@ -12,9 +12,10 @@ import {useState, useEffect} from 'react';
 
 
 interface Items {
+  id: number
   open: string
   close: string
-  id: number
+  Liftid: number
   liftName: string
   active: boolean
   distance: number
@@ -31,14 +32,16 @@ export function Harmonogram({admin} : Props) {
 
   const fetchItems = () => {
     axios.get('http://localhost:8080/skiSchedules/dto')
-        .then(response => setItems(response.data))
-        .catch(error => console.error('Error:', error));
+      .then(response => {
+        setItems(response.data);
+       // window.location.reload();
+      })
+      .catch(error => console.error('Error:', error));
   };
   
   useEffect(() => {
     fetchItems();
   }, []);
-
   
 const handleDelete = (id : any) => {
   axios.delete(`http://localhost:8080/skiSchedules/${id}`)
@@ -69,17 +72,18 @@ const handleDelete = (id : any) => {
       <TableBody>
       
 {admin?  <>{Array.isArray(items) && items.map((item, index) => (
-        
-        <TableRow key={index}>
-          {item.active?  <><TableCell className="font-medium">{index+1}</TableCell>
-            <TableCell>{item.liftName}</TableCell>
-            <TableCell>{item.distance}</TableCell>
-            <TableCell>{item.open}</TableCell>
-            <TableCell>{item.close}</TableCell></> : undefined}
-            <TableCell>{item.active? "YES" : "NO"}</TableCell>
-            <TableCell ><Button className="w-full" onClick={() => handleDelete(item.id)}>x</Button></TableCell>
-        </TableRow>
-    ))} </> : <>
+  item.active && // Only render if item is active
+  <TableRow key={index}>
+    <TableCell className="font-medium">{index+1}</TableCell>
+    <TableCell>{item.liftName}</TableCell>
+    <TableCell>{item.distance}</TableCell>
+    <TableCell>{item.open}</TableCell>
+    <TableCell>{item.close}</TableCell>
+    {admin && <TableCell>{item.active ? "YES" : "NO"}</TableCell>}
+    {admin && <TableCell><Button className="w-full" onClick={() => handleDelete(item.id)}>x</Button></TableCell>}
+  </TableRow>
+))}
+     </> : <>
     
     {Array.isArray(items) && items.map((item, index) => (
         

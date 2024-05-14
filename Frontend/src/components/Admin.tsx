@@ -4,7 +4,12 @@ import { Button } from "./ui/button";
 
   export function AdminComp() {
     return (
+      
         <div className="grid grid-cols-2 gap-4 lg:flex lg:flex-row">
+          <OrderCard title="Lifts">
+          <p className="mb-4">menage lifts, you can see all lifts here and add new new ones</p>
+            <a href="/admin/adminLifts"><Button>Lifts</Button></a>
+          </OrderCard>
           <OrderCard title="Schedule">
             <p className="mb-4">see all schedules, you can delete and add new ones here</p>
             <a href="/admin/adminHarmonogram"><Button>Schedule</Button></a>
@@ -17,10 +22,7 @@ import { Button } from "./ui/button";
           <p className="mb-4">Create Raport, you can see all orders here</p>
             <a href="/admin/adminReport"><Button>Reports</Button></a>
           </OrderCard>
-          <OrderCard title="Lifts">
-          <p className="mb-4">menage lifts, you can see all lifts here and add new new ones</p>
-            <a href="/admin/adminLifts"><Button>Lifts</Button></a>
-          </OrderCard>
+
         </div>
     );
   }
