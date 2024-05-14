@@ -33,7 +33,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+
 interface Items {
+  //priceList
   id: number;
   timeStart: string;
   timeEnd: string;
@@ -43,11 +45,15 @@ interface Items {
 
 const Values = {
   price: 50,
-  normal: 0,
-  discount: 0,
-  rides: 1,
+  normal: 0, // ilosc biletów normalnych
+  discount: 0, // ilosc biletow ulgowych
+  rides: 1, //
   pricePerRide: 10,
   passType: "Day",
+  email: "",
+  phone: "",
+  timeStart: "",
+  timeEnd: "",
 };
 
 export function TicketComp() {
@@ -61,7 +67,9 @@ export function TicketComp() {
       .get("http://localhost:8080/priceLists/actual")
       .then((response) => {
         // Sort items by some criteria, e.g., ID in descending order
-        const sortedItems = response.data.sort((a : Items, b : Items) => b.id - a.id);
+        const sortedItems = response.data.sort(
+          (a: Items, b: Items) => b.id - a.id
+        );
         // Get the last item from the sorted list
         const lastItem = sortedItems[0];
         // Update state with the last pass price and ticket price
@@ -92,16 +100,30 @@ export function TicketComp() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: parseFloat(value), // Parse value to float
-    }));
+    if (name === "email" || name === "phone") {
+      setValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    } else if (name === "date") {
+      setDate(new Date(value));
+      setValues((prevValues) => ({
+        ...prevValues,
+        timeStart: value + "T00:00:00", // Set time start to the beginning of the selected day
+        timeEnd: value + "T23:59:59", // Set time end to the end of the selected day
+      }));
+    } else {
+      setValues((prevValues) => ({
+        ...prevValues,
+        [name]: parseFloat(value),
+      }));
+    }
   };
 
   function Ticket() {
     return (
       <>
-        <label>NORMAL</label>
+        <label>NORMAL TICKET</label>
         <Input
           type="number"
           name="normal"
@@ -110,7 +132,7 @@ export function TicketComp() {
           value={values.normal}
           onChange={handleInputChange}
         />
-        <label>DISCOUNT</label>
+        <label>DISCOUNTED TICKET</label>
         <Input
           type="number"
           name="discount"
@@ -128,6 +150,38 @@ export function TicketComp() {
           value={values.rides}
           onChange={handleInputChange}
         />
+   <label htmlFor="date">Start Date</label>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-[280px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={(selectedDate: Date | undefined) => {
+              if (selectedDate) {
+                setDate(selectedDate);
+                setValues((prevValues) => ({
+                  ...prevValues,
+                  timeStart: format(selectedDate, "yyyy-MM-dd") + "T00:00:00", // Set time start to the beginning of the selected day
+                  timeEnd: format(selectedDate, "yyyy-MM-dd") + "T23:59:59", // Set time end to the end of the selected day
+                }));
+              }
+            }}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
       </>
     );
   }
@@ -140,12 +194,12 @@ export function TicketComp() {
             setValues((prevValues) => ({
               ...prevValues,
               passType: value,
-            }))
-            Values.passType = value
+            }));
+            Values.passType = value;
           }}
         >
           <SelectTrigger id="PassType">
-            <SelectValue placeholder={Values.passType}/>
+            <SelectValue placeholder={Values.passType} />
           </SelectTrigger>
           <SelectContent position="popper">
             <SelectItem value="Day">Day</SelectItem>
@@ -171,6 +225,38 @@ export function TicketComp() {
           value={values.discount}
           onChange={handleInputChange}
         />
+        <label htmlFor="date">Start Date</label>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-[280px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={(selectedDate: Date | undefined) => {
+              if (selectedDate) {
+                setDate(selectedDate);
+                setValues((prevValues) => ({
+                  ...prevValues,
+                  timeStart: format(selectedDate, "yyyy-MM-dd") + "T00:00:00", // Set time start to the beginning of the selected day
+                  timeEnd: format(selectedDate, "yyyy-MM-dd") + "T23:59:59", // Set time end to the end of the selected day
+                }));
+              }
+            }}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
       </>
     );
   }
@@ -181,9 +267,9 @@ export function TicketComp() {
     if (values.passType === "Day") {
       discountFactor = 1; // Day pass, no discount
     } else if (values.passType === "Week") {
-      discountFactor = 7 * 0.60; // Week pass, 15% discount
+      discountFactor = 7 * 0.6; // Week pass, 15% discount
     } else if (values.passType === "Month") {
-      discountFactor = 30 * 0.40; // Month pass, 30% discount
+      discountFactor = 30 * 0.4; // Month pass, 30% discount
     }
     const discountedNormalPrice = normal * price * discountFactor;
     const discountedDiscountPrice = discount * price * 0.5 * discountFactor;
@@ -195,6 +281,107 @@ export function TicketComp() {
     values.normal * values.rides * values.pricePerRide +
     values.discount * values.rides * values.pricePerRide * 0.5;
 
+  const calculateEndTime = (startTime: Date, passType: string) => {
+    let endTime: Date;
+    switch (passType) {
+      case "Day":
+        endTime = new Date(startTime);
+        endTime.setHours(23, 59, 59); // End of the day
+        break;
+      case "Week":
+        endTime = new Date(startTime);
+        endTime.setDate(startTime.getDate() + 7); // End of the week
+        endTime.setHours(23, 59, 59);
+        break;
+      case "Month":
+        endTime = new Date(startTime);
+        endTime.setMonth(startTime.getMonth() + 1); // End of the month
+        endTime.setHours(23, 59, 59);
+        break;
+      default:
+        endTime = new Date(startTime);
+        break;
+    }
+    return endTime;
+  };
+
+
+  const handlePassSubmit = (event: any) => {
+    event.preventDefault();
+    
+    const endTime = format(new Date(calculateEndTime(new Date(values.timeStart), values.passType)), "yyyy-MM-dd'T'HH:mm:ss");
+  
+    const passData = {
+      client: {
+        phone: values.phone,
+        email: values.email,
+      },
+      passDTO: {
+        active: true,
+        price: values.price,
+        ticketTypeName: values.passType, // or values.ticketTypeName if you have this state
+        timeStart: values.timeStart,
+        timeEnd: endTime,
+        discount: values.discount > 0, // Convert discount to boolean
+      },
+      total: total,
+      ticketService: {
+        id: items[0].id, // Set the appropriate service ID
+        timeStart: items[0].timeStart,
+        timeEnd: items[0].timeEnd,
+        ticket_price: items.length > 0 ? items[0].ticketPrice : 0, // Use the ticket price from items if available
+        pass_price: items.length > 0 ? items[0].passPrice : 0, // Use the pass price from items if available
+      },
+    };
+  
+    axios.post('http://localhost:8080/lifts/buyPasses', passData)
+      .then(response => {
+        // Handle success
+        console.log("Pass data submitted:", response.data);
+        fetchItems();
+        window.location.reload(); // Reload the page if necessary
+      })
+      .catch(error => console.error('Error:', error));
+  };
+  
+  const handleTicketSubmit = (event: any) => {
+    event.preventDefault();
+    const endTime = calculateEndTime(new Date(values.timeStart), values.passType);
+
+
+    const ticketData = {
+      client: {
+        phone: values.phone,
+        email: values.email,
+      },
+      ticketDTO: {
+        amountOfRides: values.rides,
+        pricePerRide: values.pricePerRide,
+        ticketTypeName: values.passType, // or values.ticketTypeName if you have this state
+        timeStart: values.timeStart,
+        timeEnd: endTime,
+        discount: values.discount > 0, // Convert discount to boolean
+      },
+      total: totalPerRides,
+      ticketService: {
+        id: items[0].id, // Set the appropriate service ID
+        timeStart: items[0].timeStart,
+        timeEnd: items[0].timeEnd,
+        ticket_price: items.length > 0 ? items[0].ticketPrice : 0, // Use the ticket price from items if available
+        pass_price: items.length > 0 ? items[0].passPrice : 0, // Use the pass price from items if available
+      },
+    };
+  
+    axios.post('http://localhost:8080/lifts/buyTickets', ticketData)
+      .then(response => {
+        // Handle success
+        console.log("Ticket data submitted:", response.data);
+        fetchItems();
+        window.location.reload(); // Reload the page if necessary
+      })
+      .catch(error => console.error('Error:', error));
+  };
+  
   return (
     <>
       <Table className="my-12 w-1/2 mx-auto">
@@ -207,15 +394,15 @@ export function TicketComp() {
           </TableRow>
         </TableHeader>
         <TableBody>
-  {items.length > 0 && (
-    <TableRow>
-      <TableCell>{items[0].passPrice}</TableCell>
-      <TableCell>{items[0].ticketPrice}</TableCell>
-      <TableCell>{items[0].timeStart}</TableCell>
-      <TableCell>{items[0].timeEnd}</TableCell>
-    </TableRow>
-  )}
-</TableBody>
+          {items.length > 0 && (
+            <TableRow>
+              <TableCell>{items[0].passPrice}</TableCell>
+              <TableCell>{items[0].ticketPrice}</TableCell>
+              <TableCell>{items[0].timeStart}</TableCell>
+              <TableCell>{items[0].timeEnd}</TableCell>
+            </TableRow>
+          )}
+        </TableBody>
       </Table>
 
       <div className="flex gap-4 flex-col lg:flex-row">
@@ -233,32 +420,26 @@ export function TicketComp() {
                 <SelectItem value="Pass">Pass</SelectItem>
               </SelectContent>
             </Select>
+            <label>Email</label>
+            <Input
+              type="text"
+              name="email"
+              placeholder="Enter email"
+              value={values.email}
+              onChange={handleInputChange}
+            />
+            <label>Phone</label>
+            <Input
+              type="text"
+              name="phone"
+              placeholder="Enter phone number"
+              value={values.phone}
+              onChange={handleInputChange}
+            />
 
             {type === "Ticket" ? <Ticket /> : <Pass />}
             <label htmlFor="Starting date">STARTING DATE</label>
 
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-[280px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : <span>Pick a date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
 
             <div className="items-top flex space-x-2 mt-2">
               <Checkbox id="terms1" />
@@ -281,7 +462,8 @@ export function TicketComp() {
             {type === "Pass" ? total.toFixed(2) : totalPerRides.toFixed(2)} PLN
           </div>
           <CardFooter className="flex justify-center">
-            <Button className="w-full">BUY</Button>
+          {type === "Pass" ? <Button className="w-full" onClick={handlePassSubmit}>BUY</Button> : <Button className="w-full" onClick={handleTicketSubmit}>BUY</Button>}
+            
           </CardFooter>
         </OrderCard>
       </div>
