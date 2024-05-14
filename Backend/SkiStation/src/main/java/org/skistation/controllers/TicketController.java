@@ -50,5 +50,4 @@ public class TicketController
         ticketService.deleteTicket(id);
         return "redirect:/tickets";
     }
-
 }
