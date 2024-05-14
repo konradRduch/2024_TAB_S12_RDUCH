@@ -10,9 +10,10 @@ import org.skistation.models.Ticket;
 import org.skistation.services.*;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+
 @RestController
 @RequestMapping("/buyTickets")
+@CrossOrigin("http://localhost:4321")
 public class BuyTicketController {
 
     private final OrderService orderService;

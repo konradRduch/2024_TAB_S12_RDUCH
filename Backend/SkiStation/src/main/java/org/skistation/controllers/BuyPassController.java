@@ -27,17 +27,17 @@ public class BuyPassController {
         this.passService = passService;
     }
 
-    @PostMapping("")
-    public String buyPass(@RequestBody Client client, @RequestBody PassDTO passDTO, @RequestBody Float total){
-        clientService.saveClient(client);
-        Order newOrder= new Order(total,client);
-        orderService.saveOrder(newOrder);
-        Pass newPass = new Pass(passDTO.active(),passDTO.passTypeName(),passDTO.price(),
-                newOrder,passDTO.priceList(),passDTO.timeStart(),passDTO.timeEnd(),passDTO.discount());
-
-        passService.savePass(newPass);
-
-        return "redirect:/buyPasses";
-
-    }
+//    @PostMapping("")
+//    public String buyPass(@RequestBody Client client, @RequestBody PassDTO passDTO, @RequestBody Float total){
+//        clientService.saveClient(client);
+//        Order newOrder= new Order(total,client);
+//        orderService.saveOrder(newOrder);
+//        Pass newPass = new Pass(passDTO.active(),passDTO.passTypeName(),passDTO.price(),
+//                newOrder,passDTO.priceList(),passDTO.timeStart(),passDTO.timeEnd(),passDTO.discount());
+//
+//        passService.savePass(newPass);
+//
+//        return "redirect:/buyPasses";
+//
+//    }
 }
