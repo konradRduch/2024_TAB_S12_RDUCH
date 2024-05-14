@@ -2,6 +2,8 @@ package org.skistation.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class Ticket
 {
@@ -27,21 +29,27 @@ public class Ticket
     @JoinColumn(name = "price_list_id")
     private PriceList priceList;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = false)
-    private SkiCard skiCard;
+    @Column(name = "time_start", nullable = false)
+    private LocalDateTime timeStart;
+
+    @Column(name = "time_end", nullable = false)
+    private LocalDateTime timeEnd;
+
+    @Column(name = "discount")
+    private Boolean discount;
 
     public Ticket() {
     }
 
-    public Ticket(Integer amountOfRides, Float pricePerRide, String ticketTypeName, Order order, PriceList priceList, SkiCard skiCard) {
+    public Ticket(Integer amountOfRides, Float pricePerRide, String ticketTypeName, Order order, PriceList priceList, LocalDateTime timeStart, LocalDateTime timeEnd, Boolean discount) {
         this.amountOfRides = amountOfRides;
         this.pricePerRide = pricePerRide;
         this.ticketTypeName = ticketTypeName;
         this.order = order;
         this.priceList = priceList;
-        this.skiCard = skiCard;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.discount = discount;
     }
 
     public Integer getId() {
@@ -92,4 +100,27 @@ public class Ticket
         this.priceList = priceList;
     }
 
+    public LocalDateTime getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(LocalDateTime timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public LocalDateTime getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(LocalDateTime timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public Boolean getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Boolean discount) {
+        this.discount = discount;
+    }
 }

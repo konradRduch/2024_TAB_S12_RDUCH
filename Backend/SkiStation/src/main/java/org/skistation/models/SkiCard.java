@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-public class SkiCard
+public  class SkiCard
 {
     @Id
     @Column(name = "id", nullable = false)
