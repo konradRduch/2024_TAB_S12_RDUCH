@@ -74,6 +74,7 @@ public class SkiScheduleController
         String closeTime = skiSchedule.getClose().format(formatter);
 
         return new SkiScheduleDTO(
+                skiSchedule.getId(),
                 openTime,
                 closeTime,
                 skiSchedule.getLift().getId(),
