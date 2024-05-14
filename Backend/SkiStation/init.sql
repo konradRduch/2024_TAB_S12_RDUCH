@@ -10,7 +10,7 @@ ALTER TABLE IF EXISTS public.pass DROP CONSTRAINT IF EXISTS order_fk;
 
 ALTER TABLE IF EXISTS public.pass DROP CONSTRAINT IF EXISTS price_list_fk;
 
-ALTER TABLE IF EXISTS public.skischedule DROP CONSTRAINT IF EXISTS lift_fk;
+ALTER TABLE IF EXISTS public.ski_schedule DROP CONSTRAINT IF EXISTS lift_fk;
 
 ALTER TABLE IF EXISTS public.lift_ticket DROP CONSTRAINT IF EXISTS None;
 
@@ -78,9 +78,9 @@ CREATE TABLE IF NOT EXISTS public.worker
     role TEXT NOT NULL
 );
 
-DROP TABLE IF EXISTS public.skischedule;
+DROP TABLE IF EXISTS public.ski_schedule;
 
-CREATE TABLE IF NOT EXISTS public.skischedule
+CREATE TABLE IF NOT EXISTS public.ski_schedule
 (
     id SERIAL PRIMARY KEY,
     open DATE,
@@ -157,7 +157,7 @@ ALTER TABLE IF EXISTS public.pass
         ON UPDATE NO ACTION
         ON DELETE NO ACTION;
 
-ALTER TABLE IF EXISTS public.skischedule
+ALTER TABLE IF EXISTS public.ski_schedule
     ADD CONSTRAINT lift_fk FOREIGN KEY (lift_id)
         REFERENCES public.lift (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -236,7 +236,7 @@ VALUES ('Beginner Lift', true, 500),
        ('Intermediate Lift', true, 750),
        ('Expert Lift', true, 1500);
 
-INSERT INTO public.skischedule (open, close, lift_id)
+INSERT INTO public.ski_schedule (open, close, lift_id)
 VALUES ('2024-05-01', '2024-05-31', 1),
        ('2024-06-01', '2024-06-30', 2),
        ('2024-07-01', '2024-07-31', 3),
