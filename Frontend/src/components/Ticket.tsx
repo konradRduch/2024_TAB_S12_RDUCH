@@ -334,7 +334,7 @@ export function TicketComp() {
       },
     };
   
-    axios.post('http://localhost:8080/lifts/buyPasses', passData)
+    axios.post('http://localhost:8080/buyPasses', passData)
       .then(response => {
         // Handle success
         console.log("Pass data submitted:", response.data);
@@ -346,38 +346,34 @@ export function TicketComp() {
   
   const handleTicketSubmit = (event: any) => {
     event.preventDefault();
-    const endTime = calculateEndTime(new Date(values.timeStart), values.passType);
-
-
+    
+    const endTime = format(new Date(calculateEndTime(new Date(values.timeStart), values.passType)), "yyyy-MM-dd'T'HH:mm:ss");
     const ticketData = {
       client: {
-        phone: values.phone,
         email: values.email,
-      },
-      ticketDTO: {
+        phone: values.phone,
+    },
+    ticketDTO: {
         amountOfRides: values.rides,
         pricePerRide: values.pricePerRide,
-        ticketTypeName: values.passType, // or values.ticketTypeName if you have this state
+        ticketTypeName: values.passType,
         timeStart: values.timeStart,
         timeEnd: endTime,
-        discount: values.discount > 0, // Convert discount to boolean
-      },
-      total: totalPerRides,
-      ticketService: {
-        id: items[0].id, // Set the appropriate service ID
+        discount: true
+    },
+    total: total,
+    priceList: {
         timeStart: items[0].timeStart,
         timeEnd: items[0].timeEnd,
-        ticket_price: items.length > 0 ? items[0].ticketPrice : 0, // Use the ticket price from items if available
-        pass_price: items.length > 0 ? items[0].passPrice : 0, // Use the pass price from items if available
-      },
+        ticketPrice: items[0].ticketPrice,
+        passPrice: items[0].passPrice
+    }
     };
   
-    axios.post('http://localhost:8080/lifts/buyTickets', ticketData)
+    axios.post('http://localhost:8080/buyTickets', ticketData)
       .then(response => {
         // Handle success
         console.log("Ticket data submitted:", response.data);
-        fetchItems();
-        window.location.reload(); // Reload the page if necessary
       })
       .catch(error => console.error('Error:', error));
   };
