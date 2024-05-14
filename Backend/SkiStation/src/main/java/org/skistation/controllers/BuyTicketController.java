@@ -19,7 +19,6 @@ public class BuyTicketController {
     private final OrderService orderService;
     private final ClientService clientService;
     private final TicketService ticketService;
-
     private final PriceListService priceListService;
 
 

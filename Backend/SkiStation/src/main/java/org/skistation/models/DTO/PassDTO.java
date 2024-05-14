@@ -5,5 +5,5 @@ import org.skistation.models.PriceList;
 
 import java.time.LocalDateTime;
 
-public record PassDTO(Boolean active, String passTypeName, Float price, PriceList priceList, LocalDateTime timeStart, LocalDateTime timeEnd, Boolean discount) {
+public record PassDTO(Boolean active, String passTypeName, Float price, LocalDateTime timeStart, LocalDateTime timeEnd, Boolean discount) {
 }
