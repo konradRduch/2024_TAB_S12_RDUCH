@@ -18,6 +18,9 @@ public class Order
     @JoinColumn(name = "client_id")
     private Client client;
 
+
+
+
     public Order() {
     }
 
