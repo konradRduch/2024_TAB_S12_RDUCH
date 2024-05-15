@@ -12,6 +12,10 @@ import org.skistation.services.PassService;
 import org.skistation.services.PriceListService;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Objects;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/buyPasses")
@@ -40,9 +44,41 @@ public class BuyPassController {
         clientService.saveClient(client);
         Order newOrder = new Order(total, client);
         orderService.saveOrder(newOrder);
-        Pass newPass = new Pass(passDTO.active(),passDTO.passTypeName(),passDTO.price(),
-                newOrder,priceList,passDTO.timeStart(),passDTO.timeEnd(),passDTO.discount());
-        passService.savePass(newPass);
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setMaximumFractionDigits(2); // Ustawienie maksymalnej liczby miejsc po przecinku
+
+
+        Float normalPrice = calculatePassPrice(passDTO.passTypeName(), priceList.getPassPrice());
+        Float roundedNormalPrice = Float.valueOf(df.format(normalPrice));
+        Float discountPrice = calculatePassPrice(passDTO.passTypeName(), priceList.getPassPrice()) / 2;
+        Float roundedDiscountPrice = Float.valueOf(df.format(discountPrice));
+       //normal
+        for(int i=0;i<request.getNumberOfNormalPasses();i++) {
+            Pass newNormalPass = new Pass(passDTO.active(), passDTO.passTypeName(), roundedNormalPrice,
+                    newOrder, priceList, passDTO.timeStart(), passDTO.timeEnd(), false);
+            passService.savePass(newNormalPass);
+        }
+        //discount
+        for(int i=0;i<request.getNumberOfDiscountPasses();i++) {
+            Pass newDiscountPass = new Pass(passDTO.active(), passDTO.passTypeName(), roundedDiscountPrice,
+                    newOrder, priceList, passDTO.timeStart(), passDTO.timeEnd(), true);
+            passService.savePass(newDiscountPass);
+        }
+
         return "redirect:/buyPasses";
     }
+
+    private Float calculatePassPrice(String type, Float price){
+        Float discountFactor = 1.0f;
+        if(Objects.equals(type, "Day")){
+            discountFactor =1.0f;
+        }else if(Objects.equals(type, "Week")){
+            discountFactor = 7.0f * 0.6f;
+        } else if (Objects.equals(type, "Month")) {
+            discountFactor = 30f * 0.4f;
+        }
+    return price * discountFactor;
+    }
+
 }

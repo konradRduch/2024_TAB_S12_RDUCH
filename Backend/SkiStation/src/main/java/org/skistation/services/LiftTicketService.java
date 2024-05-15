@@ -1,7 +1,6 @@
 package org.skistation.services;
 
 import org.skistation.models.Lift;
-import org.skistation.models.LiftPass;
 import org.skistation.models.LiftTicket;
 import org.skistation.models.Ticket;
 import org.skistation.repositories.LiftTicketRepository;
@@ -10,13 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class LiftTickerService
+public class LiftTicketService
 {
     private final LiftTicketRepository liftTicketRepository;
     private final LiftService liftService;
     private final TicketService ticketService;
 
-    public LiftTickerService(LiftTicketRepository liftTicketRepository, LiftService liftService, TicketService ticketService) {
+    public LiftTicketService(LiftTicketRepository liftTicketRepository, LiftService liftService, TicketService ticketService) {
         this.liftTicketRepository = liftTicketRepository;
         this.liftService = liftService;
         this.ticketService = ticketService;
