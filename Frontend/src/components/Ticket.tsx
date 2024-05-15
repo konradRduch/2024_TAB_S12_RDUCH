@@ -40,7 +40,7 @@ interface Items {
   timeStart: string;
   timeEnd: string;
   ticketPrice: number;
-  passPrice: number;
+  passPrice: GLfloat;
 }
 
 const Values = {
@@ -305,7 +305,6 @@ export function TicketComp() {
     return endTime;
   };
 
-
   const handlePassSubmit = (event: any) => {
     event.preventDefault();
     
@@ -313,33 +312,32 @@ export function TicketComp() {
   
     const passData = {
       client: {
-        phone: values.phone,
-        email: values.email,
+          phone: values.phone,
+          email: values.email,
       },
       passDTO: {
-        active: true,
-        price: values.price,
-        ticketTypeName: values.passType, // or values.ticketTypeName if you have this state
-        timeStart: values.timeStart,
-        timeEnd: endTime,
-        discount: values.discount > 0, // Convert discount to boolean
+          active: true,
+          ticketTypeName: values.passType,
+          timeStart: values.timeStart,
+          timeEnd: endTime,
       },
       total: total,
-      ticketService: {
-        id: items[0].id, // Set the appropriate service ID
-        timeStart: items[0].timeStart,
-        timeEnd: items[0].timeEnd,
-        ticket_price: items.length > 0 ? items[0].ticketPrice : 0, // Use the ticket price from items if available
-        pass_price: items.length > 0 ? items[0].passPrice : 0, // Use the pass price from items if available
+      numberOfNormalPasses: values.normal,
+      numberOfDiscountPasses: values.discount,
+      priceList: {
+          timeStart: items[0].timeStart,
+          timeEnd:endTime,
+          ticketPrice: items[0].ticketPrice,
+          passPrice:  items[0].passPrice,
       },
-    };
+  };
   
     axios.post('http://localhost:8080/buyPasses', passData)
       .then(response => {
         // Handle success
         console.log("Pass data submitted:", response.data);
-        fetchItems();
-        window.location.reload(); // Reload the page if necessary
+        alert("Passes successfully bought!");
+
       })
       .catch(error => console.error('Error:', error));
   };
@@ -359,9 +357,10 @@ export function TicketComp() {
         ticketTypeName: values.passType,
         timeStart: values.timeStart,
         timeEnd: endTime,
-        discount: true
     },
     total: total,
+    numberOfNormalPasses: values.normal,
+    numberOfDiscountPasses: values.discount,
     priceList: {
         timeStart: items[0].timeStart,
         timeEnd: items[0].timeEnd,
@@ -374,6 +373,8 @@ export function TicketComp() {
       .then(response => {
         // Handle success
         console.log("Ticket data submitted:", response.data);
+        alert("Tickets successfully bought!");
+
       })
       .catch(error => console.error('Error:', error));
   };
