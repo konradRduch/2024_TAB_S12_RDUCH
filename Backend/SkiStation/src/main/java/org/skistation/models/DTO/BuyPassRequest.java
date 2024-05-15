@@ -3,20 +3,20 @@ package org.skistation.models.DTO;
 import org.skistation.models.Client;
 import org.skistation.models.PriceList;
 
-public class BuyTicketRequest {
+public class BuyPassRequest {
     private Client client;
-    private TicketDTO ticketDTO;
+    private PassDTO passDTO;
     private Float total;
     private Integer numberOfNormalPasses;
     private Integer numberOfDiscountPasses;
     private PriceList priceList;
 
-    public BuyTicketRequest() {
+    public BuyPassRequest() {
     }
 
-    public BuyTicketRequest(Client client, TicketDTO ticketDTO, Float total, Integer numberOfNormalPasses, Integer numberOfDiscountPasses, PriceList priceList) {
+    public BuyPassRequest(Client client, PassDTO passDTO, Float total, Integer numberOfNormalPasses, Integer numberOfDiscountPasses, PriceList priceList) {
         this.client = client;
-        this.ticketDTO = ticketDTO;
+        this.passDTO = passDTO;
         this.total = total;
         this.numberOfNormalPasses = numberOfNormalPasses;
         this.numberOfDiscountPasses = numberOfDiscountPasses;
@@ -31,12 +31,12 @@ public class BuyTicketRequest {
         this.client = client;
     }
 
-    public TicketDTO getTicketDTO() {
-        return ticketDTO;
+    public PassDTO getPassDTO() {
+        return passDTO;
     }
 
-    public void setTicketDTO(TicketDTO ticketDTO) {
-        this.ticketDTO = ticketDTO;
+    public void setPassDTO(PassDTO passDTO) {
+        this.passDTO = passDTO;
     }
 
     public Float getTotal() {

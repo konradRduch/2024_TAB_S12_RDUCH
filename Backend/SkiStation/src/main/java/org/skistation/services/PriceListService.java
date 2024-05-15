@@ -43,11 +43,6 @@ public class PriceListService
         return priceListRepository.findAll();
     }
 
-    public List<PriceList> getPriceListWithinTimeRange(LocalDate timeStart, LocalDate timeEnd) {
-        List<PriceList> priceLists = priceListRepository.findAll();
-        priceLists.removeIf(priceList -> priceList.getTimeStart().isBefore(timeStart) || priceList.getTimeEnd().isAfter(timeEnd));
-        return priceLists;
-    }
 
     public List<PriceList> getPriceListWithinTimeRange(LocalDate timeNow) {
         List<PriceList> priceLists = priceListRepository.findAll();

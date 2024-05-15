@@ -10,15 +10,15 @@ import org.skistation.models.Ticket;
 import org.skistation.services.*;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+
 @RestController
 @RequestMapping("/buyTickets")
+@CrossOrigin("http://localhost:4321")
 public class BuyTicketController {
 
     private final OrderService orderService;
     private final ClientService clientService;
     private final TicketService ticketService;
-
     private final PriceListService priceListService;
 
 
@@ -39,9 +39,19 @@ public class BuyTicketController {
         clientService.saveClient(client);
         Order newOrder = new Order(total, client);
         orderService.saveOrder(newOrder);
-        Ticket newTicket=new Ticket(ticketDTO.amountOfRides(),ticketDTO.pricePerRide(),ticketDTO.ticketTypeName(),
-                newOrder,priceList,ticketDTO.timeStart(),ticketDTO.timeEnd(),ticketDTO.discount());
-        ticketService.saveTicket(newTicket);
+
+        //normal
+        for(int i=0;i<request.getNumberOfNormalPasses();i++) {
+            Ticket newNormalTicket = new Ticket(ticketDTO.amountOfRides(), ticketDTO.pricePerRide(), "normal",
+                    newOrder, priceList, ticketDTO.timeStart(), ticketDTO.timeEnd(), false);
+            ticketService.saveTicket(newNormalTicket);
+        }
+        //discount
+        for(int i=0;i<request.getNumberOfDiscountPasses();i++) {
+            Ticket newDiscountTicket = new Ticket(ticketDTO.amountOfRides(), ticketDTO.pricePerRide()/2, "normal",
+                    newOrder, priceList, ticketDTO.timeStart(), ticketDTO.timeEnd(), true);
+            ticketService.saveTicket(newDiscountTicket);
+        }
         return "redirect:/buyTickets";
     }
 
