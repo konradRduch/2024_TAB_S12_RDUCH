@@ -7,15 +7,19 @@ public class BuyTicketRequest {
     private Client client;
     private TicketDTO ticketDTO;
     private Float total;
+    private Integer numberOfNormalPasses;
+    private Integer numberOfDiscountPasses;
     private PriceList priceList;
 
     public BuyTicketRequest() {
     }
 
-    public BuyTicketRequest(Client client, TicketDTO ticketDTO, Float total, PriceList priceList) {
+    public BuyTicketRequest(Client client, TicketDTO ticketDTO, Float total, Integer numberOfNormalPasses, Integer numberOfDiscountPasses, PriceList priceList) {
         this.client = client;
         this.ticketDTO = ticketDTO;
         this.total = total;
+        this.numberOfNormalPasses = numberOfNormalPasses;
+        this.numberOfDiscountPasses = numberOfDiscountPasses;
         this.priceList = priceList;
     }
 
@@ -49,5 +53,21 @@ public class BuyTicketRequest {
 
     public void setPriceList(PriceList priceList) {
         this.priceList = priceList;
+    }
+
+    public Integer getNumberOfNormalPasses() {
+        return numberOfNormalPasses;
+    }
+
+    public void setNumberOfNormalPasses(Integer numberOfNormalPasses) {
+        this.numberOfNormalPasses = numberOfNormalPasses;
+    }
+
+    public Integer getNumberOfDiscountPasses() {
+        return numberOfDiscountPasses;
+    }
+
+    public void setNumberOfDiscountPasses(Integer numberOfDiscountPasses) {
+        this.numberOfDiscountPasses = numberOfDiscountPasses;
     }
 }
