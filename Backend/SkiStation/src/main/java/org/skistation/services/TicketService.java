@@ -47,4 +47,18 @@ public class TicketService
     public List<Ticket> getTicketsByPriceListId(Integer priceListId) {
         return ticketRepository.findByPriceListId(priceListId);
     }
+
+    public boolean bounceTicket(Integer ticketId){
+        if (getTicketById(ticketId).isPresent()) {
+            Ticket ticket = getTicketById(ticketId).get();
+            if (ticket.getAmountOfRides() > 0) {
+                ticket.setAmountOfRides(ticket.getAmountOfRides() - 1);
+                ticketRepository.save(ticket);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

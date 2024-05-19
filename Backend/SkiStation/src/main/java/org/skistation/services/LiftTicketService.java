@@ -6,7 +6,10 @@ import org.skistation.models.Ticket;
 import org.skistation.repositories.LiftTicketRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LiftTicketService
@@ -21,13 +24,17 @@ public class LiftTicketService
         this.ticketService = ticketService;
     }
 
-    public void addLiftTicket(int liftTicketId, int liftId) {
+    public void addLiftTicket(int liftId, int ticketId) {
         Lift lift = liftService.getLiftById(liftId).orElseGet(null);
-        Ticket ticket = ticketService.getTicketById(liftTicketId).orElseGet(null);
+        Ticket ticket = ticketService.getTicketById(ticketId).orElseGet(null);
         if (lift == null || ticket == null) {
             return;
         }
-        addLiftTicket(lift, ticket);
+
+        if(ticketService.bounceTicket(ticketId)){
+            addLiftTicket(lift, ticket);
+        }
+
     }
 
     public void addLiftTicket(Lift lift, Ticket ticket) {
@@ -45,4 +52,37 @@ public class LiftTicketService
     public List<LiftTicket> getLiftTicketesByTicketId(int ticketId) {
         return liftTicketRepository.findByTicketId(ticketId);
     }
+
+    public Float getTotalTrackDistance(Integer liftId, Integer ticketId){
+        List<LiftTicket> liftTickets = getLiftTicketesByTicketId(ticketId);
+
+        List<LiftTicket> filteredLiftTickets = liftTickets.stream()
+                .filter(ticket -> ticket.getLift().getId().equals(liftId))
+                .collect(Collectors.toList());
+
+        double totalDistance = filteredLiftTickets.stream()
+                .mapToDouble(ticket -> ticket.getLift().getDistance())
+                .sum();
+
+        return (float) totalDistance;
+    }
+
+    private boolean checkDate(Integer ticketId) {
+        Optional<Ticket> ticketOpt = ticketService.getTicketById(ticketId);
+        if (ticketOpt.isPresent()) {
+            Ticket ticket = ticketOpt.get();
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime timeStart = ticket.getTimeStart();
+            LocalDateTime timeEnd = timeStart.plusDays(1);
+            return now.isAfter(timeStart) && now.isBefore(timeEnd);
+        }
+        return false;
+    }
+    public boolean isTicketActive(Integer ticketId){
+        if(ticketService.getTicketById(ticketId).get().getAmountOfRides()>0 && checkDate(ticketId)){
+            return true;
+        }
+        return false;
+    }
+
 }
