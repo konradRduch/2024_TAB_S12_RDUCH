@@ -8,6 +8,7 @@ import org.skistation.repositories.LiftTicketRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LiftPassService
@@ -45,5 +46,17 @@ public class LiftPassService
 
     public List<LiftPass> getLiftPassesByPassId(int passId) {
         return liftPassRepository.findByPassId(passId);
+    }
+
+    public Float getTotalTrackDistance(Integer passId) {
+        return getLiftPassesByPassId(passId).stream()
+                .map(LiftPass::getLift)
+                .toList().stream()
+                .map(Lift::getDistance)
+                .reduce(0f, Float::sum);
+    }
+
+    public boolean isPassActive(Integer passId) {
+        return passService.getPassById(passId).map(Pass::getActive).orElse(false);
     }
 }

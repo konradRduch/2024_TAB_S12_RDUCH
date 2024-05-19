@@ -1,16 +1,33 @@
 package org.skistation.controllers;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.skistation.models.DTO.BouncePassRequest;
+import org.skistation.models.DTO.BounceTicketRequest;
+import org.skistation.models.DTO.PassSummary;
+import org.skistation.models.DTO.TicketSummary;
+import org.skistation.services.LiftPassService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/liftPass")
-public class LiftPassController {
+public class LiftPassController
+{
+    private final LiftPassService liftPassService;
 
+    public LiftPassController(LiftPassService liftPassService) {
+        this.liftPassService = liftPassService;
+    }
 
+    @PostMapping("/bouncePass")
+    public String addLiftPass(@RequestBody BouncePassRequest request) {
+        liftPassService.addLiftPass(request.getLiftId(), request.getPassId());
+        return "redirect:/listPass";
+    }
 
-
-
-
+    @GetMapping("/summary")
+    public PassSummary getSummary(@RequestBody BouncePassRequest request) {
+        Boolean active = liftPassService.isPassActive(request.getPassId());
+        Float distance = liftPassService.getTotalTrackDistance(request.getPassId());
+        return new PassSummary(active, distance);
+    }
 }

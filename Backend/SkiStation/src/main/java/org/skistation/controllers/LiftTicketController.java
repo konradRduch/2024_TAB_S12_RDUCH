@@ -8,36 +8,25 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/liftTicket")
-public class LiftTicketController {
-
-   private final LiftTicketService liftTicketService;
+public class LiftTicketController
+{
+    private final LiftTicketService liftTicketService;
 
     public LiftTicketController(LiftTicketService liftTicketService) {
         this.liftTicketService = liftTicketService;
     }
 
-    @PostMapping("/addLiftTicket")
-    public String addLiftTicket(@RequestBody BounceTicketRequest request){
-        liftTicketService.addLiftTicket(request.getLiftId(),request.getTicketId());
+    @PostMapping("/bounceTicket")
+    public String addLiftTicket(@RequestBody BounceTicketRequest request) {
+        liftTicketService.addLiftTicket(request.getLiftId(), request.getTicketId());
         return "redirect:/liftTicket";
     }
+
     @GetMapping("/summary")
-    public TicketSummary getSummary(@RequestBody BounceTicketRequest request){
+    public TicketSummary getSummary(@RequestBody BounceTicketRequest request) {
         Boolean active = liftTicketService.isTicketActive(request.getTicketId());
-        Float distance = liftTicketService.getTotalTrackDistance(request.getLiftId(),request.getTicketId());
-        TicketSummary ticketSummary = new TicketSummary(active,distance);
+        Float distance = liftTicketService.getTotalTrackDistance(request.getLiftId(), request.getTicketId());
+        TicketSummary ticketSummary = new TicketSummary(active, distance);
         return ticketSummary;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
