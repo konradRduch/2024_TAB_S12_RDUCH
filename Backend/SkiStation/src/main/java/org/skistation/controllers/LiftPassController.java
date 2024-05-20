@@ -25,8 +25,8 @@ public class LiftPassController
     }
 
     @GetMapping("/summary")
-    public PassSummary getSummary(@RequestParam int liftId, @RequestParam int PassId) {
-        Boolean active = liftPassService.isPassActive(PassId);
+    public PassSummary getSummary(@RequestParam int liftId, @RequestParam int passId) {
+        Boolean active = liftPassService.isPassActive(passId);
         Float distance = liftPassService.getTotalTrackDistance(liftId);
         return new PassSummary(active, distance);
     }
