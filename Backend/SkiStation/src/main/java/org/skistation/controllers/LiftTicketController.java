@@ -23,10 +23,9 @@ public class LiftTicketController
     }
 
     @GetMapping("/summary")
-    public TicketSummary getSummary(@RequestBody BounceTicketRequest request) {
-        Boolean active = liftTicketService.isTicketActive(request.getTicketId());
-        Float distance = liftTicketService.getTotalTrackDistance(request.getLiftId(), request.getTicketId());
-        TicketSummary ticketSummary = new TicketSummary(active, distance);
-        return ticketSummary;
+    public TicketSummary getSummary(@RequestParam int liftId, @RequestParam int ticketId) {
+        Boolean active = liftTicketService.isTicketActive(ticketId);
+        Float distance = liftTicketService.getTotalTrackDistance(liftId, ticketId);
+        return new TicketSummary(active, distance);
     }
 }

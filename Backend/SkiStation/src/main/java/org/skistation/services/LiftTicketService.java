@@ -56,13 +56,10 @@ public class LiftTicketService
     public Float getTotalTrackDistance(Integer liftId, Integer ticketId){
         List<LiftTicket> liftTickets = getLiftTicketesByTicketId(ticketId);
 
-        List<LiftTicket> filteredLiftTickets = liftTickets.stream()
-                .filter(ticket -> ticket.getLift().getId().equals(liftId))
-                .collect(Collectors.toList());
+        double totalDistance = liftTickets.stream()
+                .mapToDouble(ticket -> ticket.getLift().getDistance()).sum();
 
-        double totalDistance = filteredLiftTickets.stream()
-                .mapToDouble(ticket -> ticket.getLift().getDistance())
-                .sum();
+
 
         return (float) totalDistance;
     }

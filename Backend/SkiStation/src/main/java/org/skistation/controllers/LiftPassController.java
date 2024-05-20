@@ -25,9 +25,9 @@ public class LiftPassController
     }
 
     @GetMapping("/summary")
-    public PassSummary getSummary(@RequestBody BouncePassRequest request) {
-        Boolean active = liftPassService.isPassActive(request.getPassId());
-        Float distance = liftPassService.getTotalTrackDistance(request.getPassId());
+    public PassSummary getSummary(@RequestParam int liftId, @RequestParam int PassId) {
+        Boolean active = liftPassService.isPassActive(PassId);
+        Float distance = liftPassService.getTotalTrackDistance(liftId);
         return new PassSummary(active, distance);
     }
 }
