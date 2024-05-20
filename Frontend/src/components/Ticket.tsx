@@ -33,7 +33,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-
 interface Items {
   //priceList
   id: number;
@@ -150,38 +149,38 @@ export function TicketComp() {
           value={values.rides}
           onChange={handleInputChange}
         />
-   <label htmlFor="date">Start Date</label>
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant={"outline"}
-            className={cn(
-              "w-[280px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, "PPP") : <span>Pick a date</span>}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={(selectedDate: Date | undefined) => {
-              if (selectedDate) {
-                setDate(selectedDate);
-                setValues((prevValues) => ({
-                  ...prevValues,
-                  timeStart: format(selectedDate, "yyyy-MM-dd") + "T00:00:00", // Set time start to the beginning of the selected day
-                  timeEnd: format(selectedDate, "yyyy-MM-dd") + "T23:59:59", // Set time end to the end of the selected day
-                }));
-              }
-            }}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
+        <label htmlFor="date">Start Date</label>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[280px] justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={(selectedDate: Date | undefined) => {
+                if (selectedDate) {
+                  setDate(selectedDate);
+                  setValues((prevValues) => ({
+                    ...prevValues,
+                    timeStart: format(selectedDate, "yyyy-MM-dd") + "T00:00:00", // Set time start to the beginning of the selected day
+                    timeEnd: format(selectedDate, "yyyy-MM-dd") + "T23:59:59", // Set time end to the end of the selected day
+                  }));
+                }
+              }}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
       </>
     );
   }
@@ -226,37 +225,37 @@ export function TicketComp() {
           onChange={handleInputChange}
         />
         <label htmlFor="date">Start Date</label>
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            variant={"outline"}
-            className={cn(
-              "w-[280px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, "PPP") : <span>Pick a date</span>}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={(selectedDate: Date | undefined) => {
-              if (selectedDate) {
-                setDate(selectedDate);
-                setValues((prevValues) => ({
-                  ...prevValues,
-                  timeStart: format(selectedDate, "yyyy-MM-dd") + "T00:00:00", // Set time start to the beginning of the selected day
-                  timeEnd: format(selectedDate, "yyyy-MM-dd") + "T23:59:59", // Set time end to the end of the selected day
-                }));
-              }
-            }}
-            initialFocus
-          />
-        </PopoverContent>
-      </Popover>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[280px] justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, "PPP") : <span>Pick a date</span>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={(selectedDate: Date | undefined) => {
+                if (selectedDate) {
+                  setDate(selectedDate);
+                  setValues((prevValues) => ({
+                    ...prevValues,
+                    timeStart: format(selectedDate, "yyyy-MM-dd") + "T00:00:00", // Set time start to the beginning of the selected day
+                    timeEnd: format(selectedDate, "yyyy-MM-dd") + "T23:59:59", // Set time end to the end of the selected day
+                  }));
+                }
+              }}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
       </>
     );
   }
@@ -307,78 +306,87 @@ export function TicketComp() {
 
   const handlePassSubmit = (event: any) => {
     event.preventDefault();
-    
-    const endTime = format(new Date(calculateEndTime(new Date(values.timeStart), values.passType)), "yyyy-MM-dd'T'HH:mm:ss");
-  
+
+    const endTime = format(
+      new Date(calculateEndTime(new Date(values.timeStart), values.passType)),
+      "yyyy-MM-dd'T'HH:mm:ss"
+    );
+
     const passData = {
       client: {
-          phone: values.phone,
-          email: values.email,
+        phone: values.phone,
+        email: values.email,
       },
       passDTO: {
-          active: true,
-          ticketTypeName: values.passType,
-          timeStart: values.timeStart,
-          timeEnd: endTime,
+        active: true,
+        passTypeName: values.passType,
+        timeStart: values.timeStart,
+        timeEnd: endTime,
       },
       total: total,
       numberOfNormalPasses: values.normal,
       numberOfDiscountPasses: values.discount,
       priceList: {
-          timeStart: items[0].timeStart,
-          timeEnd:endTime,
-          ticketPrice: items[0].ticketPrice,
-          passPrice:  items[0].passPrice,
+        timeStart: items[0].timeStart,
+        timeEnd: endTime,
+        ticketPrice: items[0].ticketPrice,
+        passPrice: items[0].passPrice,
       },
-  };
-  
-    axios.post('http://localhost:8080/buyPasses', passData)
-      .then(response => {
-        // Handle success
-        console.log("Pass data submitted:", response.data);
-        alert("Passes successfully bought!");
+    };
 
-      })
-      .catch(error => console.error('Error:', error));
-  };
-  
+    axios
+    .post("http://localhost:8080/buyPasses", passData)
+    .then((response) => {
+      // Handle success
+      const passIds = response.data; // Assuming the response contains the pass ID
+      console.log("Pass data submitted:", response.data);
+      alert(`Tickets successfully bought! Ticket ID(s): ${passIds.join(", ")}`);
+
+    })
+    .catch((error) => console.error("Error:", error));
+};
+
   const handleTicketSubmit = (event: any) => {
     event.preventDefault();
-    
-    const endTime = format(new Date(calculateEndTime(new Date(values.timeStart), values.passType)), "yyyy-MM-dd'T'HH:mm:ss");
+
+    const endTime = format(
+      new Date(calculateEndTime(new Date(values.timeStart), values.passType)),
+      "yyyy-MM-dd'T'HH:mm:ss"
+    );
     const ticketData = {
       client: {
         email: values.email,
         phone: values.phone,
-    },
-    ticketDTO: {
+      },
+      ticketDTO: {
         amountOfRides: values.rides,
         pricePerRide: values.pricePerRide,
         ticketTypeName: values.passType,
         timeStart: values.timeStart,
         timeEnd: endTime,
-    },
-    total: total,
-    numberOfNormalPasses: values.normal,
-    numberOfDiscountPasses: values.discount,
-    priceList: {
+      },
+      total: total,
+      numberOfNormalPasses: values.normal,
+      numberOfDiscountPasses: values.discount,
+      priceList: {
         timeStart: items[0].timeStart,
         timeEnd: items[0].timeEnd,
         ticketPrice: items[0].ticketPrice,
-        passPrice: items[0].passPrice
-    }
+        passPrice: items[0].passPrice,
+      },
     };
-  
-    axios.post('http://localhost:8080/buyTickets', ticketData)
-      .then(response => {
-        // Handle success
-        console.log("Ticket data submitted:", response.data);
-        alert("Tickets successfully bought!");
 
-      })
-      .catch(error => console.error('Error:', error));
-  };
-  
+    axios
+    .post("http://localhost:8080/buyTickets", ticketData)
+    .then((response) => {
+      // Handle success
+      const ticketIds = response.data; 
+      console.log("Ticket data submitted:", response.data);
+      alert(`Tickets successfully bought! pass ID(s): ${ticketIds.join(", ")}`);
+    })
+    .catch((error) => console.error("Error:", error));
+};
+
   return (
     <>
       <Table className="my-12 w-1/2 mx-auto">
@@ -437,7 +445,6 @@ export function TicketComp() {
             {type === "Ticket" ? <Ticket /> : <Pass />}
             <label htmlFor="Starting date">STARTING DATE</label>
 
-
             <div className="items-top flex space-x-2 mt-2">
               <Checkbox id="terms1" />
               <div className="grid gap-1.5 leading-none">
@@ -459,8 +466,15 @@ export function TicketComp() {
             {type === "Pass" ? total.toFixed(2) : totalPerRides.toFixed(2)} PLN
           </div>
           <CardFooter className="flex justify-center">
-          {type === "Pass" ? <Button className="w-full" onClick={handlePassSubmit}>BUY</Button> : <Button className="w-full" onClick={handleTicketSubmit}>BUY</Button>}
-            
+            {type === "Pass" ? (
+              <Button className="w-full" onClick={handlePassSubmit}>
+                BUY
+              </Button>
+            ) : (
+              <Button className="w-full" onClick={handleTicketSubmit}>
+                BUY
+              </Button>
+            )}
           </CardFooter>
         </OrderCard>
       </div>
