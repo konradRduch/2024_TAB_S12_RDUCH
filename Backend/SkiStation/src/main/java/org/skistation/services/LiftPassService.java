@@ -2,6 +2,7 @@ package org.skistation.services;
 
 import org.skistation.models.Lift;
 import org.skistation.models.LiftPass;
+import org.skistation.models.LiftTicket;
 import org.skistation.models.Pass;
 import org.skistation.repositories.LiftPassRepository;
 import org.skistation.repositories.LiftTicketRepository;
@@ -49,11 +50,13 @@ public class LiftPassService
     }
 
     public Float getTotalTrackDistance(Integer passId) {
-        return getLiftPassesByPassId(passId).stream()
-                .map(LiftPass::getLift)
-                .toList().stream()
-                .map(Lift::getDistance)
-                .reduce(0f, Float::sum);
+
+        List<LiftPass> liftPasses = getLiftPassesByLiftId(passId);
+
+        double totalDistance = liftPasses.stream()
+                .mapToDouble(pass -> pass.getLift().getDistance()).sum();
+
+        return (float) totalDistance;
     }
 
     public boolean isPassActive(Integer passId) {

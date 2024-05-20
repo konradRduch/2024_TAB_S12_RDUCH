@@ -16,14 +16,18 @@ public class LiftTicketController
         this.liftTicketService = liftTicketService;
     }
 
-    @PostMapping("/bounceTicket")
+    @PostMapping("/bounceliftTicket")
     public String addLiftTicket(@RequestBody BounceTicketRequest request) {
-        liftTicketService.addLiftTicket(request.getLiftId(), request.getTicketId());
+        boolean active = liftTicketService.isTicketActive(request.getTicketId());
+        if(active) {
+            liftTicketService.addLiftTicket(request.getLiftId(), request.getTicketId());
+        }
         return "redirect:/liftTicket";
     }
 
     @GetMapping("/summary")
     public TicketSummary getSummary(@RequestParam int liftId, @RequestParam int ticketId) {
+
         Boolean active = liftTicketService.isTicketActive(ticketId);
         Float distance = liftTicketService.getTotalTrackDistance(liftId, ticketId);
         return new TicketSummary(active, distance);

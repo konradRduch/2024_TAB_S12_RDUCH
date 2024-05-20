@@ -18,15 +18,15 @@ public class LiftPassController
         this.liftPassService = liftPassService;
     }
 
-    @PostMapping("/bouncePass")
+    @PostMapping("/bounceliftPass")
     public String addLiftPass(@RequestBody BouncePassRequest request) {
         liftPassService.addLiftPass(request.getLiftId(), request.getPassId());
         return "redirect:/listPass";
     }
 
     @GetMapping("/summary")
-    public PassSummary getSummary(@RequestParam int liftId, @RequestParam int PassId) {
-        Boolean active = liftPassService.isPassActive(PassId);
+    public PassSummary getSummary(@RequestParam int liftId, @RequestParam int passId) {
+        Boolean active = liftPassService.isPassActive(passId);
         Float distance = liftPassService.getTotalTrackDistance(liftId);
         return new PassSummary(active, distance);
     }
