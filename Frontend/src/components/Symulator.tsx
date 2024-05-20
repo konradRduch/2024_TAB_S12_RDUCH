@@ -3,6 +3,13 @@ import { OrderCard } from "./OrderCard";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import axios from "axios";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 interface SymulatorTicket {
   liftId: number | string;
@@ -28,6 +35,8 @@ export function SymulatorComp() {
 
   const [stats, setStats] = useState<SimulationStats | null>(null);
 
+  const [type, setType] = useState("Ticket");
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -50,11 +59,17 @@ export function SymulatorComp() {
         return;
       }
 
-      await axios.post(`http://localhost:8080/${endpoint}/bounce${endpoint}`, formData);
+      await axios.post(
+        `http://localhost:8080/${endpoint}/bounce${endpoint}`,
+        formData
+      );
 
-      const response = await axios.get(`http://localhost:8080/${endpoint}/summary`, {
-        params: formData,
-      });
+      const response = await axios.get(
+        `http://localhost:8080/${endpoint}/summary`,
+        {
+          params: formData,
+        }
+      );
 
       setStats(response.data);
       setFormData({
@@ -70,21 +85,33 @@ export function SymulatorComp() {
       <div className="flex gap-4">
         <OrderCard title="ID SCANNER">
           <div className="flex justify-around gap-10">
-            <Input
-              className="mb-4"
-              placeholder="Ticket ID"
-              name="ticketId"
-              value={formData.ticketId || ""}
-              onChange={handleInputChange}
-            ></Input>
+            <Select onValueChange={(value: string) => setType(value)}>
+              <SelectTrigger id="category">
+                <SelectValue placeholder="Ticket" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectItem value="Ticket">Ticket</SelectItem>
+                <SelectItem value="Pass">Pass</SelectItem>
+              </SelectContent>
+            </Select>
 
-            <Input
-              className="mb-4"
-              placeholder="Pass ID"
-              name="passId"
-              value={formData.passId || ""}
-              onChange={handleInputChange}
-            ></Input>
+            {type === "Ticket" ? (
+              <Input
+                className="mb-4"
+                placeholder="Ticket ID"
+                name="ticketId"
+                value={formData.ticketId || ""}
+                onChange={handleInputChange}
+              ></Input>
+            ) : (
+              <Input
+                className="mb-4"
+                placeholder="Pass ID"
+                name="passId"
+                value={formData.passId || ""}
+                onChange={handleInputChange}
+              ></Input>
+            )}
           </div>
 
           <label htmlFor="ID">Lift ID: </label>
