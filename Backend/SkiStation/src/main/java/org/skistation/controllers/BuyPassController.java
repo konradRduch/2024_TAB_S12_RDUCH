@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -35,7 +37,7 @@ public class BuyPassController {
     }
 
     @PostMapping("")
-    public String buyPass(@RequestBody BuyPassRequest request){
+    public List<String> buyPass(@RequestBody BuyPassRequest request) {
         Client client = request.getClient();
         PassDTO passDTO = request.getPassDTO();
         Float total = request.getTotal();
@@ -46,27 +48,33 @@ public class BuyPassController {
         orderService.saveOrder(newOrder);
 
         DecimalFormat df = new DecimalFormat("#.##");
-        df.setMaximumFractionDigits(2); // Ustawienie maksymalnej liczby miejsc po przecinku
-
+        df.setMaximumFractionDigits(2);
 
         Float normalPrice = calculatePassPrice(passDTO.passTypeName(), priceList.getPassPrice());
         Float roundedNormalPrice = Float.valueOf(df.format(normalPrice));
         Float discountPrice = calculatePassPrice(passDTO.passTypeName(), priceList.getPassPrice()) / 2;
         Float roundedDiscountPrice = Float.valueOf(df.format(discountPrice));
-       //normal
-        for(int i=0;i<request.getNumberOfNormalPasses();i++) {
+
+        List<String> passIds = new ArrayList<>();
+
+        // Normal passes
+        for(int i = 0; i < request.getNumberOfNormalPasses(); i++) {
             Pass newNormalPass = new Pass(passDTO.active(), passDTO.passTypeName(), roundedNormalPrice,
                     newOrder, priceList, passDTO.timeStart(), passDTO.timeEnd(), false);
-            passService.savePass(newNormalPass);
-        }
-        //discount
-        for(int i=0;i<request.getNumberOfDiscountPasses();i++) {
-            Pass newDiscountPass = new Pass(passDTO.active(), passDTO.passTypeName(), roundedDiscountPrice,
-                    newOrder, priceList, passDTO.timeStart(), passDTO.timeEnd(), true);
-            passService.savePass(newDiscountPass);
+            Pass savedPass = passService.savePass(newNormalPass);
+            passIds.add(savedPass.getId().toString());
         }
 
-        return "redirect:/buyPasses";
+        // Discount passes
+        for(int i = 0; i < request.getNumberOfDiscountPasses(); i++) {
+            Pass newDiscountPass = new Pass(passDTO.active(), passDTO.passTypeName(), roundedDiscountPrice,
+                    newOrder, priceList, passDTO.timeStart(), passDTO.timeEnd(), true);
+            Pass savedPass = passService.savePass(newDiscountPass);
+            passIds.add(savedPass.getId().toString());
+        }
+
+        // Assuming the response is a list of pass IDs
+        return passIds;
     }
 
     private Float calculatePassPrice(String type, Float price){
