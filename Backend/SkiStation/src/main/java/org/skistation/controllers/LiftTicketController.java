@@ -16,7 +16,7 @@ public class LiftTicketController
         this.liftTicketService = liftTicketService;
     }
 
-    @PostMapping("/bounceTicket")
+    @PostMapping("/bounceliftTicket")
     public String addLiftTicket(@RequestBody BounceTicketRequest request) {
         liftTicketService.addLiftTicket(request.getLiftId(), request.getTicketId());
         return "redirect:/liftTicket";

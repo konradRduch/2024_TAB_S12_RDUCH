@@ -18,7 +18,7 @@ public class LiftPassController
         this.liftPassService = liftPassService;
     }
 
-    @PostMapping("/bouncePass")
+    @PostMapping("/bounceliftPass")
     public String addLiftPass(@RequestBody BouncePassRequest request) {
         liftPassService.addLiftPass(request.getLiftId(), request.getPassId());
         return "redirect:/listPass";
