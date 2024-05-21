@@ -53,13 +53,10 @@ public class LiftTicketService
         return liftTicketRepository.findByTicketId(ticketId);
     }
 
-    public Float getTotalTrackDistance(Integer liftId, Integer ticketId){
+    public Float getTotalTrackDistance(Integer ticketId){
         List<LiftTicket> liftTickets = getLiftTicketesByTicketId(ticketId);
-
         double totalDistance = liftTickets.stream()
                 .mapToDouble(ticket -> ticket.getLift().getDistance()).sum();
-
-
 
         return (float) totalDistance;
     }

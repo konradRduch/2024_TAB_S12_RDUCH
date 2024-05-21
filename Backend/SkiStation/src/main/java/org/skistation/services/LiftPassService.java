@@ -49,8 +49,7 @@ public class LiftPassService
     }
 
     public Float getTotalTrackDistance(Integer passId) {
-
-        List<LiftPass> liftPasses = getLiftPassesByLiftId(passId);
+        List<LiftPass> liftPasses = getLiftPassesByPassId(passId);
 
         double totalDistance = liftPasses.stream()
                 .mapToDouble(pass -> pass.getLift().getDistance()).sum();
