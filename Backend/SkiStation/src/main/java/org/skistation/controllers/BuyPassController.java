@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,11 +40,12 @@ public class BuyPassController {
 
     @PostMapping("")
     public List<String> buyPass(@RequestBody BuyPassRequest request) {
+        LocalDate now = LocalDate.now();
+
         Client client = request.getClient();
         PassDTO passDTO = request.getPassDTO();
         Float total = request.getTotal();
-        PriceList priceList = request.getPriceList();
-        priceListService.savePriceList(priceList);
+        PriceList priceList = priceListService.getPriceListWithinTimeRange(now).get(0);
         clientService.saveClient(client);
         Order newOrder = new Order(total, client);
         orderService.saveOrder(newOrder);

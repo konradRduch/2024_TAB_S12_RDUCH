@@ -24,9 +24,9 @@ public class LiftPassService
         this.passService = passService;
     }
 
-    public void addLiftPass(int liftPassId, int liftId) {
+    public void addLiftPass(int liftId, int passId) {
         Lift lift = liftService.getLiftById(liftId).orElseGet(null);
-        Pass pass = passService.getPassById(liftPassId).orElseGet(null);
+        Pass pass = passService.getPassById(passId).orElseGet(null);
         if (lift == null || pass == null) {
             return;
         }

@@ -10,6 +10,7 @@ import org.skistation.models.Ticket;
 import org.skistation.services.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +34,11 @@ public class BuyTicketController {
 
     @PostMapping("")
     public List<String> buyTicket(@RequestBody BuyTicketRequest request) {
+        LocalDate now = LocalDate.now();
         Client client = request.getClient();
         TicketDTO ticketDTO = request.getTicketDTO();
         Float total = request.getTotal();
-        PriceList priceList = request.getPriceList();
-        priceListService.savePriceList(priceList);
+        PriceList priceList = priceListService.getPriceListWithinTimeRange(now).get(0);
         clientService.saveClient(client);
         Order newOrder = new Order(total, client);
         orderService.saveOrder(newOrder);
