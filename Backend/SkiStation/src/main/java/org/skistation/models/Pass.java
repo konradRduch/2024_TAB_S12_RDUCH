@@ -102,4 +102,11 @@ public class Pass
         this.priceList = priceList;
     }
 
+    public LocalDateTime getTimeStart() {
+        return timeStart;
+    }
+
+    public LocalDateTime getTimeEnd() {
+        return timeEnd;
+    }
 }

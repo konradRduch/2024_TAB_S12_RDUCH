@@ -1,14 +1,13 @@
 package org.skistation.services;
 
-import org.skistation.models.Lift;
-import org.skistation.models.LiftPass;
-import org.skistation.models.LiftTicket;
-import org.skistation.models.Pass;
+import org.skistation.models.*;
 import org.skistation.repositories.LiftPassRepository;
 import org.skistation.repositories.LiftTicketRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,7 +58,24 @@ public class LiftPassService
         return (float) totalDistance;
     }
 
+    private boolean checkDate(Integer passId) {
+        Optional<Pass> passOpt = passService.getPassById(passId);
+        if (passOpt.isPresent()) {
+            Pass pass = passOpt.get();
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime timeStart = pass.getTimeStart();
+            LocalDateTime timeEnd =  pass.getTimeEnd();
+            return now.isAfter(timeStart) && now.isBefore(timeEnd);
+        }
+        return false;
+    }
+
     public boolean isPassActive(Integer passId) {
-        return passService.getPassById(passId).map(Pass::getActive).orElse(false);
+        if(checkDate(passId)){
+            passService.getPassById(passId).get().setActive(true);
+            return true;
+        }
+        passService.getPassById(passId).get().setActive(false);
+        return false;
     }
 }

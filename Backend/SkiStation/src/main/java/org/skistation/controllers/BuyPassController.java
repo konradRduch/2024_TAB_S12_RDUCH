@@ -24,8 +24,6 @@ import java.util.Objects;
 @CrossOrigin
 @RequestMapping("/buyPasses")
 public class BuyPassController {
-
-
     private final ClientService clientService;
     private final OrderService orderService;
     private final PassService passService;
@@ -41,7 +39,6 @@ public class BuyPassController {
     @PostMapping("")
     public List<String> buyPass(@RequestBody BuyPassRequest request) {
         LocalDate now = LocalDate.now();
-
         Client client = request.getClient();
         PassDTO passDTO = request.getPassDTO();
         Float total = request.getTotal();
@@ -49,6 +46,9 @@ public class BuyPassController {
         clientService.saveClient(client);
         Order newOrder = new Order(total, client);
         orderService.saveOrder(newOrder);
+
+        LocalDateTime dateTime = LocalDateTime.now();
+        boolean active = dateTime.isAfter(passDTO.timeStart()) && dateTime.isBefore(passDTO.timeEnd());
 
         DecimalFormat df = new DecimalFormat("#.##");
         df.setMaximumFractionDigits(2);
@@ -62,7 +62,7 @@ public class BuyPassController {
 
         // Normal passes
         for(int i = 0; i < request.getNumberOfNormalPasses(); i++) {
-            Pass newNormalPass = new Pass(passDTO.active(), passDTO.passTypeName(), roundedNormalPrice,
+            Pass newNormalPass = new Pass(active, passDTO.passTypeName(), roundedNormalPrice,
                     newOrder, priceList, passDTO.timeStart(), passDTO.timeEnd(), false);
             Pass savedPass = passService.savePass(newNormalPass);
             passIds.add(savedPass.getId().toString());
@@ -70,7 +70,7 @@ public class BuyPassController {
 
         // Discount passes
         for(int i = 0; i < request.getNumberOfDiscountPasses(); i++) {
-            Pass newDiscountPass = new Pass(passDTO.active(), passDTO.passTypeName(), roundedDiscountPrice,
+            Pass newDiscountPass = new Pass(active, passDTO.passTypeName(), roundedDiscountPrice,
                     newOrder, priceList, passDTO.timeStart(), passDTO.timeEnd(), true);
             Pass savedPass = passService.savePass(newDiscountPass);
             passIds.add(savedPass.getId().toString());
@@ -79,6 +79,8 @@ public class BuyPassController {
         // Assuming the response is a list of pass IDs
         return passIds;
     }
+
+
 
     private Float calculatePassPrice(String type, Float price){
         Float discountFactor = 1.0f;
