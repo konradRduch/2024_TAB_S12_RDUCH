@@ -2,6 +2,7 @@ package org.skistation.models;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,7 +30,6 @@ public class Pass
     @JoinColumn(name = "price_list_id")
     private PriceList priceList;
 
-
     @Column(name = "time_start", nullable = false)
     private LocalDateTime timeStart;
 
@@ -38,6 +38,9 @@ public class Pass
 
     @Column(name = "discount")
     private Boolean discount;
+
+    @Column(name = "suspension_date")
+    private LocalDateTime suspensionDate = null;
 
     public Pass() {
     }
@@ -106,7 +109,23 @@ public class Pass
         return timeStart;
     }
 
+    public void setTimeStart(LocalDateTime timeStart) {
+        this.timeStart = timeStart;
+    }
+
     public LocalDateTime getTimeEnd() {
         return timeEnd;
+    }
+
+    public void setTimeEnd(LocalDateTime timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public LocalDateTime getSuspensionDate() {
+        return suspensionDate;
+    }
+
+    public void setSuspensionDate(LocalDateTime suspensionDate) {
+        this.suspensionDate = suspensionDate;
     }
 }

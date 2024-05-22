@@ -38,10 +38,13 @@ public class Ticket
     @Column(name = "discount")
     private Boolean discount;
 
+    @Column(name = "total")
+    private Float total;
+
     public Ticket() {
     }
 
-    public Ticket(Integer amountOfRides, Float pricePerRide, String ticketTypeName, Order order, PriceList priceList, LocalDateTime timeStart, LocalDateTime timeEnd, Boolean discount) {
+    public Ticket(Integer amountOfRides, Float pricePerRide, String ticketTypeName, Order order, PriceList priceList, LocalDateTime timeStart, LocalDateTime timeEnd, Boolean discount, Float total) {
         this.amountOfRides = amountOfRides;
         this.pricePerRide = pricePerRide;
         this.ticketTypeName = ticketTypeName;
@@ -50,6 +53,7 @@ public class Ticket
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.discount = discount;
+        this.total = total;
     }
 
     public Integer getId() {
@@ -122,5 +126,13 @@ public class Ticket
 
     public void setDiscount(Boolean discount) {
         this.discount = discount;
+    }
+
+    public Float getTotal() {
+        return total;
+    }
+
+    public void setTotal(Float total) {
+        this.total = total;
     }
 }

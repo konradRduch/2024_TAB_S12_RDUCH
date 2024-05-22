@@ -50,7 +50,8 @@ CREATE TABLE IF NOT EXISTS public.ticket
     time_end TIMESTAMP WITHOUT TIME ZONE,
     discount BOOLEAN,
     order_id INTEGER,
-    price_list_id INTEGER
+    price_list_id INTEGER,
+    total REAL
 );
 
 DROP TABLE IF EXISTS public.pass;
@@ -63,6 +64,7 @@ CREATE TABLE IF NOT EXISTS public.pass
     price REAL,
     time_start TIMESTAMP WITHOUT TIME ZONE,
     time_end TIMESTAMP WITHOUT TIME ZONE,
+    suspension_date TIMESTAMP WITHOUT TIME ZONE,
     discount BOOLEAN,
     price_list_id INTEGER,
     order_id INTEGER
