@@ -335,16 +335,17 @@ export function TicketComp() {
     };
 
     axios
-    .post("http://localhost:8080/buyPasses", passData)
-    .then((response) => {
-      // Handle success
-      const passIds = response.data; // Assuming the response contains the pass ID
-      console.log("Pass data submitted:", response.data);
-      alert(`Tickets successfully bought! Ticket ID(s): ${passIds.join(", ")}`);
-
-    })
-    .catch((error) => console.error("Error:", error));
-};
+      .post("http://localhost:8080/buyPasses", passData)
+      .then((response) => {
+        // Handle success
+        const passIds = response.data; // Assuming the response contains the pass ID
+        console.log("Pass data submitted:", response.data);
+        alert(
+          `Tickets successfully bought! Ticket ID(s): ${passIds.join(", ")}`
+        );
+      })
+      .catch((error) => console.error("Error:", error));
+  };
 
   const handleTicketSubmit = (event: any) => {
     event.preventDefault();
@@ -377,15 +378,21 @@ export function TicketComp() {
     };
 
     axios
-    .post("http://localhost:8080/buyTickets", ticketData)
-    .then((response) => {
-      // Handle success
-      const ticketIds = response.data; 
-      console.log("Ticket data submitted:", response.data);
-      alert(`Tickets successfully bought! pass ID(s): ${ticketIds.join(", ")}`);
-    })
-    .catch((error) => console.error("Error:", error));
-};
+      .post("http://localhost:8080/buyTickets", ticketData)
+      .then((response) => {
+        // Handle success
+        const ticketIds = response.data;
+        console.log("Ticket data submitted:", response.data);
+        if (ticketIds === "Error") {
+          alert("You entered wrong data! Try Again!");
+        } else {
+          alert(
+            `Tickets successfully bought! pass ID(s): ${ticketIds.join(", ")}`
+          );
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  };
 
   return (
     <>
