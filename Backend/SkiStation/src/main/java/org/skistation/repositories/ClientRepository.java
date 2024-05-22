@@ -10,6 +10,6 @@ import java.util.List;
 public interface ClientRepository extends JpaRepository<Client, Integer>
 {
     List<Client> findByEmail(String emailAddress);
-
     List<Client> findByPhone(Integer phone);
+    List<Client> findByEmailAndPhone(String emailAddress, Integer phone);
 }
