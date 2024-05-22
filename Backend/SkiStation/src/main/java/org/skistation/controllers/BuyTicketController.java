@@ -34,27 +34,39 @@ public class BuyTicketController {
 
     @PostMapping("")
     public List<String> buyTicket(@RequestBody BuyTicketRequest request) {
+
         LocalDate now = LocalDate.now();
-        Client client = request.getClient();
+        Client client = clientService.getClientByEmailAndPhone(request.getClient().getEmail(), request.getClient().getPhone());
+
         TicketDTO ticketDTO = request.getTicketDTO();
         Float total = request.getTotal();
         PriceList priceList = priceListService.getPriceListWithinTimeRange(now).get(0);
-        clientService.saveClient(client);
+
+        List<String> id = new ArrayList<>();
+
+        if( client == null  ){
+            client = request.getClient();
+            if(clientService.getClientsByPhoneNumber(request.getClient().getPhone()) == null && clientService.getClientsByEmailAddress(request.getClient().getEmail()) == null){
+                clientService.saveClient(client);
+            }else{
+                id.add("Error");
+                return id;
+            }
+        }
         Order newOrder = new Order(total, client);
         orderService.saveOrder(newOrder);
-        List<String> id = new ArrayList<>();
+
         //normal
         for(int i=0;i<request.getNumberOfNormalPasses();i++) {
             Ticket newNormalTicket = new Ticket(ticketDTO.amountOfRides(), ticketDTO.pricePerRide(), "normal",
-                    newOrder, priceList, ticketDTO.timeStart(), ticketDTO.timeEnd(), false);
+                    newOrder, priceList, ticketDTO.timeStart(), ticketDTO.timeEnd(), false, ticketDTO.pricePerRide()*ticketDTO.amountOfRides());
             ticketService.saveTicket(newNormalTicket);
-
             id.add(newNormalTicket.getId().toString());
         }
         //discount
         for(int i=0;i<request.getNumberOfDiscountPasses();i++) {
             Ticket newDiscountTicket = new Ticket(ticketDTO.amountOfRides(), ticketDTO.pricePerRide()/2, "normal",
-                    newOrder, priceList, ticketDTO.timeStart(), ticketDTO.timeEnd(), true);
+                    newOrder, priceList, ticketDTO.timeStart(), ticketDTO.timeEnd(), true,(ticketDTO.pricePerRide()/2)*ticketDTO.amountOfRides());
             ticketService.saveTicket(newDiscountTicket);
             id.add(newDiscountTicket.getId().toString());
         }

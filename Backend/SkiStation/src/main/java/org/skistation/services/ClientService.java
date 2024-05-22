@@ -41,10 +41,28 @@ public class ClientService
     }
 
     public  Client getClientsByEmailAddress(String emailAddress) {
-        return clientRepository.findByEmail(emailAddress).get(0);
+        List<Client> clients = clientRepository.findByEmail(emailAddress);
+        if (clients.isEmpty()) {
+            return null;
+        }
+        return clients.get(0);
     }
 
     public Client getClientsByPhoneNumber(Integer phoneNumber) {
-        return clientRepository.findByPhone(phoneNumber).get(0);
+        List<Client> clients = clientRepository.findByPhone(phoneNumber);
+        if (clients.isEmpty()) {
+            return null;
+        }
+        return clients.get(0);
     }
+    public Client getClientByEmailAndPhone(String emailAddress, Integer phone){
+        List<Client> clients = clientRepository.findByEmailAndPhone(emailAddress, phone);
+        if (clients.isEmpty()) {
+            return null;
+        }
+        return clients.get(0);
+    }
+
+
+
 }
