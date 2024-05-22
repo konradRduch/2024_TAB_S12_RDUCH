@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/passes")
@@ -49,6 +50,18 @@ public class PassController
     public String deletePass(@PathVariable("id") Integer id) {
         passService.deletePass(id);
         return "redirect:/tickets";
+    }
+
+    @GetMapping("/suspend/{id}")
+    public ResponseEntity<Pass> suspendPass(@PathVariable("id") Integer id) {
+        Optional<Pass> pass = passService.suspendPass(id);
+        return pass.isPresent() ? ResponseEntity.ok(pass.get()) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/resume/{id}")
+    public ResponseEntity<Pass> resumePass(@PathVariable("id") Integer id) {
+        Optional<Pass> pass = passService.resumePass(id);
+        return pass.isPresent() ? ResponseEntity.ok(pass.get()) : ResponseEntity.notFound().build();
     }
 
 }

@@ -4,6 +4,8 @@ import org.skistation.models.Pass;
 import org.skistation.repositories.PassRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,5 +48,33 @@ public class PassService
 
     public List<Pass> getPassByPriceListId(Integer priceListId) {
         return passRepository.findByPriceListId(priceListId);
+    }
+
+    public Optional<Pass> suspendPass(Integer passId) {
+        Optional<Pass> passToSuspend = getPassById(passId);
+        if (passToSuspend.isPresent()) {
+            Pass pass = passToSuspend.get();
+            if (pass.getSuspensionDate() == null) {
+                pass.setSuspensionDate(LocalDateTime.now());
+                pass.setActive(false);
+                passRepository.save(pass);
+            }
+        }
+        return passToSuspend;
+    }
+
+    public Optional<Pass> resumePass(Integer passId) {
+        Optional<Pass> passToResume = getPassById(passId);
+        if (passToResume.isPresent()) {
+            Pass pass = passToResume.get();
+            if (pass.getSuspensionDate() != null) {
+                Duration timeLeft = Duration.between(pass.getSuspensionDate(), pass.getTimeEnd());
+                pass.setTimeEnd(pass.getTimeEnd().plus(timeLeft));
+                pass.setActive(true);
+                pass.setSuspensionDate(null);
+                passRepository.save(pass);
+            }
+        }
+        return passToResume;
     }
 }
