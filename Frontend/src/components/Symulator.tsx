@@ -130,6 +130,7 @@ export function SymulatorComp() {
 
         {stats && (
           <OrderCard title="SIMULATION RESULTS">
+            <h1>ACCESS: {stats.active ? "SUCCESFULLY PASSED" : "ACCESS DENIED"}</h1>
             <p>Active: {stats.active ? "YES" : "NO"}</p>
             <p>Total distance: {stats.totalDistance} m</p>
           </OrderCard>
