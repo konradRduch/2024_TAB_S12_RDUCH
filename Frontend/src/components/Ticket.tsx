@@ -383,7 +383,7 @@ export function TicketComp() {
         // Handle success
         const ticketIds = response.data;
         console.log("Ticket data submitted:", response.data);
-        if (ticketIds === "Error") {
+        if (ticketIds[0] === "Error") {
           alert("You entered wrong data! Try Again!");
         } else {
           alert(
