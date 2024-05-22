@@ -30,14 +30,7 @@ public class ReportController {
 
     @GetMapping("")
     public List<ReportDTO> getAllReports(){
-//        List<ReportDTO> reportDTOs=reportService.getAllReports();
-//        List<FinalReportDTO>allReport = new ArrayList<>();
-//        for(ReportDTO r:reportDTOs){
-//            List<ReportDTO> clientReport=reportService.getReportsByClientEmail(r.email());
-//            List<Float>clientTotalPass= new ArrayList<>();
-//
-//            FinalReportDTO finalR =new FinalReportDTO(clientReport.get(0),clientReport.get(1),clientReport.get(2));
-//        }
+
 
         List<Object[]> rawReports = reportService.getAllReports();
         Map<String, ReportDTO> reportMap = new HashMap<>();
