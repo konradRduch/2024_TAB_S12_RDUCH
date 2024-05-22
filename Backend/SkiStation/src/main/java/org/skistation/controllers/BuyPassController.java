@@ -38,12 +38,28 @@ public class BuyPassController {
 
     @PostMapping("")
     public List<String> buyPass(@RequestBody BuyPassRequest request) {
+
         LocalDate now = LocalDate.now();
-        Client client = request.getClient();
+        Client client = clientService.getClientByEmailAndPhone(request.getClient().getEmail(), request.getClient().getPhone());
+
         PassDTO passDTO = request.getPassDTO();
         Float total = request.getTotal();
         PriceList priceList = priceListService.getPriceListWithinTimeRange(now).get(0);
-        clientService.saveClient(client);
+
+        List<String> passIds = new ArrayList<>();
+
+        if (client == null) {
+            client = request.getClient();
+            if (clientService.getClientsByPhoneNumber(request.getClient().getPhone()) == null
+                    && clientService.getClientsByEmailAddress(request.getClient().getEmail()) == null) {
+                clientService.saveClient(client);
+            } else {
+                passIds.add("Error");
+                return passIds;
+            }
+        }
+
+
         Order newOrder = new Order(total, client);
         orderService.saveOrder(newOrder);
 
@@ -58,7 +74,7 @@ public class BuyPassController {
         Float discountPrice = calculatePassPrice(passDTO.passTypeName(), priceList.getPassPrice()) / 2;
         Float roundedDiscountPrice = Float.valueOf(df.format(discountPrice));
 
-        List<String> passIds = new ArrayList<>();
+
 
         // Normal passes
         for(int i = 0; i < request.getNumberOfNormalPasses(); i++) {
