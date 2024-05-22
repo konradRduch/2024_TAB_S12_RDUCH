@@ -17,11 +17,9 @@ public class ReportService  {
         this.reportRepository = reportRepository;
     }
 
-    public List<ReportDTO>getAllReports(){
+    public List<Object[]>getAllReports(){
        return reportRepository.findClientReports();
     }
 
-    public List<ReportDTO>getReportsByClientEmail(String email){
-        return reportRepository.findClientReports().stream().filter(reportDTO -> reportDTO.email().equals(email)).collect(Collectors.toList());
-    }
+
 }
