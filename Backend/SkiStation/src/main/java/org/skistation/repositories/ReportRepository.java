@@ -15,7 +15,7 @@ public interface ReportRepository extends JpaRepository<Client,Integer> {
             "FROM Client c " +
             "JOIN Order o ON c.id = o.client.id " +
             "JOIN Pass p ON o.id = p.order.id "  +
-            "JOIN Ticket t ON o.id = t.order_id"
+            "JOIN Ticket t ON o.id = t.order.id"
            )
     List<Object[]> findClientReports();
 
