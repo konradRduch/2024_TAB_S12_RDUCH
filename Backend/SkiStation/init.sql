@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS public.order
     id         SERIAL PRIMARY KEY,
     total      REAL,
     client_id  INTEGER,
-    order_date DATE
+    order_date TIMESTAMP WITHOUT TIME ZONE
 );
 
 DROP TABLE IF EXISTS public.ticket;
