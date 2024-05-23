@@ -1,6 +1,5 @@
 package org.skistation.services;
 
-import org.skistation.models.Client;
 import org.skistation.models.Pass;
 import org.skistation.repositories.PassRepository;
 import org.springframework.stereotype.Service;
@@ -51,16 +50,10 @@ public class PassService
         return passRepository.findByPriceListId(priceListId);
     }
 
-    public Optional<Pass> suspendPass(Integer passId, String email, Integer phone) {
+    public Optional<Pass> suspendPass(Integer passId) {
         Optional<Pass> passToSuspend = getPassById(passId);
         if (passToSuspend.isPresent()) {
             Pass pass = passToSuspend.get();
-
-            Client client = pass.getOrder().getClient();
-            if (!client.getEmail().equals(email) || !client.getPhone().equals(phone)) {
-                return Optional.empty();
-            }
-
             if (pass.getSuspensionDate() == null) {
                 pass.setSuspensionDate(LocalDateTime.now());
                 pass.setActive(false);
@@ -70,16 +63,10 @@ public class PassService
         return passToSuspend;
     }
 
-    public Optional<Pass> resumePass(Integer passId, String email, Integer phone) {
+    public Optional<Pass> resumePass(Integer passId) {
         Optional<Pass> passToResume = getPassById(passId);
         if (passToResume.isPresent()) {
             Pass pass = passToResume.get();
-
-            Client client = pass.getOrder().getClient();
-            if (!client.getEmail().equals(email) || !client.getPhone().equals(phone)) {
-                return Optional.empty();
-            }
-
             if (pass.getSuspensionDate() != null) {
                 Duration timeLeft = Duration.between(pass.getSuspensionDate(), pass.getTimeEnd());
                 pass.setTimeEnd(pass.getTimeEnd().plus(timeLeft));
