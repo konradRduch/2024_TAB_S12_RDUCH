@@ -1,30 +1,40 @@
 BEGIN;
 
-ALTER TABLE IF EXISTS public.order DROP CONSTRAINT IF EXISTS client_id;
+ALTER TABLE IF EXISTS public.order
+    DROP CONSTRAINT IF EXISTS client_id;
 
-ALTER TABLE IF EXISTS public.ticket DROP CONSTRAINT IF EXISTS order_fk;
+ALTER TABLE IF EXISTS public.ticket
+    DROP CONSTRAINT IF EXISTS order_fk;
 
-ALTER TABLE IF EXISTS public.ticket DROP CONSTRAINT IF EXISTS price_list_id;
+ALTER TABLE IF EXISTS public.ticket
+    DROP CONSTRAINT IF EXISTS price_list_id;
 
-ALTER TABLE IF EXISTS public.pass DROP CONSTRAINT IF EXISTS order_fk;
+ALTER TABLE IF EXISTS public.pass
+    DROP CONSTRAINT IF EXISTS order_fk;
 
-ALTER TABLE IF EXISTS public.pass DROP CONSTRAINT IF EXISTS price_list_fk;
+ALTER TABLE IF EXISTS public.pass
+    DROP CONSTRAINT IF EXISTS price_list_fk;
 
-ALTER TABLE IF EXISTS public.ski_schedule DROP CONSTRAINT IF EXISTS lift_fk;
+ALTER TABLE IF EXISTS public.ski_schedule
+    DROP CONSTRAINT IF EXISTS lift_fk;
 
-ALTER TABLE IF EXISTS public.lift_ticket DROP CONSTRAINT IF EXISTS None;
+ALTER TABLE IF EXISTS public.lift_ticket
+    DROP CONSTRAINT IF EXISTS None;
 
-ALTER TABLE IF EXISTS public.lift_ticket DROP CONSTRAINT IF EXISTS None;
+ALTER TABLE IF EXISTS public.lift_ticket
+    DROP CONSTRAINT IF EXISTS None;
 
-ALTER TABLE IF EXISTS public.lift_pass DROP CONSTRAINT IF EXISTS None;
+ALTER TABLE IF EXISTS public.lift_pass
+    DROP CONSTRAINT IF EXISTS None;
 
-ALTER TABLE IF EXISTS public.lift_pass DROP CONSTRAINT IF EXISTS None;
+ALTER TABLE IF EXISTS public.lift_pass
+    DROP CONSTRAINT IF EXISTS None;
 
 DROP TABLE IF EXISTS public.client;
 
 CREATE TABLE IF NOT EXISTS public.client
 (
-    id SERIAL PRIMARY KEY,
+    id    SERIAL PRIMARY KEY,
     email TEXT,
     phone INTEGER
 );
@@ -33,60 +43,61 @@ DROP TABLE IF EXISTS public.order;
 
 CREATE TABLE IF NOT EXISTS public.order
 (
-    id SERIAL PRIMARY KEY,
-    total REAL,
-    client_id INTEGER
+    id         SERIAL PRIMARY KEY,
+    total      REAL,
+    client_id  INTEGER,
+    order_date TIMESTAMP WITHOUT TIME ZONE
 );
 
 DROP TABLE IF EXISTS public.ticket;
 
 CREATE TABLE IF NOT EXISTS public.ticket
 (
-    id SERIAL PRIMARY KEY,
-    amount_of_rides INTEGER,
-    price_per_ride REAL,
+    id               SERIAL PRIMARY KEY,
+    amount_of_rides  INTEGER,
+    price_per_ride   REAL,
     ticket_type_name TEXT,
-    time_start TIMESTAMP WITHOUT TIME ZONE,
-    time_end TIMESTAMP WITHOUT TIME ZONE,
-    discount BOOLEAN,
-    order_id INTEGER,
-    price_list_id INTEGER,
-    total REAL
+    time_start       TIMESTAMP WITHOUT TIME ZONE,
+    time_end         TIMESTAMP WITHOUT TIME ZONE,
+    discount         BOOLEAN,
+    order_id         INTEGER,
+    price_list_id    INTEGER,
+    total            REAL
 );
 
 DROP TABLE IF EXISTS public.pass;
 
 CREATE TABLE IF NOT EXISTS public.pass
 (
-    id SERIAL PRIMARY KEY,
-    active BOOLEAN,
-    pass_type_name TEXT,
-    price REAL,
-    time_start TIMESTAMP WITHOUT TIME ZONE,
-    time_end TIMESTAMP WITHOUT TIME ZONE,
+    id              SERIAL PRIMARY KEY,
+    active          BOOLEAN,
+    pass_type_name  TEXT,
+    price           REAL,
+    time_start      TIMESTAMP WITHOUT TIME ZONE,
+    time_end        TIMESTAMP WITHOUT TIME ZONE,
     suspension_date TIMESTAMP WITHOUT TIME ZONE,
-    discount BOOLEAN,
-    price_list_id INTEGER,
-    order_id INTEGER
+    discount        BOOLEAN,
+    price_list_id   INTEGER,
+    order_id        INTEGER
 );
 
 DROP TABLE IF EXISTS public.worker;
 
 CREATE TABLE IF NOT EXISTS public.worker
 (
-    id SERIAL PRIMARY KEY,
+    id    SERIAL PRIMARY KEY,
     phone INTEGER NOT NULL,
-    email TEXT NOT NULL,
-    role TEXT NOT NULL
+    email TEXT    NOT NULL,
+    role  TEXT    NOT NULL
 );
 
 DROP TABLE IF EXISTS public.ski_schedule;
 
 CREATE TABLE IF NOT EXISTS public.ski_schedule
 (
-    id SERIAL PRIMARY KEY,
-    open TIMESTAMP WITHOUT TIME ZONE,
-    close TIMESTAMP WITHOUT TIME ZONE,
+    id      SERIAL PRIMARY KEY,
+    open    TIMESTAMP WITHOUT TIME ZONE,
+    close   TIMESTAMP WITHOUT TIME ZONE,
     lift_id INTEGER
 );
 
@@ -94,9 +105,9 @@ DROP TABLE IF EXISTS public.lift;
 
 CREATE TABLE IF NOT EXISTS public.lift
 (
-    id SERIAL PRIMARY KEY,
-    name TEXT,
-    active BOOLEAN,
+    id       SERIAL PRIMARY KEY,
+    name     TEXT,
+    active   BOOLEAN,
     distance REAL
 );
 
@@ -104,19 +115,19 @@ DROP TABLE IF EXISTS public.price_list;
 
 CREATE TABLE IF NOT EXISTS public.price_list
 (
-    id SERIAL PRIMARY KEY,
-    time_start DATE NOT NULL,
-    time_end DATE NOT NULL,
+    id           SERIAL PRIMARY KEY,
+    time_start   DATE NOT NULL,
+    time_end     DATE NOT NULL,
     ticket_price REAL NOT NULL,
-    pass_price REAL NOT NULL
+    pass_price   REAL NOT NULL
 );
 
 DROP TABLE IF EXISTS public.lift_ticket;
 
 CREATE TABLE IF NOT EXISTS public.lift_ticket
 (
-    id SERIAL PRIMARY KEY,
-    lift_id INTEGER,
+    id        SERIAL PRIMARY KEY,
+    lift_id   INTEGER,
     ticket_id INTEGER
 );
 
@@ -124,7 +135,7 @@ DROP TABLE IF EXISTS public.lift_pass;
 
 CREATE TABLE IF NOT EXISTS public.lift_pass
 (
-    id SERIAL PRIMARY KEY,
+    id      SERIAL PRIMARY KEY,
     lift_id INTEGER,
     pass_id INTEGER
 );
