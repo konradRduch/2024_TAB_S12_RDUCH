@@ -8,14 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "react-day-picker";
+import { OrderCard } from "./OrderCard";
 
 interface Items {
   email: string;
   phone: string;
-  orderTotal: number;
-  passTotal: number[];
-  ticketTotal: number[];
+  total: number;
+  totalPass: number[];
+  totalTicket: number[];
 }
 
 export function AdminReportComp() {
@@ -32,17 +32,22 @@ export function AdminReportComp() {
     fetchItems();
   }, []);
 
+  const totalSum = items.reduce((sum, item) => sum + item.total, 0);
+
   return (
     <>
+    <OrderCard title="Reports panel">
+      <h1>Total amount from selected time is: {totalSum}</h1>
+    </OrderCard>
       <Table className="mt-12 w-1/2 mx-auto">
         <TableHeader>
           <TableRow>
+            <TableHead>#</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
             <TableHead>Total</TableHead>
             <TableHead>Tickets</TableHead>
             <TableHead>Passes</TableHead>
-
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -52,10 +57,25 @@ export function AdminReportComp() {
                 <TableCell className="font-medium">{index + 1}</TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell>{item.phone}</TableCell>
-                <TableCell>{item.orderTotal}</TableCell>
-                <TableCell>{item.ticketTotal}</TableCell>
-                <TableCell>{item.passTotal}</TableCell>
-
+                <TableCell>{item.total}</TableCell>
+                <TableCell>
+                  {Array.isArray(item.totalTicket) && item.totalTicket.length > 0 ? (
+                    item.totalTicket.map((ticket, ticketIndex) => (
+                      <div key={ticketIndex}>Ticket {ticketIndex}: {ticket}</div>
+                    ))
+                  ) : (
+                    <div>No Tickets</div>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {Array.isArray(item.totalPass) && item.totalPass.length > 0 ? (
+                    item.totalPass.map((pass, passIndex) => (
+                      <div key={passIndex}>Pass {passIndex}: {pass}</div>
+                    ))
+                  ) : (
+                    <div>No Passes</div>
+                  )}
+                </TableCell>
               </TableRow>
             ))}
         </TableBody>

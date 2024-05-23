@@ -10,48 +10,74 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import axios from "axios";
+
+interface PassInfo {
+  email: string;
+  phone: string;
+  id: number | string;
+}
 
 export function CardWithForm() {
+
+  const [Freeze, setFreeze] = React.useState<PassInfo>({
+
+    email: '',
+    phone: '',
+    id: ''
+    
+    });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+  
+      setFreeze(prevState => ({
+        ...prevState,
+        [name]: value,
+      }));
+    };
+
+    const handleSubmit = (event: any) => {
+      event.preventDefault();
+  
+      axios.put(`http://localhost:8080/tickets/${Freeze.id}`, Freeze)
+        .then(response => {
+          setFreeze({
+            email: '',
+            phone: '',
+            id: ''
+          });
+        })
+        .catch(error => {console.error('Error:', error);
+        alert('Failed to freeze the pass. Please try again.');
+        }
+      );
+    };
+
   return (
     <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Have questions?</CardTitle>
-        <CardDescription>Ask us.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Input id="name" placeholder="Your email" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Select>
-                <SelectTrigger id="category">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="pass">Pass</SelectItem>
-                  <SelectItem value="ticket">Ticket</SelectItem>
-                  <SelectItem value="cancelation">Cancel</SelectItem>
-                  <SelectItem value="else">Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <Textarea placeholder="Describe problem..."></Textarea>
-          </div>
-        </form>
-      </CardContent>
-      <CardFooter className="flex justify-center ">
-        <Button className="w-full font-semibold">Send</Button>
-      </CardFooter>
-    </Card>
+    <CardHeader>
+      <CardTitle>Bought pass and cannot use it right now?</CardTitle>
+      <CardDescription>Freeze your pass for any time you need.</CardDescription>
+    </CardHeader>
+    <CardContent className="flex flex-col gap-7">
+      <div className="flex items-center gap-2">
+        <label htmlFor="email" className="w-1/6">Email:</label>
+        <Input name="email" value={Freeze.email} onChange={handleInputChange} placeholder="email"></Input>
+      </div>
+      <div className="flex items-center gap-2">
+        <label htmlFor="phone" className="w-1/6">Phone:</label>
+        <Input name="phone" type="tel" value={Freeze.phone} onChange={handleInputChange} placeholder="phone"></Input>
+      </div>
+      <div className="flex items-center gap-2">
+        <label htmlFor="id" className="w-1/6">Pass Id:</label>
+        <Input name="id" type="number" value={Freeze.id} onChange={handleInputChange} placeholder="Pass id"></Input>
+      </div>
+    </CardContent>
+    <CardFooter className="flex justify-center">
+      <Button className="w-full font-semibold" onClick={handleSubmit}>Send</Button>
+    </CardFooter>
+  </Card>
+  
   );
 }
