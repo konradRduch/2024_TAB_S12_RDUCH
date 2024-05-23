@@ -247,8 +247,8 @@ export function TicketComp() {
                   setDate(selectedDate);
                   setValues((prevValues) => ({
                     ...prevValues,
-                    timeStart: format(selectedDate, "yyyy-MM-dd") + "T00:00:00", // Set time start to the beginning of the selected day
-                    timeEnd: format(selectedDate, "yyyy-MM-dd") + "T23:59:59", // Set time end to the end of the selected day
+                    timeStart: format(selectedDate, "yyyy-MM-dd") + "T00:00:00", 
+                    timeEnd: format(selectedDate, "yyyy-MM-dd") + "T23:59:59", 
                   }));
                 }
               }}
