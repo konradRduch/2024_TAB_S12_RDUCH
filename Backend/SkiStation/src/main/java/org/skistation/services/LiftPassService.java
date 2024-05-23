@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class LiftPassService
@@ -57,24 +56,15 @@ public class LiftPassService
         return (float) totalDistance;
     }
 
-    private boolean checkDate(Integer passId) {
+    public boolean isPassActive(Integer passId) {
         Optional<Pass> passOpt = passService.getPassById(passId);
         if (passOpt.isPresent()) {
             Pass pass = passOpt.get();
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime timeStart = pass.getTimeStart();
-            LocalDateTime timeEnd =  pass.getTimeEnd();
-            return now.isAfter(timeStart) && now.isBefore(timeEnd);
+            LocalDateTime timeEnd = pass.getTimeEnd();
+            return now.isAfter(timeStart) && now.isBefore(timeEnd) && pass.isActive();
         }
-        return false;
-    }
-
-    public boolean isPassActive(Integer passId) {
-        if(checkDate(passId)){
-            passService.getPassById(passId).get().setActive(true);
-            return true;
-        }
-        passService.getPassById(passId).get().setActive(false);
         return false;
     }
 }

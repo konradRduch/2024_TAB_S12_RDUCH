@@ -2,7 +2,6 @@ package org.skistation.models;
 
 import jakarta.persistence.*;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -65,7 +64,7 @@ public class Pass
         this.id = id;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 
