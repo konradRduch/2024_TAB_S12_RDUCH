@@ -85,8 +85,8 @@ DROP TABLE IF EXISTS public.ski_schedule;
 CREATE TABLE IF NOT EXISTS public.ski_schedule
 (
     id SERIAL PRIMARY KEY,
-    open DATE,
-    close DATE,
+    open TIMESTAMP WITHOUT TIME ZONE,
+    close TIMESTAMP WITHOUT TIME ZONE,
     lift_id INTEGER
 );
 
