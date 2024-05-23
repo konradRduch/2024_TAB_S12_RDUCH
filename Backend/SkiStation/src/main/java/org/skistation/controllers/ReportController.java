@@ -33,19 +33,20 @@ public class ReportController {
 
 
         List<Object[]> rawReports = reportService.getAllReports();
-        Map<String, ReportDTO> reportMap = new HashMap<>();
+        Map<Integer, ReportDTO> reportMap = new HashMap<>();
 
         for (Object[] row : rawReports) {
-            String email = (String) row[0];
-            Integer phone = (Integer) row[1];
-            Float orderTotal = (Float) row[2];
-            Float passTotal = (Float) row[3];
-            Float ticketTotal = (Float)row[4];
+            Integer orderId= (Integer) row[0];
+            String email = (String) row[1];
+            Integer phone = (Integer) row[2];
+            Float orderTotal = (Float) row[3];
+            Float passTotal = (Float) row[4];
+            Float ticketTotal = (Float)row[5];
 
-            ReportDTO report = reportMap.get(email);
+            ReportDTO report = reportMap.get(orderId);
             if (report == null) {
-                report = new ReportDTO(email, phone, orderTotal, new ArrayList<>(), new ArrayList<>());
-                reportMap.put(email, report);
+                report = new ReportDTO(orderId,email, phone, orderTotal, new ArrayList<>(), new ArrayList<>());
+                reportMap.put(orderId, report);
             }
             if(passTotal!=null){
                 report.totalPass().add(passTotal);
