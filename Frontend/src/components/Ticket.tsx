@@ -366,7 +366,7 @@ export function TicketComp() {
         timeStart: values.timeStart,
         timeEnd: endTime,
       },
-      total: total,
+      total: totalPerRides,
       numberOfNormalPasses: values.normal,
       numberOfDiscountPasses: values.discount,
       priceList: {
