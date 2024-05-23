@@ -61,7 +61,7 @@ export function AdminReportComp() {
                 <TableCell>
                   {Array.isArray(item.totalTicket) && item.totalTicket.length > 0 ? (
                     item.totalTicket.map((ticket, ticketIndex) => (
-                      <div key={ticketIndex}>Ticket {ticketIndex}: {ticket}</div>
+                      <div key={ticketIndex}>Ticket {ticketIndex+1}: {ticket}</div>
                     ))
                   ) : (
                     <div>No Tickets</div>
@@ -70,7 +70,7 @@ export function AdminReportComp() {
                 <TableCell>
                   {Array.isArray(item.totalPass) && item.totalPass.length > 0 ? (
                     item.totalPass.map((pass, passIndex) => (
-                      <div key={passIndex}>Pass {passIndex}: {pass}</div>
+                      <div key={passIndex}>Pass {passIndex+1}: {pass}</div>
                     ))
                   ) : (
                     <div>No Passes</div>

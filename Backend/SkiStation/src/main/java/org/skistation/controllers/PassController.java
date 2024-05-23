@@ -1,5 +1,6 @@
 package org.skistation.controllers;
 
+import org.skistation.models.Client;
 import org.skistation.models.Pass;
 import org.skistation.services.PassService;
 import org.springframework.http.ResponseEntity;
@@ -52,15 +53,15 @@ public class PassController
         return "redirect:/tickets";
     }
 
-    @GetMapping("/suspend/{id}")
-    public ResponseEntity<Pass> suspendPass(@PathVariable("id") Integer id) {
-        Optional<Pass> pass = passService.suspendPass(id);
+    @PostMapping("/suspend/{id}")
+    public ResponseEntity<Pass> suspendPass(@RequestBody Client clientData, @PathVariable("id") Integer id) {
+        Optional<Pass> pass = passService.suspendPass(id, clientData.getEmail(), clientData.getPhone());
         return pass.isPresent() ? ResponseEntity.ok(pass.get()) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/resume/{id}")
-    public ResponseEntity<Pass> resumePass(@PathVariable("id") Integer id) {
-        Optional<Pass> pass = passService.resumePass(id);
+    @PostMapping("/resume/{id}")
+    public ResponseEntity<Pass> resumePass(@RequestBody Client clientData, @PathVariable("id") Integer id) {
+        Optional<Pass> pass = passService.resumePass(id, clientData.getEmail(), clientData.getPhone());
         return pass.isPresent() ? ResponseEntity.ok(pass.get()) : ResponseEntity.notFound().build();
     }
 
