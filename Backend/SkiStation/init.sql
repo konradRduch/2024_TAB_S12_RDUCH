@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS public.order
 (
     id SERIAL PRIMARY KEY,
     total REAL,
+    date DATE,
     client_id INTEGER
 );
 
@@ -239,10 +240,10 @@ VALUES ('Beginner Lift', true, 500),
        ('Expert Lift', true, 1500);
 
 INSERT INTO public.ski_schedule (open, close, lift_id)
-VALUES ('2024-05-01', '2024-05-31', 1),
-       ('2024-06-01', '2024-06-30', 2),
-       ('2024-07-01', '2024-07-31', 3),
-       ('2024-08-01', '2024-08-31', 4);
+VALUES ('2024-05-01 12:00:00', '2024-05-31 21:00:00', 1),
+       ('2024-06-01 12:00:00', '2024-06-30 21:00:00', 2),
+       ('2024-07-01 12:00:00', '2024-07-31 21:00:00', 3),
+       ('2024-08-01 12:00:00', '2024-08-31 21:00:00', 4);
 
 -- INSERT INTO public.lift_ticket (lift_id, ticket_id)
 -- VALUES (1, 1),
