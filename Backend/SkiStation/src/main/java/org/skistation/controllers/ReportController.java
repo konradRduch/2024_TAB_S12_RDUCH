@@ -47,8 +47,13 @@ public class ReportController {
                 report = new ReportDTO(email, phone, orderTotal, new ArrayList<>(), new ArrayList<>());
                 reportMap.put(email, report);
             }
-            report.totalPass().add(passTotal);
-            report.totalTicket().add(ticketTotal);
+            if(passTotal!=null){
+                report.totalPass().add(passTotal);
+            }
+            if(ticketTotal!=null){
+                report.totalTicket().add(ticketTotal);
+            }
+
         }
 
         return new ArrayList<>(reportMap.values());
