@@ -65,7 +65,7 @@ public class BuyTicketController {
         }
         //discount
         for(int i=0;i<request.getNumberOfDiscountPasses();i++) {
-            Ticket newDiscountTicket = new Ticket(ticketDTO.amountOfRides(), ticketDTO.pricePerRide()/2, "normal",
+            Ticket newDiscountTicket = new Ticket(ticketDTO.amountOfRides(), ticketDTO.pricePerRide()/2, "discount",
                     newOrder, priceList, ticketDTO.timeStart(), ticketDTO.timeEnd(), true,(ticketDTO.pricePerRide()/2)*ticketDTO.amountOfRides());
             ticketService.saveTicket(newDiscountTicket);
             id.add(newDiscountTicket.getId().toString());
