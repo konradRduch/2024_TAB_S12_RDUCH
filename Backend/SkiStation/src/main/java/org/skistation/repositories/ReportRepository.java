@@ -11,11 +11,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReportRepository extends JpaRepository<Client,Integer> {
 
-    @Query("SELECT (c.email, c.phone, o.total, p.price) " +
-            "FROM Client c " +
-            "JOIN Order o ON c.id = o.client.id " +
-            "JOIN Pass p ON o.id = p.order.id "  +
-            "JOIN Ticket t ON o.id = t.order.id"
+    @Query("SELECT (o.id,c.email, c.phone, o.total, p.price, t.total) " +
+            "FROM Order o " +
+            "LEFT JOIN Client c ON c.id = o.client.id " +
+            "LEFT JOIN Pass p ON o.id = p.order.id " +
+            "LEFT JOIN Ticket t ON o.id = t.order.id "
            )
     List<Object[]> findClientReports();
 
