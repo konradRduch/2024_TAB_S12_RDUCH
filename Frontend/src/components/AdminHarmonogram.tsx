@@ -47,7 +47,7 @@ export function AdminHarmonogramComp() {
               liftId: '',
             });
             fetchItems();  
-            window.location.reload();
+            
         })
         .catch(error => console.error('Error:', error));
   };

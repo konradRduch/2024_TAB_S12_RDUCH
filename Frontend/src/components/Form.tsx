@@ -57,10 +57,10 @@ export function CardWithForm() {
   return (
     <Card className="w-full">
     <CardHeader>
-      <CardTitle>Bought pass and cannot use it right now?</CardTitle>
+      <CardTitle>BOUGHT PASS AND CANNOT USE IT RIGHT NOW?</CardTitle>
       <CardDescription>Freeze your pass for any time you need.</CardDescription>
     </CardHeader>
-    <CardContent className="flex flex-col gap-7">
+    <CardContent className="flex flex-col gap-[25px]">
       <div className="flex items-center gap-2">
         <label htmlFor="email" className="w-1/6">Email:</label>
         <Input name="email" value={Freeze.email} onChange={handleInputChange} placeholder="email"></Input>
