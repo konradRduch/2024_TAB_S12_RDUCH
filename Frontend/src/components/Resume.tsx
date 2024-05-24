@@ -18,7 +18,7 @@ interface PassInfo {
   id: number | string;
 }
 
-export function CardWithForm() {
+export function ResumeComp() {
 
   const [Freeze, setFreeze] = React.useState<PassInfo>({
 
@@ -45,17 +45,17 @@ export function CardWithForm() {
           email: Freeze.email
         }
 
-      axios.post(`http://localhost:8080/passes/suspend/${Freeze.id}`, passData)
+      axios.post(`http://localhost:8080/passes/resume/${Freeze.id}`, passData)
         .then(response => {
           setFreeze({
             email: '',
             phone: '',
             id: ''
           });
-          alert("Succesfully suspended pass")
+          alert("Succesfully reasumed pass")
         })
         .catch(error => {console.error('Error:', error);
-        alert('Failed to freeze the pass. Please try again.');
+        alert('Failed to reasume the pass. Please try again.');
         }
       );
     };
@@ -64,7 +64,7 @@ export function CardWithForm() {
     <Card className="w-full">
     <CardHeader>
       <CardTitle>BOUGHT PASS AND CANNOT USE IT RIGHT NOW?</CardTitle>
-      <CardDescription>Freeze your pass for any time you need. To resume your pass <a href="/resume" className="underline">Click Here!</a></CardDescription>
+      <CardDescription>Freeze your pass for any time you need.</CardDescription>
     </CardHeader>
     <CardContent className="flex flex-col gap-[25px]">
       <div className="flex items-center gap-2">
@@ -82,7 +82,6 @@ export function CardWithForm() {
     </CardContent>
     <CardFooter className="flex justify-center">
       <Button className="w-full font-semibold" onClick={handleSubmit}>Send</Button>
-      
     </CardFooter>
   </Card>
   
