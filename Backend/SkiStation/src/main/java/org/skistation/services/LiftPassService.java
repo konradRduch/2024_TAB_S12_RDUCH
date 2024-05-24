@@ -5,7 +5,7 @@ import org.skistation.repositories.LiftPassRepository;
 import org.skistation.repositories.LiftTicketRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +54,30 @@ public class LiftPassService
                 .mapToDouble(pass -> pass.getLift().getDistance()).sum();
 
         return (float) totalDistance;
+    }
+
+    //don't work correctly
+    public String getPassTimeLeft(Integer passId){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime end =  passService.getPassById(passId).get().getTimeEnd();
+
+        LocalDate nowDate = now.toLocalDate();
+        LocalDate endDate = end.toLocalDate();
+
+        LocalTime nowTime = now.toLocalTime();
+        LocalTime endTime = end.toLocalTime();
+
+        Period periodLeft = Period.between(nowDate,endDate);
+        Duration durationLeft = Duration.between(nowTime, endTime);
+
+        String newString = new String("time is up");
+
+        if(!durationLeft.isNegative() && !periodLeft.isNegative()){
+            LocalDateTime news = LocalDateTime.of(periodLeft.getYears(), periodLeft.getMonths(), periodLeft.getDays(), durationLeft.toHoursPart(), durationLeft.toMinutesPart(),durationLeft.toSecondsPart());
+            return periodLeft.toString() + durationLeft.toString();
+        }else{
+            return newString;
+        }
     }
 
     public boolean isPassActive(Integer passId) {

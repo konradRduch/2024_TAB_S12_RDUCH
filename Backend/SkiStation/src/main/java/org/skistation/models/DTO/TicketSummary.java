@@ -3,10 +3,12 @@ package org.skistation.models.DTO;
 public class TicketSummary {
     Boolean active;
     Float totalDistance;
+    Integer amountOfRidesLeft;
 
-    public TicketSummary(Boolean active, Float totalDistance) {
+    public TicketSummary(Boolean active, Float totalDistance, Integer amountOfRidesLeft) {
         this.active = active;
         this.totalDistance = totalDistance;
+        this.amountOfRidesLeft = amountOfRidesLeft;
     }
 
     public Boolean getActive() {
@@ -23,5 +25,13 @@ public class TicketSummary {
 
     public void setTotalDistance(Float totalDistance) {
         this.totalDistance = totalDistance;
+    }
+
+    public Integer getAmountOfRidesLeft() {
+        return amountOfRidesLeft;
+    }
+
+    public void setAmountOfRidesLeft(Integer amountOfRidesLeft) {
+        this.amountOfRidesLeft = amountOfRidesLeft;
     }
 }

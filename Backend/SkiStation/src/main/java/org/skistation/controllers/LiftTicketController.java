@@ -27,8 +27,9 @@ public class LiftTicketController
 
     @GetMapping("/summary")
     public TicketSummary getSummary(@RequestParam int liftId, @RequestParam int ticketId) {
+        Integer amountOfRidesLeft = liftTicketService.getAmountOfRidesLeft(ticketId);
         Boolean active = liftTicketService.isTicketActive(ticketId);
         Float distance = liftTicketService.getTotalTrackDistance(ticketId);
-        return new TicketSummary(active, distance);
+        return new TicketSummary(active, distance, amountOfRidesLeft);
     }
 }

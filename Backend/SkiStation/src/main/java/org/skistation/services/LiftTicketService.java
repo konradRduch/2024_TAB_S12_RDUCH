@@ -61,6 +61,10 @@ public class LiftTicketService
         return (float) totalDistance;
     }
 
+    public Integer getAmountOfRidesLeft(Integer ticketId){
+        return  ticketService.getTicketById(ticketId).get().getAmountOfRides();
+    }
+
     private boolean checkDate(Integer ticketId) {
         Optional<Ticket> ticketOpt = ticketService.getTicketById(ticketId);
         if (ticketOpt.isPresent()) {
