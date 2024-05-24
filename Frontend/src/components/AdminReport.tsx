@@ -1,5 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { format } from 'date-fns';
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Button } from "./ui/button";
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "./ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Table,
   TableBody,
@@ -9,11 +20,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { OrderCard } from "./OrderCard";
-import { format } from 'date-fns';
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { Line } from 'react-chartjs-2';
-import 'chart.js/auto';
 
 interface Items {
   email: string;
@@ -26,23 +32,21 @@ interface Items {
 
 export function AdminReportComp() {
   const [items, setItems] = useState<Items[]>([]);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
 
-  const fetchItems = (start: string, end: string) => {
+  const fetchItems = (start: Date, end: Date) => {
+    const startISO = format(start, "yyyy-MM-dd'T'00:00:00");
+    const endISO = format(end, "yyyy-MM-dd'T'23:59:59");
     axios
-      .get(`http://localhost:8080/reports/byDate?startDate=${start}&endDate=${end}`)
+      .get(`http://localhost:8080/reports/byDate?startDate=${startISO}&endDate=${endISO}`)
       .then((response) => setItems(response.data))
       .catch((error) => console.error("Error:", error));
   };
 
   const handleFetch = () => {
-    const startISO = `${format(new Date(startDate), "yyyy-MM-dd'T'00:00:00")}`;
-    const endISO = `${format(new Date(endDate), "yyyy-MM-dd'T'23:59:59")}`;
-    fetchItems(startISO, endISO);
+    fetchItems(startDate!, endDate!);
   };
-
-  const totalSum = items.reduce((sum, item) => sum + item.total, 0);
 
   const chartData = {
     labels: items.map(item => format(new Date(item.dateTime), 'dd-MM-yyyy')),
@@ -68,32 +72,70 @@ export function AdminReportComp() {
     },
   };
 
+  const totalSum = items.reduce((sum, item) => sum + item.total, 0);
+
+
   return (
     <>
       <div className="flex gap-12">
         <div className="w-1/2 mt-12">
           <OrderCard title="Reports panel">
-            <h1>Total amount from selected time is: {totalSum}</h1>
-            <div className="flex flex-col gap-4 mt-6">
-              <label>
-                Start Date:
-                <Input
-                  type="date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  placeholder="dd-MM-yyyy"
-                />
-              </label>
-              <label>
-                End Date:
-                <Input
-                  type="date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  placeholder="dd-MM-yyyy"
-                />
-              </label>
-              <Button onClick={handleFetch}>Fetch Reports</Button>
+          <h1>Total amount from selected time is: {totalSum}</h1>
+
+            <div className="flex flex-col gap-4 mt-8">
+            <label>
+              Start Date:
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className="w-full justify-start text-left font-normal"
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={(selectedDate: Date | undefined) => {
+                      if (selectedDate) {
+                        setStartDate(selectedDate);
+                      }
+                    }}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </label>
+            <label>
+              End Date:
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className="w-full justify-start text-left font-normal"
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {endDate ? format(endDate, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={(selectedDate: Date | undefined) => {
+                      if (selectedDate) {
+                        setEndDate(selectedDate);
+                      }
+                    }}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </label>
+            <Button onClick={handleFetch}>Fetch Reports</Button>
             </div>
           </OrderCard>
         </div>
