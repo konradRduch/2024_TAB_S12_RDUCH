@@ -41,10 +41,12 @@ public class ReportController {
             Float orderTotal = (Float) row[3];
             Float passTotal = (Float) row[4];
             Float ticketTotal = (Float)row[5];
+            LocalDateTime orderDate = (LocalDateTime) row[6];
+
 
             ReportDTO report = reportMap.get(orderId);
             if (report == null) {
-                report = new ReportDTO(orderId,email, phone, orderTotal, new ArrayList<>(), new ArrayList<>());
+                report = new ReportDTO(orderId,email, phone, orderTotal, new ArrayList<>(), new ArrayList<>(), orderDate);
                 reportMap.put(orderId, report);
             }
             if(passTotal!=null){
@@ -75,10 +77,11 @@ public class ReportController {
             Float orderTotal = (Float) row[3];
             Float passTotal = (Float) row[4];
             Float ticketTotal = (Float) row[5];
+            LocalDateTime orderDate = (LocalDateTime) row[6];
 
             ReportDTO report = reportMap.get(orderId);
             if (report == null) {
-                report = new ReportDTO(orderId,email, phone, orderTotal, new ArrayList<>(), new ArrayList<>());
+                report = new ReportDTO(orderId,email, phone, orderTotal, new ArrayList<>(), new ArrayList<>(), orderDate);
                 reportMap.put(orderId, report);
             }
             if (passTotal != null) {

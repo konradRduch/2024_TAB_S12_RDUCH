@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReportRepository extends JpaRepository<Client,Integer> {
 
-    @Query("SELECT (o.id,c.email, c.phone, o.total, p.price, t.total) " +
+    @Query("SELECT (o.id,c.email, c.phone, o.total, p.price, t.total, o.orderDate) " +
             "FROM Order o " +
             "LEFT JOIN Client c ON c.id = o.client.id " +
             "LEFT JOIN Pass p ON o.id = p.order.id " +
@@ -21,7 +21,7 @@ public interface ReportRepository extends JpaRepository<Client,Integer> {
            )
     List<Object[]> findClientReports();
 
-    @Query("SELECT (o.id,c.email, c.phone, o.total, p.price, t.total) " +
+    @Query("SELECT (o.id,c.email, c.phone, o.total, p.price, t.total, o.orderDate ) " +
             "FROM Order o " +
             "LEFT JOIN Client c ON c.id = o.client.id " +
             "LEFT JOIN Pass p ON o.id = p.order.id " +
