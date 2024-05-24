@@ -1,7 +1,12 @@
 package org.skistation.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "\"Order\"")
 public class Order
@@ -18,8 +23,8 @@ public class Order
     @JoinColumn(name = "client_id")
     private Client client;
 
-
-
+    @Column(name = "order_date")
+    private LocalDateTime orderDate = LocalDateTime.now();
 
     public Order() {
     }
@@ -53,4 +58,11 @@ public class Order
         this.client = client;
     }
 
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
 }

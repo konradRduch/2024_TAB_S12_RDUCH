@@ -2,7 +2,6 @@ package org.skistation.models;
 
 import jakarta.persistence.*;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,11 +21,11 @@ public class Pass
     @Column(name = "price")
     private Float price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "price_list_id")
     private PriceList priceList;
 
@@ -65,7 +64,7 @@ public class Pass
         this.id = id;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 

@@ -1,6 +1,7 @@
 package org.skistation.services;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,5 +22,9 @@ public class ReportService  {
        return reportRepository.findClientReports();
     }
 
+
+    public List<Object[]> getReportsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return reportRepository.findClientReportsByDateRange(startDate, endDate);
+    }
 
 }
