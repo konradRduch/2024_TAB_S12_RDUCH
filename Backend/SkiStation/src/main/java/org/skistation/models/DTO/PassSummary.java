@@ -8,12 +8,17 @@ public class PassSummary
     Boolean active;
     Float totalDistance;
 
-    String timeLeft;
+   LocalDateTime timeStart;
+   LocalDateTime timeEnd;
 
-    public PassSummary(Boolean active, Float totalDistance, String timeLeft) {
+   Integer descentsNumber;
+
+    public PassSummary(Boolean active, Float totalDistance, LocalDateTime timeStart, LocalDateTime timeEnd, Integer descentsNumber) {
         this.active = active;
         this.totalDistance = totalDistance;
-        this.timeLeft = timeLeft;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.descentsNumber = descentsNumber;
     }
 
     public Boolean getActive() {
@@ -32,11 +37,27 @@ public class PassSummary
         this.totalDistance = totalDistance;
     }
 
-    public String getTimeLeft() {
-        return timeLeft;
+    public LocalDateTime getTimeStart() {
+        return timeStart;
     }
 
-    public void setTimeLeft(String timeLeft) {
-        this.timeLeft = timeLeft;
+    public void setTimeStart(LocalDateTime timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public LocalDateTime getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(LocalDateTime timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public Integer getDescentsNumber() {
+        return descentsNumber;
+    }
+
+    public void setDescentsNumber(Integer descentsNumber) {
+        this.descentsNumber = descentsNumber;
     }
 }

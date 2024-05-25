@@ -1,14 +1,20 @@
 package org.skistation.models.DTO;
 
+import java.time.LocalDateTime;
+
 public class TicketSummary {
     Boolean active;
     Float totalDistance;
     Integer amountOfRidesLeft;
+    LocalDateTime timeStart;
+    LocalDateTime timeEnd;
 
-    public TicketSummary(Boolean active, Float totalDistance, Integer amountOfRidesLeft) {
+    public TicketSummary(Boolean active, Float totalDistance, Integer amountOfRidesLeft, LocalDateTime timeStart, LocalDateTime timeEnd) {
         this.active = active;
         this.totalDistance = totalDistance;
         this.amountOfRidesLeft = amountOfRidesLeft;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
     }
 
     public Boolean getActive() {
@@ -33,5 +39,21 @@ public class TicketSummary {
 
     public void setAmountOfRidesLeft(Integer amountOfRidesLeft) {
         this.amountOfRidesLeft = amountOfRidesLeft;
+    }
+
+    public LocalDateTime getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(LocalDateTime timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public LocalDateTime getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(LocalDateTime timeEnd) {
+        this.timeEnd = timeEnd;
     }
 }

@@ -83,4 +83,11 @@ public class LiftTicketService
         return false;
     }
 
+    public LocalDateTime getTicketTimeStart(int ticketId) {
+        return this.ticketService.getTicketById(ticketId).get().getTimeStart();
+    }
+
+    public LocalDateTime getTicketTimeEnd(int ticketId) {
+        return this.ticketService.getTicketById(ticketId).get().getTimeEnd();
+    }
 }

@@ -56,29 +56,16 @@ public class LiftPassService
         return (float) totalDistance;
     }
 
-    //don't work correctly
-    public String getPassTimeLeft(Integer passId){
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime end =  passService.getPassById(passId).get().getTimeEnd();
 
-        LocalDate nowDate = now.toLocalDate();
-        LocalDate endDate = end.toLocalDate();
 
-        LocalTime nowTime = now.toLocalTime();
-        LocalTime endTime = end.toLocalTime();
-
-        Period periodLeft = Period.between(nowDate,endDate);
-        Duration durationLeft = Duration.between(nowTime, endTime);
-
-        String newString = new String("time is up");
-
-        if(!durationLeft.isNegative() && !periodLeft.isNegative()){
-            LocalDateTime news = LocalDateTime.of(periodLeft.getYears(), periodLeft.getMonths(), periodLeft.getDays(), durationLeft.toHoursPart(), durationLeft.toMinutesPart(),durationLeft.toSecondsPart());
-            return periodLeft.toString() + durationLeft.toString();
-        }else{
-            return newString;
-        }
+    public LocalDateTime getPassTimeStart(Integer passId){
+        return  this.passService.getPassById(passId).get().getTimeStart();
     }
+
+    public LocalDateTime getPassTimeEnd(Integer passId){
+      return  this.passService.getPassById(passId).get().getTimeEnd();
+    }
+
 
     public boolean isPassActive(Integer passId) {
         Optional<Pass> passOpt = passService.getPassById(passId);
@@ -90,5 +77,10 @@ public class LiftPassService
             return now.isAfter(timeStart) && now.isBefore(timeEnd) && pass.isActive();
         }
         return false;
+    }
+
+    public Integer getPassDescentsNumber(int passId) {
+        List<LiftPass> liftPasses = getLiftPassesByPassId(passId);
+        return liftPasses.size();
     }
 }

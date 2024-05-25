@@ -34,7 +34,9 @@ public class LiftPassController
     public PassSummary getSummary(@RequestParam int liftId, @RequestParam int passId) {
         Boolean active = liftPassService.isPassActive(passId);
         Float distance = liftPassService.getTotalTrackDistance(passId);
-        String timeLeft = liftPassService.getPassTimeLeft(passId);
-        return new PassSummary(active, distance, timeLeft);
+        LocalDateTime timeStart = liftPassService.getPassTimeStart(passId);
+        LocalDateTime timeEnd = liftPassService.getPassTimeEnd(passId);
+        Integer descentsNumber = liftPassService.getPassDescentsNumber(passId);
+        return new PassSummary(active, distance, timeStart, timeEnd, descentsNumber);
     }
 }
