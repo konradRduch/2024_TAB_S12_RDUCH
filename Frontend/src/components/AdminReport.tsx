@@ -139,11 +139,11 @@ export function AdminReportComp() {
             </div>
           </OrderCard>
         </div>
-        <div className="mt-12 w-1/2">
+        <div className="mt-12 w-full">
           <Line data={chartData} options={chartOptions} />
         </div>
       </div>
-      <Table className="mt-12 w-1/2 mx-auto">
+      <Table className="mt-12 w-3/4 mx-auto">
         <TableHeader>
           <TableRow>
             <TableHead>#</TableHead>
