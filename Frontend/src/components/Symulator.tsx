@@ -1,15 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { OrderCard } from "./OrderCard";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import axios from "axios";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { differenceInMinutes, parseISO } from 'date-fns';
 
 interface SymulatorTicket {
   liftId: number | string;
@@ -26,16 +21,17 @@ interface SymulatorPass {
 interface SimulationStats {
   active: boolean;
   totalDistance: number;
+  timeStart: string;
+  timeEnd: string;
+  descentsNumber: number;
+  amountOfRidesLeft: number;
 }
 
 export function SymulatorComp() {
-  const [formData, setFormData] = useState<SymulatorTicket | SymulatorPass>({
-    liftId: "",
-  });
-
+  const [formData, setFormData] = useState<SymulatorTicket | SymulatorPass>({ liftId: "" });
   const [stats, setStats] = useState<SimulationStats | null>(null);
-
   const [type, setType] = useState("Ticket");
+  const [timeLeft, setTimeLeft] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -72,12 +68,28 @@ export function SymulatorComp() {
       );
 
       setStats(response.data);
-      setFormData({
-        liftId: "",
-      });
+      setFormData({ liftId: "" });
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  useEffect(() => {
+    if (stats?.timeEnd) {
+      const endTime = parseISO(stats.timeEnd);
+      const now = new Date();
+      const minutesLeft = differenceInMinutes(endTime, now);
+      setTimeLeft(formatTimeLeft(minutesLeft));
+    } else {
+      setTimeLeft(null);
+    }
+  }, [stats]);
+
+  const formatTimeLeft = (minutes: number): string => {
+    const days = Math.floor(minutes / (24 * 60));
+    const hours = Math.floor((minutes % (24 * 60)) / 60);
+    const remainingMinutes = minutes % 60;
+    return `${days}d-${hours}h-${remainingMinutes}m`;
   };
 
   return (
@@ -130,9 +142,14 @@ export function SymulatorComp() {
 
         {stats && (
           <OrderCard title="SIMULATION RESULTS">
-            <h1>ACCESS: {stats.active ? "SUCCESFULLY PASSED" : "ACCESS DENIED"}</h1>
+            <h1>ACCESS: {stats.active ? "SUCCESSFULLY PASSED" : "ACCESS DENIED"}</h1>
             <p>Active: {stats.active ? "YES" : "NO"}</p>
+            {type === "Ticket" ? <p>Amount of Rides Left: {stats.amountOfRidesLeft}</p>
+            :
+            <p>Amount of Rides: {stats.descentsNumber}</p>
+            }
             <p>Total distance: {stats.totalDistance} m</p>
+            <p>Time left: {timeLeft}</p>
           </OrderCard>
         )}
       </div>

@@ -6,6 +6,8 @@ import org.skistation.services.LiftTicketService;
 import org.skistation.services.TicketService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/liftTicket")
 public class LiftTicketController
@@ -27,8 +29,12 @@ public class LiftTicketController
 
     @GetMapping("/summary")
     public TicketSummary getSummary(@RequestParam int liftId, @RequestParam int ticketId) {
+        Integer amountOfRidesLeft = liftTicketService.getAmountOfRidesLeft(ticketId);
         Boolean active = liftTicketService.isTicketActive(ticketId);
         Float distance = liftTicketService.getTotalTrackDistance(ticketId);
-        return new TicketSummary(active, distance);
+        LocalDateTime timeStart = liftTicketService.getTicketTimeStart(ticketId);
+        LocalDateTime timeEnd = liftTicketService.getTicketTimeEnd(ticketId);
+
+        return new TicketSummary(active, distance, amountOfRidesLeft, timeStart, timeEnd);
     }
 }

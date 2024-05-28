@@ -8,6 +8,9 @@ import org.skistation.models.DTO.TicketSummary;
 import org.skistation.services.LiftPassService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/liftPass")
 public class LiftPassController
@@ -31,6 +34,9 @@ public class LiftPassController
     public PassSummary getSummary(@RequestParam int liftId, @RequestParam int passId) {
         Boolean active = liftPassService.isPassActive(passId);
         Float distance = liftPassService.getTotalTrackDistance(passId);
-        return new PassSummary(active, distance);
+        LocalDateTime timeStart = liftPassService.getPassTimeStart(passId);
+        LocalDateTime timeEnd = liftPassService.getPassTimeEnd(passId);
+        Integer descentsNumber = liftPassService.getPassDescentsNumber(passId);
+        return new PassSummary(active, distance, timeStart, timeEnd, descentsNumber);
     }
 }

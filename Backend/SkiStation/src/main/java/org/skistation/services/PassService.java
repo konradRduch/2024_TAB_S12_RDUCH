@@ -51,6 +51,8 @@ public class PassService
         return passRepository.findByPriceListId(priceListId);
     }
 
+
+
     public Optional<Pass> suspendPass(Integer passId, String email, Integer phone) {
         Optional<Pass> passToSuspend = getPassById(passId);
         if (passToSuspend.isPresent()) {
