@@ -139,7 +139,7 @@ export function AdminReportComp() {
             </div>
           </OrderCard>
         </div>
-        <div className="mt-12 w-1/2">
+        <div className="mt-12 w-1/2 ">
           <Line data={chartData} options={chartOptions} />
         </div>
       </div>
