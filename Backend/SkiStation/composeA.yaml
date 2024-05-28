@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: 'plgr229/tab_ski-station_postgres:latest'
+    restart: always
+    environment:
+      - 'POSTGRES_DB=skiStation'
+      - 'POSTGRES_PASSWORD=root'
+    networks:
+      - skistation-network
+
+  ski-station:
+    image: 'plgr229/tab_ski-station_backend:latest'
+    restart: always
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/skiStation'
+      - 'SPRING_DATASOURCE_USERNAME=postgres'
+      - 'SPRING_DATASOURCE_PASSWORD=root'
+    networks:
+      - skistation-network
+      - skistation-exposed
+
+networks:
+  skistation-network:
+    driver: bridge
+    internal: true
+  skistation-exposed:
+    driver: bridge
