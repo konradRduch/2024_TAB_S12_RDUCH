@@ -3,100 +3,105 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { BellIcon } from "@radix-ui/react-icons";
 import { CardWithForm } from "@/components/Form";
 import MainCard from "@/components/Main-card.astro";
-import {Harmonogram} from "@/components/Harmonogram";
-
+import { Harmonogram } from "@/components/Harmonogram";
+import Hints from "@/components/hints";
 ---
 
 <BaseLayout title="SKI" description="TAB Project">
-  <div class="flex justify-evenly flex-col lg:flex-row lg:mt-[80vh] gap-4">
+  <div class="flex flex-col lg:flex-row lg:mt-[80vh] gap-4 items-center lg:items-start justify-evenly">
     <div class="arrow">
       <span></span>
       <span></span>
       <span></span>
     </div>
 
-    <MainCard
-      title="VALIDATE TICKET"
-      desc="Check your ticket or pass stats"
-      button="CHECK"
-      link="/simulator"
-    >
-      <div class="flex items-center rounded-md border space-x-4 p-4">
-        <BellIcon />
-        <div class="flex-1 space-y-1">
-          <p class="text-sm font-medium leading-none">Check your ticket</p>
-          <p class="text-sm text-muted-foreground">see your statistics.</p>
+    <Hints client:load />
 
+    <div id="validate-ticket" class="w-full">
+      <MainCard
+        title="VALIDATE TICKET"
+        desc="Check your ticket or pass stats"
+        button="CHECK"
+        link="/simulator"
+      >
+        <div class="flex items-center rounded-md border space-x-4 p-4">
+          <BellIcon />
+          <div class="flex-1 space-y-1">
+            <p class="text-sm font-medium leading-none">Check your ticket</p>
+            <p class="text-sm text-muted-foreground">see your statistics.</p>
+          </div>
         </div>
-      </div>
-    </MainCard>
+      </MainCard>
+    </div>
 
-    <MainCard
-      title="STORE"
-      desc="Buy tickets and passes"
-      button="BUY NOW"
-      link="/ticket"
-    >
-      <div class="flex items-center rounded-md border space-x-4 p-4">
-        <BellIcon />
-        <div class="flex-1 space-y-1">
-          <p class="text-sm font-medium leading-none">20% OFF</p>
-          <p class="text-sm text-muted-foreground">only now.</p>
+    <div id="store" class="w-full">
+      <MainCard
+        title="STORE"
+        desc="Buy tickets and passes"
+        button="BUY NOW"
+        link="/ticket"
+      >
+        <div class="flex items-center rounded-md border space-x-4 p-4">
+          <BellIcon />
+          <div class="flex-1 space-y-1">
+            <p class="text-sm font-medium leading-none">20% OFF</p>
+            <p class="text-sm text-muted-foreground">only now.</p>
+          </div>
         </div>
-      </div>
-    </MainCard>
+      </MainCard>
+    </div>
 
-    <CardWithForm client:load />
+    <div id="freeze" class="w-full">
+      <CardWithForm client:load />
+    </div>
   </div>
-  <Harmonogram client:load/>
-</BaseLayout>
 
-<style>
-  @media (width < 1024px) {
+  <div id="harmonogram">
+    <Harmonogram client:load />
+  </div>
+  
+
+  <style>
     .arrow {
-      display: none;
+      pointer-events: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
     }
-  }
-  .arrow {
-    pointer-events: none;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transform: rotate();
-    cursor: pointer;
-  }
 
-  .arrow span {
-    display: block;
-    width: 1.5vw;
-    height: 1.5vw;
-    border-bottom: 10px solid white;
-    border-right: 10px solid white;
-    transform: rotate(45deg);
-    margin: -10px;
-    animation: animate 2s infinite;
-  }
-
-  .arrow span:nth-child(2) {
-    animation-delay: -0.2s;
-  }
-
-  .arrow span:nth-child(3) {
-    animation-delay: -0.4s;
-  }
-
-  @keyframes animate {
-    0% {
-      opacity: 0;
-      transform: rotate(45deg) translate(-20px, -20px);
+    .arrow span {
+      display: block;
+      width: 1.5vw;
+      height: 1.5vw;
+      border-bottom: 10px solid white;
+      border-right: 10px solid white;
+      transform: rotate(45deg);
+      margin: -10px;
+      animation: animate 2s infinite;
     }
-    50% {
-      opacity: 1;
+
+    .arrow span:nth-child(2) {
+      animation-delay: -0.2s;
     }
-    100% {
-      opacity: 0;
-      transform: rotate(45deg) translate(20px, 20px);
+
+    .arrow span:nth-child(3) {
+      animation-delay: -0.4s;
     }
-  }
-</style>
+
+    @keyframes animate {
+      0% {
+        opacity: 0;
+        transform: rotate(45deg) translate(-20px, -20px);
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: rotate(45deg) translate(20px, 20px);
+      }
+    }
+  </style>
+</BaseLayout>
