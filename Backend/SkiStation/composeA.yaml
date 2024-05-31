@@ -1,14 +1,4 @@
 services:
-  frontend:
-    build:
-      context: ../Frontend
-      dockerfile: Dockerfile
-    container_name: frontend
-    ports:
-      - "4321:80"
-    depends_on:
-      - ski-station
-
   postgres:
     image: 'plgr229/tab_ski-station_postgres:latest'
     restart: always
@@ -21,16 +11,26 @@ services:
   ski-station:
     image: 'plgr229/tab_ski-station_backend:latest'
     restart: always
-    ports:
-      - '8080:8080'
     depends_on:
       - postgres
     environment:
       - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/skiStation'
       - 'SPRING_DATASOURCE_USERNAME=postgres'
       - 'SPRING_DATASOURCE_PASSWORD=root'
+    ports:
+      - '8080:8080'
     networks:
       - skistation-network
+      - skistation-exposed
+
+  ski-station-front:
+    image: 'plgr229/ski-station_frontend:latest'
+    restart: always
+    depends_on:
+      - ski-station
+    ports:
+      - '4321:4321'
+    networks:
       - skistation-exposed
 
 networks:
@@ -39,5 +39,3 @@ networks:
     internal: true
   skistation-exposed:
     driver: bridge
-
-

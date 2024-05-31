@@ -1,13 +1,11 @@
-# Etap budowania
-FROM node:16-alpine AS build
+FROM node:lts AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 
-# Etap uruchomienia
-FROM node:16-alpine AS run
-WORKDIR /app
-COPY --from=build /app ./
-CMD ["node", "dist/server/entry.mjs"]
+FROM nginx:alpine AS runtime
+COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 4321
