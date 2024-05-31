@@ -1,4 +1,14 @@
 services:
+  frontend:
+    build:
+      context: ../Frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "4321:80"
+    depends_on:
+      - ski-station
+
   postgres:
     image: 'plgr229/tab_ski-station_postgres:latest'
     restart: always
@@ -29,3 +39,5 @@ networks:
     internal: true
   skistation-exposed:
     driver: bridge
+
+
