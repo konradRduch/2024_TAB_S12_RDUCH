@@ -43,7 +43,7 @@ export function SymulatorComp() {
 
   const handleSimulationSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+  
     try {
       let endpoint = "";
       if ("ticketId" in formData && formData.ticketId) {
@@ -51,26 +51,29 @@ export function SymulatorComp() {
       } else if ("passId" in formData && formData.passId) {
         endpoint = "liftPass";
       } else {
-        console.error("No ticket or pass ID provided.");
-        return;
+        throw new Error("No ticket or pass ID provided.");
       }
-
+  
       await axios.post(
         `http://localhost:8080/${endpoint}/bounce${endpoint}`,
         formData
       );
-
+  
       const response = await axios.get(
         `http://localhost:8080/${endpoint}/summary`,
         {
           params: formData,
         }
       );
-
+  
       setStats(response.data);
       setFormData({ liftId: "" });
     } catch (error) {
       console.error("Error:", error);
+      // Display alert
+      alert("Error: Incorrect data entered.");
+      // Clear the form data
+      setFormData({ liftId: "" });
     }
   };
 
