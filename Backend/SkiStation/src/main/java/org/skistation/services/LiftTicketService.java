@@ -31,7 +31,7 @@ public class LiftTicketService
             return;
         }
 
-        if(ticketService.bounceTicket(ticketId)){
+        if (ticketService.bounceTicket(ticketId)) {
             addLiftTicket(lift, ticket);
         }
 
@@ -53,7 +53,7 @@ public class LiftTicketService
         return liftTicketRepository.findByTicketId(ticketId);
     }
 
-    public Float getTotalTrackDistance(Integer ticketId){
+    public Float getTotalTrackDistance(Integer ticketId) {
         List<LiftTicket> liftTickets = getLiftTicketesByTicketId(ticketId);
         double totalDistance = liftTickets.stream()
                 .mapToDouble(ticket -> ticket.getLift().getDistance()).sum();
@@ -61,8 +61,8 @@ public class LiftTicketService
         return (float) totalDistance;
     }
 
-    public Integer getAmountOfRidesLeft(Integer ticketId){
-        return  ticketService.getTicketById(ticketId).get().getAmountOfRides();
+    public Integer getAmountOfRidesLeft(Integer ticketId) {
+        return ticketService.getTicketById(ticketId).get().getAmountOfRides();
     }
 
     private boolean checkDate(Integer ticketId) {
@@ -76,8 +76,9 @@ public class LiftTicketService
         }
         return false;
     }
-    public boolean isTicketActive(Integer ticketId){
-        if(ticketService.getTicketById(ticketId).get().getAmountOfRides()>0 && checkDate(ticketId)){
+
+    public boolean isTicketActive(Integer ticketId) {
+        if (ticketService.getTicketById(ticketId).get().getAmountOfRides() > 0 && checkDate(ticketId)) {
             return true;
         }
         return false;

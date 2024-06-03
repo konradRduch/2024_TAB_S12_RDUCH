@@ -57,13 +57,12 @@ public class LiftPassService
     }
 
 
-
-    public LocalDateTime getPassTimeStart(Integer passId){
-        return  this.passService.getPassById(passId).get().getTimeStart();
+    public LocalDateTime getPassTimeStart(Integer passId) {
+        return this.passService.getPassById(passId).get().getTimeStart();
     }
 
-    public LocalDateTime getPassTimeEnd(Integer passId){
-      return  this.passService.getPassById(passId).get().getTimeEnd();
+    public LocalDateTime getPassTimeEnd(Integer passId) {
+        return this.passService.getPassById(passId).get().getTimeEnd();
     }
 
 
@@ -74,6 +73,10 @@ public class LiftPassService
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime timeStart = pass.getTimeStart();
             LocalDateTime timeEnd = pass.getTimeEnd();
+            if (now.isAfter(timeEnd)) {
+                pass.setActive(false);
+                passService.modifyPass(pass);
+            }
             return now.isAfter(timeStart) && now.isBefore(timeEnd) && pass.isActive();
         }
         return false;

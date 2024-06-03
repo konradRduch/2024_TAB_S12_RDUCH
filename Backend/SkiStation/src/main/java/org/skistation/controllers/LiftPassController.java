@@ -24,7 +24,7 @@ public class LiftPassController
     @PostMapping("/bounceliftPass")
     public String addLiftPass(@RequestBody BouncePassRequest request) {
         boolean active = liftPassService.isPassActive(request.getPassId());
-        if(active) {
+        if (active) {
             liftPassService.addLiftPass(request.getLiftId(), request.getPassId());
         }
         return "redirect:/listPass";

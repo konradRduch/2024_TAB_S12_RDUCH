@@ -21,7 +21,7 @@ public class LiftTicketController
     @PostMapping("/bounceliftTicket")
     public String addLiftTicket(@RequestBody BounceTicketRequest request) {
         boolean active = liftTicketService.isTicketActive(request.getTicketId());
-        if(active) {
+        if (active) {
             liftTicketService.addLiftTicket(request.getLiftId(), request.getTicketId());
         }
         return "redirect:/liftTicket";
