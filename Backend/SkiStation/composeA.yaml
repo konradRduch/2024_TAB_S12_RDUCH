@@ -24,7 +24,7 @@ services:
       - skistation-exposed
 
   ski-station-front:
-    image: 'plgr229/ski-station_frontend:latest'
+    image: 'plgr229/tab_ski-station_frontend:latest'
     restart: always
     depends_on:
       - ski-station
