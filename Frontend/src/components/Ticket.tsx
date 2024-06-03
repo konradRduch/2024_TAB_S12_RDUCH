@@ -341,7 +341,7 @@ export function TicketComp() {
         const passIds = response.data; // Assuming the response contains the pass ID
         console.log("Pass data submitted:", response.data);
         alert(
-          `Tickets successfully bought! Ticket ID(s): ${passIds.join(", ")}`
+          `Tickets successfully bought! Pass ID(s): ${passIds.join(", ")}`
         );
       })
       .catch((error) => console.error("Error:", error));
@@ -387,7 +387,7 @@ export function TicketComp() {
           alert("You entered wrong data! Try Again!");
         } else {
           alert(
-            `Tickets successfully bought! pass ID(s): ${ticketIds.join(", ")}`
+            `Tickets successfully bought! Ticket ID(s): ${ticketIds.join(", ")}`
           );
         }
       })
