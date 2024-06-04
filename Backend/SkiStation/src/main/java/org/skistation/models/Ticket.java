@@ -4,46 +4,92 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents a ticket entity.
+ */
 @Entity
 public class Ticket
 {
+    /**
+     * The ID of the ticket.
+     */
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /**
+     * The amount of rides for the ticket.
+     */
     @Column(name = "amount_of_rides")
     private Integer amountOfRides;
 
+    /**
+     * The price per ride for the ticket.
+     */
     @Column(name = "price_per_ride")
     private Float pricePerRide;
 
+    /**
+     * The ticket type name.
+     */
     @Column(name = "ticket_type_name", length = Integer.MAX_VALUE)
     private String ticketTypeName;
 
+    /**
+     * The order associated with the ticket.
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private Order order;
 
+    /**
+     * The price list associated with the ticket.
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "price_list_id")
     private PriceList priceList;
 
+    /**
+     * The start time of the ticket.
+     */
     @Column(name = "time_start", nullable = false)
     private LocalDateTime timeStart;
 
+    /**
+     * The end time of the ticket.
+     */
     @Column(name = "time_end", nullable = false)
     private LocalDateTime timeEnd;
 
+    /**
+     * The discount status of the ticket.
+     */
     @Column(name = "discount")
     private Boolean discount;
 
+    /**
+     * The total price of the ticket.
+     */
     @Column(name = "total")
     private Float total;
 
     public Ticket() {
     }
 
+    /**
+     * Constructs a new ticket with the specified amount of rides, price per ride, ticket type name, order, price list, start time, end time, discount, and total.
+     *
+     * @param amountOfRides  the amount of rides for the ticket
+     * @param pricePerRide   the price per ride for the ticket
+     * @param ticketTypeName the ticket type name
+     * @param order          the order associated with the ticket
+     * @param priceList      the price list associated with the ticket
+     * @param timeStart      the start time of the ticket
+     * @param timeEnd        the end time of the ticket
+     * @param discount       the discount status of the ticket
+     * @param total          the total price of the ticket
+     */
     public Ticket(Integer amountOfRides, Float pricePerRide, String ticketTypeName, Order order, PriceList priceList, LocalDateTime timeStart, LocalDateTime timeEnd, Boolean discount, Float total) {
         this.amountOfRides = amountOfRides;
         this.pricePerRide = pricePerRide;
