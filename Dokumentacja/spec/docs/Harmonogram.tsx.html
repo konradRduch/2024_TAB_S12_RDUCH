@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Framework Documentation Harmonogram.tsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">framework documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="..."
+                        >
+                            Respository
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Interfaces</h3><ul><li><a href="Hint.html">Hint</a></li><li><a href="Items.html">Items</a></li><li><a href="Lift.html">Lift</a></li><li><a href="PassInfo.html">PassInfo</a></li><li><a href="SimulationStats.html">SimulationStats</a></li><li><a href="SymulatorPass.html">SymulatorPass</a></li><li><a href="SymulatorTicket.html">SymulatorTicket</a></li></ul><h3>Components</h3><ul><li><a href="AdminHarmonogramComp.html">AdminHarmonogramComp</a></li><li><a href="AdminLiftsComp.html">AdminLiftsComp</a></li><li><a href="AdminPricesComp.html">AdminPricesComp</a></li><li><a href="AdminReportComp.html">AdminReportComp</a></li><li><a href="CardWithForm.html">CardWithForm</a></li><li><a href="Harmonogram.html">Harmonogram</a></li><li><a href="Hints.html">Hints</a></li><li><a href="ResumeComp.html">ResumeComp</a></li><li><a href="SymulatorComp.html">SymulatorComp</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TicketComp">TicketComp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>Harmonogram.tsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "./ui/button";
+import axios from "axios";
+import { useState, useEffect } from "react";
+
+/**
+ * Items interface represents a schedule item object.
+ * @typedef {Object} Items
+ * @property {number} id - The unique identifier of the schedule item.
+ * @property {string} open - The opening time of the schedule.
+ * @property {string} close - The closing time of the schedule.
+ * @property {number} Liftid - The ID of the lift associated with the schedule.
+ * @property {string} liftName - The name of the lift.
+ * @property {boolean} active - Indicates if the lift is active.
+ * @property {number} distance - The distance covered by the lift.
+ */
+
+interface Items {
+  id: number;
+  open: string;
+  close: string;
+  Liftid: number;
+  liftName: string;
+  active: boolean;
+  distance: number;
+}
+
+/**
+ * Props interface represents the props passed to the Harmonogram component.
+ * @typedef {Object} Props
+ * @property {boolean} [admin] - Indicates if the current user is an admin.
+ */
+
+type Props = {
+  admin?: boolean | undefined;
+};
+
+/**
+ * Harmonogram is a React functional component for displaying a schedule table.
+ * @component
+ * @param {Props} props - The props passed to the component.
+ * @returns {JSX.Element} - The JSX code for Harmonogram component.
+ */
+
+export function Harmonogram({ admin }: Props) {
+  const [items, setItems] = useState&lt;Items[]>([]);
+
+  /**
+   * Fetches the schedule items from the API.
+   */
+  const fetchItems = () => {
+    axios
+      .get("http://localhost:8080/skiSchedules/dto")
+      .then((response) => {
+        setItems(response.data);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  /**
+   * Handles the deletion of a schedule item.
+   * @param {number} id - The unique identifier of the schedule item to delete.
+   */
+  const handleDelete = (id: number) => {
+    axios
+      .delete(`http://localhost:8080/skiSchedules/${id}`)
+      .then((response) => {
+        fetchItems();
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+  return (
+    &lt;Table className="mt-12 w-1/2 mx-auto">
+      &lt;TableHeader>
+        &lt;TableRow>
+          &lt;TableHead>ID&lt;/TableHead>
+          &lt;TableHead>Name&lt;/TableHead>
+          &lt;TableHead>Distance&lt;/TableHead>
+          &lt;TableHead>Start&lt;/TableHead>
+          &lt;TableHead>End&lt;/TableHead>
+          {admin ? &lt;TableHead>Active&lt;/TableHead> : undefined}
+          {admin ? &lt;TableHead>Delete&lt;/TableHead> : undefined}
+        &lt;/TableRow>
+      &lt;/TableHeader>
+      &lt;TableBody>
+        {admin ? (
+          &lt;>
+            {Array.isArray(items) &amp;&amp;
+              items.map(
+                (item, index) =>
+                  item.active &amp;&amp; ( // Only render if item is active
+                    &lt;TableRow key={index}>
+                      &lt;TableCell className="font-medium">{index + 1}&lt;/TableCell>
+                      &lt;TableCell>{item.liftName}&lt;/TableCell>
+                      &lt;TableCell>{item.distance}&lt;/TableCell>
+                      &lt;TableCell>{item.open}&lt;/TableCell>
+                      &lt;TableCell>{item.close}&lt;/TableCell>
+                      {admin &amp;&amp; (
+                        &lt;TableCell>{item.active ? "YES" : "NO"}&lt;/TableCell>
+                      )}
+                      {admin &amp;&amp; (
+                        &lt;TableCell>
+                          &lt;Button
+                            className="w-full"
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            x
+                          &lt;/Button>
+                        &lt;/TableCell>
+                      )}
+                    &lt;/TableRow>
+                  )
+              )}
+          &lt;/>
+        ) : (
+          &lt;>
+            {Array.isArray(items) &amp;&amp;
+              items.map((item, index) => (
+                &lt;TableRow key={index}>
+                  {item.active ? (
+                    &lt;>
+                      &lt;TableCell className="font-medium">{index + 1}&lt;/TableCell>
+                      &lt;TableCell>{item.liftName}&lt;/TableCell>
+                      &lt;TableCell>{item.distance}&lt;/TableCell>
+                      &lt;TableCell>{item.open}&lt;/TableCell>
+                      &lt;TableCell>{item.close}&lt;/TableCell>
+                    &lt;/>
+                  ) : undefined}
+                &lt;/TableRow>
+              ))}
+          &lt;/>
+        )}
+      &lt;/TableBody>
+    &lt;/Table>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+/**
+ * Hint interface represents a hint object.
+ * @typedef {Object} Hint
+ * @property {number} id - The unique identifier of the hint.
+ * @property {string} text - The text content of the hint.
+ * @property {number | null} next - The ID of the next hint, or null if it is the last hint.
+ * @property {string} targetId - The ID of the target HTML element for the hint.
+ */
 
 interface Hint {
   id: number;
@@ -36,6 +44,12 @@ const hints: Hint[] = [
   },
 ];
 
+/**
+ * Hints is a React functional component for displaying a guided tour with hints.
+ * @component
+ * @returns {JSX.Element | null} - The JSX code for Hints component or null if no hints are shown.
+ */
+
 const Hints: React.FC = () => {
   const [currentHint, setCurrentHint] = useState<Hint | null>(hints[0]);
   const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
@@ -55,6 +69,9 @@ const Hints: React.FC = () => {
     }
   }, [currentHint]);
 
+  /**
+   * Handles the transition to the next hint.
+   */
   const handleNext = () => {
     if (currentHint && currentHint.next !== null) {
       setCurrentHint(
@@ -66,6 +83,9 @@ const Hints: React.FC = () => {
     }
   };
 
+  /**
+   * Handles the completion of the hints tour.
+   */
   const handleFinish = () => {
     setCurrentHint(null);
     // Set a value in localStorage to indicate that hints have been shown

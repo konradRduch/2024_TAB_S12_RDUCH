@@ -1,4 +1,108 @@
-import { useState } from "react";
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Framework Documentation Ticket.tsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">framework documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="..."
+                        >
+                            Respository
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Interfaces</h3><ul><li><a href="Hint.html">Hint</a></li><li><a href="Items.html">Items</a></li><li><a href="Lift.html">Lift</a></li><li><a href="PassInfo.html">PassInfo</a></li><li><a href="SimulationStats.html">SimulationStats</a></li><li><a href="SymulatorPass.html">SymulatorPass</a></li><li><a href="SymulatorTicket.html">SymulatorTicket</a></li></ul><h3>Components</h3><ul><li><a href="AdminHarmonogramComp.html">AdminHarmonogramComp</a></li><li><a href="AdminLiftsComp.html">AdminLiftsComp</a></li><li><a href="AdminPricesComp.html">AdminPricesComp</a></li><li><a href="AdminReportComp.html">AdminReportComp</a></li><li><a href="CardWithForm.html">CardWithForm</a></li><li><a href="Harmonogram.html">Harmonogram</a></li><li><a href="Hints.html">Hints</a></li><li><a href="ResumeComp.html">ResumeComp</a></li><li><a href="SymulatorComp.html">SymulatorComp</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TicketComp">TicketComp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>Ticket.tsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState } from "react";
 import { OrderCard } from "@/components/OrderCard";
 import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
@@ -85,10 +189,10 @@ const Values = {
  * @returns {JSX.Element} The TicketComp component.
  */
 export function TicketComp() {
-  const [items, setItems] = useState<Items[]>([]);
+  const [items, setItems] = useState&lt;Items[]>([]);
   const [values, setValues] = useState(Values);
   const [type, setType] = useState("Ticket");
-  const [date, setDate] = useState<Date>();
+  const [date, setDate] = useState&lt;Date>();
   /**
    * Fetches items from the server and updates the state.
    */
@@ -129,9 +233,9 @@ export function TicketComp() {
   }, [items]);
   /**
    * Handles input changes and updates the state.
-   * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
+   * @param {React.ChangeEvent&lt;HTMLInputElement>} e - The input change event.
    */
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent&lt;HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "email" || name === "phone") {
       setValues((prevValues) => ({
@@ -158,9 +262,9 @@ export function TicketComp() {
    */
   function Ticket() {
     return (
-      <>
-        <label>NORMAL TICKET</label>
-        <Input
+      &lt;>
+        &lt;label>NORMAL TICKET&lt;/label>
+        &lt;Input
           type="number"
           name="normal"
           placeholder="Enter amount"
@@ -168,8 +272,8 @@ export function TicketComp() {
           value={values.normal}
           onChange={handleInputChange}
         />
-        <label>DISCOUNTED TICKET</label>
-        <Input
+        &lt;label>DISCOUNTED TICKET&lt;/label>
+        &lt;Input
           type="number"
           name="discount"
           placeholder="Enter price"
@@ -177,8 +281,8 @@ export function TicketComp() {
           value={values.discount}
           onChange={handleInputChange}
         />
-        <label htmlFor="Rides">Amount of Rides</label>
-        <Input
+        &lt;label htmlFor="Rides">Amount of Rides&lt;/label>
+        &lt;Input
           type="number"
           name="rides"
           placeholder="Enter price"
@@ -186,22 +290,22 @@ export function TicketComp() {
           value={values.rides}
           onChange={handleInputChange}
         />
-        <label htmlFor="date">Start Date</label>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
+        &lt;label htmlFor="date">Start Date&lt;/label>
+        &lt;Popover>
+          &lt;PopoverTrigger asChild>
+            &lt;Button
               variant={"outline"}
               className={cn(
                 "w-[280px] justify-start text-left font-normal",
-                !date && "text-muted-foreground"
+                !date &amp;&amp; "text-muted-foreground"
               )}
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
-            <Calendar
+              &lt;CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, "PPP") : &lt;span>Pick a date&lt;/span>}
+            &lt;/Button>
+          &lt;/PopoverTrigger>
+          &lt;PopoverContent className="w-auto p-0">
+            &lt;Calendar
               mode="single"
               selected={date}
               onSelect={(selectedDate: Date | undefined) => {
@@ -216,9 +320,9 @@ export function TicketComp() {
               }}
               initialFocus
             />
-          </PopoverContent>
-        </Popover>
-      </>
+          &lt;/PopoverContent>
+        &lt;/Popover>
+      &lt;/>
     );
   }
   /**
@@ -227,8 +331,8 @@ export function TicketComp() {
    */
   function Pass() {
     return (
-      <>
-        <Select
+      &lt;>
+        &lt;Select
           onValueChange={(value: string) => {
             setValues((prevValues) => ({
               ...prevValues,
@@ -237,17 +341,17 @@ export function TicketComp() {
             Values.passType = value;
           }}
         >
-          <SelectTrigger id="PassType">
-            <SelectValue placeholder={Values.passType} />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem value="Day">Day</SelectItem>
-            <SelectItem value="Week">Week</SelectItem>
-            <SelectItem value="Month">Month</SelectItem>
-          </SelectContent>
-        </Select>
-        <label>NORMAL</label>
-        <Input
+          &lt;SelectTrigger id="PassType">
+            &lt;SelectValue placeholder={Values.passType} />
+          &lt;/SelectTrigger>
+          &lt;SelectContent position="popper">
+            &lt;SelectItem value="Day">Day&lt;/SelectItem>
+            &lt;SelectItem value="Week">Week&lt;/SelectItem>
+            &lt;SelectItem value="Month">Month&lt;/SelectItem>
+          &lt;/SelectContent>
+        &lt;/Select>
+        &lt;label>NORMAL&lt;/label>
+        &lt;Input
           type="number"
           name="normal"
           placeholder="Enter amount"
@@ -255,8 +359,8 @@ export function TicketComp() {
           value={values.normal}
           onChange={handleInputChange}
         />
-        <label>DISCOUNT</label>
-        <Input
+        &lt;label>DISCOUNT&lt;/label>
+        &lt;Input
           type="number"
           name="discount"
           placeholder="Enter price"
@@ -264,22 +368,22 @@ export function TicketComp() {
           value={values.discount}
           onChange={handleInputChange}
         />
-        <label htmlFor="date">Start Date</label>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
+        &lt;label htmlFor="date">Start Date&lt;/label>
+        &lt;Popover>
+          &lt;PopoverTrigger asChild>
+            &lt;Button
               variant={"outline"}
               className={cn(
                 "w-[280px] justify-start text-left font-normal",
-                !date && "text-muted-foreground"
+                !date &amp;&amp; "text-muted-foreground"
               )}
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
-            <Calendar
+              &lt;CalendarIcon className="mr-2 h-4 w-4" />
+              {date ? format(date, "PPP") : &lt;span>Pick a date&lt;/span>}
+            &lt;/Button>
+          &lt;/PopoverTrigger>
+          &lt;PopoverContent className="w-auto p-0">
+            &lt;Calendar
               mode="single"
               selected={date}
               onSelect={(selectedDate: Date | undefined) => {
@@ -294,9 +398,9 @@ export function TicketComp() {
               }}
               initialFocus
             />
-          </PopoverContent>
-        </Popover>
-      </>
+          &lt;/PopoverContent>
+        &lt;/Popover>
+      &lt;/>
     );
   }
 
@@ -444,53 +548,53 @@ export function TicketComp() {
   };
 
   return (
-    <>
-      <Table className="my-12 w-1/2 mx-auto">
-        <TableHeader>
-          <TableRow>
-            <TableHead>Pass Price</TableHead>
-            <TableHead>Ticket Price</TableHead>
-            <TableHead>Time Start</TableHead>
-            <TableHead>TimeEnd</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {items.length > 0 && (
-            <TableRow>
-              <TableCell>{items[0].passPrice}</TableCell>
-              <TableCell>{items[0].ticketPrice}</TableCell>
-              <TableCell>{items[0].timeStart}</TableCell>
-              <TableCell>{items[0].timeEnd}</TableCell>
-            </TableRow>
+    &lt;>
+      &lt;Table className="my-12 w-1/2 mx-auto">
+        &lt;TableHeader>
+          &lt;TableRow>
+            &lt;TableHead>Pass Price&lt;/TableHead>
+            &lt;TableHead>Ticket Price&lt;/TableHead>
+            &lt;TableHead>Time Start&lt;/TableHead>
+            &lt;TableHead>TimeEnd&lt;/TableHead>
+          &lt;/TableRow>
+        &lt;/TableHeader>
+        &lt;TableBody>
+          {items.length > 0 &amp;&amp; (
+            &lt;TableRow>
+              &lt;TableCell>{items[0].passPrice}&lt;/TableCell>
+              &lt;TableCell>{items[0].ticketPrice}&lt;/TableCell>
+              &lt;TableCell>{items[0].timeStart}&lt;/TableCell>
+              &lt;TableCell>{items[0].timeEnd}&lt;/TableCell>
+            &lt;/TableRow>
           )}
-        </TableBody>
-      </Table>
+        &lt;/TableBody>
+      &lt;/Table>
 
-      <div className="flex gap-4 flex-col lg:flex-row">
-        <OrderCard
+      &lt;div className="flex gap-4 flex-col lg:flex-row">
+        &lt;OrderCard
           title="BUY TICKET"
           desc="check out our wide variety of tickets"
         >
-          <div className="grid gap-4">
-            <Select onValueChange={(value: string) => setType(value)}>
-              <SelectTrigger id="category">
-                <SelectValue placeholder="Ticket" />
-              </SelectTrigger>
-              <SelectContent position="popper">
-                <SelectItem value="Ticket">Ticket</SelectItem>
-                <SelectItem value="Pass">Pass</SelectItem>
-              </SelectContent>
-            </Select>
-            <label>Email</label>
-            <Input
+          &lt;div className="grid gap-4">
+            &lt;Select onValueChange={(value: string) => setType(value)}>
+              &lt;SelectTrigger id="category">
+                &lt;SelectValue placeholder="Ticket" />
+              &lt;/SelectTrigger>
+              &lt;SelectContent position="popper">
+                &lt;SelectItem value="Ticket">Ticket&lt;/SelectItem>
+                &lt;SelectItem value="Pass">Pass&lt;/SelectItem>
+              &lt;/SelectContent>
+            &lt;/Select>
+            &lt;label>Email&lt;/label>
+            &lt;Input
               type="text"
               name="email"
               placeholder="Enter email"
               value={values.email}
               onChange={handleInputChange}
             />
-            <label>Phone</label>
-            <Input
+            &lt;label>Phone&lt;/label>
+            &lt;Input
               type="text"
               name="phone"
               placeholder="Enter phone number"
@@ -498,42 +602,74 @@ export function TicketComp() {
               onChange={handleInputChange}
             />
 
-            {type === "Ticket" ? <Ticket /> : <Pass />}
-            <label htmlFor="Starting date">STARTING DATE</label>
+            {type === "Ticket" ? &lt;Ticket /> : &lt;Pass />}
+            &lt;label htmlFor="Starting date">STARTING DATE&lt;/label>
 
-            <div className="items-top flex space-x-2 mt-2">
-              <Checkbox id="terms1" />
-              <div className="grid gap-1.5 leading-none">
-                <label
+            &lt;div className="items-top flex space-x-2 mt-2">
+              &lt;Checkbox id="terms1" />
+              &lt;div className="grid gap-1.5 leading-none">
+                &lt;label
                   htmlFor="terms1"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   Discount?
-                </label>
-                <p className="text-sm text-muted-foreground">
+                &lt;/label>
+                &lt;p className="text-sm text-muted-foreground">
                   You agree to our Terms of Service and Privacy Policy.
-                </p>
-              </div>
-            </div>
-          </div>
-        </OrderCard>
-        <OrderCard title="TOTAL" desc="Amount in pln">
-          <div className="text-center font-bold">
+                &lt;/p>
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+        &lt;/OrderCard>
+        &lt;OrderCard title="TOTAL" desc="Amount in pln">
+          &lt;div className="text-center font-bold">
             {type === "Pass" ? total.toFixed(2) : totalPerRides.toFixed(2)} PLN
-          </div>
-          <CardFooter className="flex justify-center">
+          &lt;/div>
+          &lt;CardFooter className="flex justify-center">
             {type === "Pass" ? (
-              <Button className="w-full" onClick={handlePassSubmit}>
+              &lt;Button className="w-full" onClick={handlePassSubmit}>
                 BUY
-              </Button>
+              &lt;/Button>
             ) : (
-              <Button className="w-full" onClick={handleTicketSubmit}>
+              &lt;Button className="w-full" onClick={handleTicketSubmit}>
                 BUY
-              </Button>
+              &lt;/Button>
             )}
-          </CardFooter>
-        </OrderCard>
-      </div>
-    </>
+          &lt;/CardFooter>
+        &lt;/OrderCard>
+      &lt;/div>
+    &lt;/>
   );
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

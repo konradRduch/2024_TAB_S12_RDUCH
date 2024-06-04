@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Framework Documentation AdminReport.tsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">framework documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="..."
+                        >
+                            Respository
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Interfaces</h3><ul><li><a href="Hint.html">Hint</a></li><li><a href="Items.html">Items</a></li><li><a href="Lift.html">Lift</a></li><li><a href="PassInfo.html">PassInfo</a></li><li><a href="SimulationStats.html">SimulationStats</a></li><li><a href="SymulatorPass.html">SymulatorPass</a></li><li><a href="SymulatorTicket.html">SymulatorTicket</a></li></ul><h3>Components</h3><ul><li><a href="AdminHarmonogramComp.html">AdminHarmonogramComp</a></li><li><a href="AdminLiftsComp.html">AdminLiftsComp</a></li><li><a href="AdminPricesComp.html">AdminPricesComp</a></li><li><a href="AdminReportComp.html">AdminReportComp</a></li><li><a href="CardWithForm.html">CardWithForm</a></li><li><a href="Harmonogram.html">Harmonogram</a></li><li><a href="Hints.html">Hints</a></li><li><a href="ResumeComp.html">ResumeComp</a></li><li><a href="SymulatorComp.html">SymulatorComp</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TicketComp">TicketComp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>AdminReport.tsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import axios from "axios";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Button } from "./ui/button";
+import { Line } from "react-chartjs-2";
+import "chart.js/auto";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { OrderCard } from "./OrderCard";
+
+/**
+ * Items interface represents a report item object.
+ * @typedef {Object} Items
+ * @property {string} email - The email associated with the report item.
+ * @property {string} phone - The phone number associated with the report item.
+ * @property {number} total - The total income for the report item.
+ * @property {number[]} totalPass - The total pass prices for the report item.
+ * @property {number[]} totalTicket - The total ticket prices for the report item.
+ * @property {string} dateTime - The date and time of the report item.
+ */
+
+interface Items {
+  email: string;
+  phone: string;
+  total: number;
+  totalPass: number[];
+  totalTicket: number[];
+  dateTime: string;
+}
+
+/**
+ * AdminReportComp is a React functional component for generating and displaying reports.
+ * @component
+ * @returns {JSX.Element} - The JSX code for AdminReportComp component.
+ */
+
+export function AdminReportComp() {
+  const [items, setItems] = useState&lt;Items[]>([]);
+  const [startDate, setStartDate] = useState&lt;Date>();
+  const [endDate, setEndDate] = useState&lt;Date>();
+
+  /**
+   * Fetches the report items from the API for a given date range.
+   * @param {Date} start - The start date of the range.
+   * @param {Date} end - The end date of the range.
+   */
+  const fetchItems = (start: Date, end: Date) => {
+    const startISO = format(start, "yyyy-MM-dd'T'00:00:00");
+    const endISO = format(end, "yyyy-MM-dd'T'23:59:59");
+    axios
+      .get(
+        `http://localhost:8080/reports/byDate?startDate=${startISO}&amp;endDate=${endISO}`
+      )
+      .then((response) => setItems(response.data))
+      .catch((error) => console.error("Error:", error));
+  };
+
+  /**
+   * Handles the fetch action when the user submits the date range.
+   */
+  const handleFetch = () => {
+    fetchItems(startDate!, endDate!);
+  };
+
+  const chartData = {
+    labels: items.map((item) => format(new Date(item.dateTime), "dd-MM-yyyy")),
+    datasets: [
+      {
+        label: " Income",
+        data: items.map((item) => item.total),
+        borderColor: "rgba(2, 192, 22, 1)",
+        backgroundColor: "rgba(2, 192, 22, 0.3)",
+        fill: true,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      x: {
+        ticks: {
+          maxTicksLimit: 10,
+          autoSkip: true,
+          maxRotation: 90,
+          minRotation: 30,
+        },
+      },
+    },
+  };
+
+  const totalSum = items.reduce((sum, item) => sum + item.total, 0);
+
+  return (
+    &lt;>
+      &lt;div className="flex gap-12">
+        &lt;div className="w-1/2 mt-12">
+          &lt;OrderCard title="Reports panel">
+            &lt;h1>Total amount from selected time is: {totalSum}&lt;/h1>
+
+            &lt;div className="flex flex-col gap-4 mt-8">
+              &lt;label>
+                Start Date:
+                &lt;Popover>
+                  &lt;PopoverTrigger asChild>
+                    &lt;Button
+                      variant={"outline"}
+                      className="w-full justify-start text-left font-normal"
+                    >
+                      &lt;CalendarIcon className="mr-2 h-4 w-4" />
+                      {startDate ? (
+                        format(startDate, "PPP")
+                      ) : (
+                        &lt;span>Pick a date&lt;/span>
+                      )}
+                    &lt;/Button>
+                  &lt;/PopoverTrigger>
+                  &lt;PopoverContent className="w-auto p-0">
+                    &lt;Calendar
+                      mode="single"
+                      selected={startDate}
+                      onSelect={(selectedDate: Date | undefined) => {
+                        if (selectedDate) {
+                          setStartDate(selectedDate);
+                        }
+                      }}
+                      initialFocus
+                    />
+                  &lt;/PopoverContent>
+                &lt;/Popover>
+              &lt;/label>
+              &lt;label>
+                End Date:
+                &lt;Popover>
+                  &lt;PopoverTrigger asChild>
+                    &lt;Button
+                      variant={"outline"}
+                      className="w-full justify-start text-left font-normal"
+                    >
+                      &lt;CalendarIcon className="mr-2 h-4 w-4" />
+                      {endDate ? (
+                        format(endDate, "PPP")
+                      ) : (
+                        &lt;span>Pick a date&lt;/span>
+                      )}
+                    &lt;/Button>
+                  &lt;/PopoverTrigger>
+                  &lt;PopoverContent className="w-auto p-0">
+                    &lt;Calendar
+                      mode="single"
+                      selected={endDate}
+                      onSelect={(selectedDate: Date | undefined) => {
+                        if (selectedDate) {
+                          setEndDate(selectedDate);
+                        }
+                      }}
+                      initialFocus
+                    />
+                  &lt;/PopoverContent>
+                &lt;/Popover>
+              &lt;/label>
+              &lt;Button onClick={handleFetch}>Fetch Reports&lt;/Button>
+            &lt;/div>
+          &lt;/OrderCard>
+        &lt;/div>
+        &lt;div className="mt-12 w-full">
+          &lt;Line data={chartData} options={chartOptions} />
+        &lt;/div>
+      &lt;/div>
+      &lt;Table className="mt-12 w-3/4 mx-auto">
+        &lt;TableHeader>
+          &lt;TableRow>
+            &lt;TableHead>#&lt;/TableHead>
+            &lt;TableHead>Date&lt;/TableHead>
+            &lt;TableHead>Email&lt;/TableHead>
+            &lt;TableHead>Phone&lt;/TableHead>
+            &lt;TableHead>Total&lt;/TableHead>
+            &lt;TableHead>Tickets&lt;/TableHead>
+            &lt;TableHead>Passes&lt;/TableHead>
+          &lt;/TableRow>
+        &lt;/TableHeader>
+        &lt;TableBody>
+          {Array.isArray(items) &amp;&amp;
+            items.map((item, index) => (
+              &lt;TableRow key={index}>
+                &lt;TableCell className="font-medium">{index + 1}&lt;/TableCell>
+                &lt;TableCell>
+                  {format(new Date(item.dateTime), "dd-MM-yyyy")}
+                &lt;/TableCell>
+                &lt;TableCell>{item.email}&lt;/TableCell>
+                &lt;TableCell>{item.phone}&lt;/TableCell>
+                &lt;TableCell>{item.total}&lt;/TableCell>
+                &lt;TableCell>
+                  {Array.isArray(item.totalTicket) &amp;&amp;
+                  item.totalTicket.length > 0 ? (
+                    item.totalTicket.map((ticket, ticketIndex) => (
+                      &lt;div key={ticketIndex}>
+                        Ticket {ticketIndex + 1}: {ticket}
+                      &lt;/div>
+                    ))
+                  ) : (
+                    &lt;div>No Tickets&lt;/div>
+                  )}
+                &lt;/TableCell>
+                &lt;TableCell>
+                  {Array.isArray(item.totalPass) &amp;&amp;
+                  item.totalPass.length > 0 ? (
+                    item.totalPass.map((pass, passIndex) => (
+                      &lt;div key={passIndex}>
+                        Pass {passIndex + 1}: {pass}
+                      &lt;/div>
+                    ))
+                  ) : (
+                    &lt;div>No Passes&lt;/div>
+                  )}
+                &lt;/TableCell>
+              &lt;/TableRow>
+            ))}
+        &lt;/TableBody>
+      &lt;/Table>
+    &lt;/>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

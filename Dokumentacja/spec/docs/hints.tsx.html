@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Framework Documentation hints.tsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">framework documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="..."
+                        >
+                            Respository
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Interfaces</h3><ul><li><a href="Hint.html">Hint</a></li><li><a href="Items.html">Items</a></li><li><a href="Lift.html">Lift</a></li><li><a href="PassInfo.html">PassInfo</a></li><li><a href="SimulationStats.html">SimulationStats</a></li><li><a href="SymulatorPass.html">SymulatorPass</a></li><li><a href="SymulatorTicket.html">SymulatorTicket</a></li></ul><h3>Components</h3><ul><li><a href="AdminHarmonogramComp.html">AdminHarmonogramComp</a></li><li><a href="AdminLiftsComp.html">AdminLiftsComp</a></li><li><a href="AdminPricesComp.html">AdminPricesComp</a></li><li><a href="AdminReportComp.html">AdminReportComp</a></li><li><a href="CardWithForm.html">CardWithForm</a></li><li><a href="Harmonogram.html">Harmonogram</a></li><li><a href="Hints.html">Hints</a></li><li><a href="ResumeComp.html">ResumeComp</a></li><li><a href="SymulatorComp.html">SymulatorComp</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TicketComp">TicketComp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>hints.tsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+/**
+ * Hint interface represents a hint object.
+ * @typedef {Object} Hint
+ * @property {number} id - The unique identifier of the hint.
+ * @property {string} text - The text content of the hint.
+ * @property {number | null} next - The ID of the next hint, or null if it is the last hint.
+ * @property {string} targetId - The ID of the target HTML element for the hint.
+ */
+
+interface Hint {
+  id: number;
+  text: string;
+  next: number | null;
+  targetId: string;
+}
+
+const hints: Hint[] = [
+  {
+    id: 1,
+    text: 'Welcome! Let\'s start with validating your ticket. Click "Next" to continue.',
+    next: 2,
+    targetId: "validate-ticket",
+  },
+  {
+    id: 2,
+    text: 'Here you can buy tickets and passes. Click "Next" to continue.',
+    next: 3,
+    targetId: "store",
+  },
+  {
+    id: 3,
+    text: 'Here you can freeze your pass, to unfreeze it click on link in the description of the card "Click Here!". Click "Finish" to complete the tour.',
+    next: 4,
+    targetId: "freeze",
+  },
+  {
+    id: 4,
+    text: 'Here you can freeze your pass, to unfreeze it click on link in the description of the card "Click Here!". Click "Finish" to complete the tour.',
+    next: null,
+    targetId: "harmonogram",
+  },
+];
+
+/**
+ * Hints is a React functional component for displaying a guided tour with hints.
+ * @component
+ * @returns {JSX.Element | null} - The JSX code for Hints component or null if no hints are shown.
+ */
+
+const Hints: React.FC = () => {
+  const [currentHint, setCurrentHint] = useState&lt;Hint | null>(hints[0]);
+  const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
+  const [showOverlay, setShowOverlay] = useState(true);
+
+  useEffect(() => {
+    if (currentHint) {
+      const targetElement = document.getElementById(currentHint.targetId);
+      if (targetElement) {
+        const rect = targetElement.getBoundingClientRect();
+        setPosition({
+          top: rect.top + window.scrollY,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+        });
+      }
+    }
+  }, [currentHint]);
+
+  /**
+   * Handles the transition to the next hint.
+   */
+  const handleNext = () => {
+    if (currentHint &amp;&amp; currentHint.next !== null) {
+      setCurrentHint(
+        hints.find((hint) => hint.id === currentHint.next) || null
+      );
+    } else {
+      // All hints shown, allow interaction
+      setShowOverlay(false);
+    }
+  };
+
+  /**
+   * Handles the completion of the hints tour.
+   */
+  const handleFinish = () => {
+    setCurrentHint(null);
+    // Set a value in localStorage to indicate that hints have been shown
+    localStorage.setItem("hintsShown", "true");
+  };
+
+  useEffect(() => {
+    // Check if the hints have been shown before using localStorage
+    const hintsShownBefore = localStorage.getItem("hintsShown");
+    if (hintsShownBefore) {
+      // Hints have been shown before, so do not show them again
+      setCurrentHint(null);
+      setShowOverlay(false); // Allow interaction if hints are already shown
+    }
+  }, []);
+
+  if (!currentHint) {
+    return null;
+  }
+
+  return (
+    &lt;div>
+      {showOverlay &amp;&amp; (
+        &lt;div className="fixed inset-0 bg-black opacity-50 z-40" />
+      )}
+
+      &lt;div
+        style={{
+          position: "absolute",
+          top: position.top,
+          left: position.left,
+          width: position.width,
+          zIndex: 50,
+        }}
+        className="-translate-y-full bg-card text-card-foreground shadow-lg p-5"
+      >
+        &lt;p>{currentHint.text}&lt;/p>
+        {currentHint.next ? (
+          &lt;Button onClick={handleNext} className="mt-2">
+            Next
+          &lt;/Button>
+        ) : (
+          &lt;Button onClick={handleFinish} className="mt-2">
+            Finish
+          &lt;/Button>
+        )}
+      &lt;/div>
+    &lt;/div>
+  );
+};
+
+export default Hints;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

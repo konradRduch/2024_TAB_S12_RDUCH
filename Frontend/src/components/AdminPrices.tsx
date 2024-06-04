@@ -12,6 +12,16 @@ import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 
+/**
+ * Items interface represents a price list item object.
+ * @typedef {Object} Items
+ * @property {number} id - The unique identifier of the price list item.
+ * @property {string} timeStart - The start time of the price validity.
+ * @property {string} timeEnd - The end time of the price validity.
+ * @property {number} ticketPrice - The price of a ticket.
+ * @property {boolean} passPrice - Indicates if it's a pass price.
+ */
+
 interface Items {
   id: number;
   timeStart: string;
@@ -19,6 +29,12 @@ interface Items {
   ticketPrice: number;
   passPrice: boolean;
 }
+
+/**
+ * AdminPricesComp is a React functional component for managing price lists.
+ * @component
+ * @returns {JSX.Element} - The JSX code for AdminPricesComp component.
+ */
 
 export function AdminPricesComp() {
   const [newHarmonogram, setNewHarmonogram] = useState({
@@ -30,6 +46,10 @@ export function AdminPricesComp() {
   const [items, setItems] = useState<Items[]>([]);
   const [items_actual, setItems_actual] = useState<Items[]>([]);
 
+  /**
+   * Handles the form submission for adding a new price list item.
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submission event.
+   */
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
@@ -48,6 +68,9 @@ export function AdminPricesComp() {
       .catch((error) => console.error("Error:", error));
   };
 
+  /**
+   * Fetches the list of price list items from the API.
+   */
   const fetchItems = () => {
     axios
       .get("http://localhost:8080/priceLists")
@@ -55,6 +78,9 @@ export function AdminPricesComp() {
       .catch((error) => console.error("Error:", error));
   };
 
+  /**
+   * Fetches the actual list of price list items from the API and updates state.
+   */
   const fetchItems_actuall = () => {
     axios
       .get("http://localhost:8080/priceLists/actual")
@@ -82,6 +108,10 @@ export function AdminPricesComp() {
     fetchItems_actuall();
   }, []);
 
+  /**
+   * Handles the input change for the price list form.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
+   */
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -123,7 +153,7 @@ export function AdminPricesComp() {
           <Button onClick={handleSubmit}>ADD</Button>
         </div>
       </Card>
-    <h1 className="mt-10">ACTUALL PRICESS:</h1>
+      <h1 className="mt-10">ACTUALL PRICESS:</h1>
       <Table className="mt-12 w-1/2 mx-auto">
         <TableHeader>
           <TableRow>
@@ -135,16 +165,18 @@ export function AdminPricesComp() {
           </TableRow>
         </TableHeader>
         <TableBody>
-  {Array.isArray(items_actual) && items_actual.length > 0 && (
-    <TableRow>
-      <TableCell className="font-medium">{items_actual[0].id}</TableCell>
-      <TableCell>{items_actual[0].passPrice}</TableCell>
-      <TableCell>{items_actual[0].ticketPrice}</TableCell>
-      <TableCell>{items_actual[0].timeStart}</TableCell>
-      <TableCell>{items_actual[0].timeEnd}</TableCell>
-    </TableRow>
-  )}
-</TableBody>
+          {Array.isArray(items_actual) && items_actual.length > 0 && (
+            <TableRow>
+              <TableCell className="font-medium">
+                {items_actual[0].id}
+              </TableCell>
+              <TableCell>{items_actual[0].passPrice}</TableCell>
+              <TableCell>{items_actual[0].ticketPrice}</TableCell>
+              <TableCell>{items_actual[0].timeStart}</TableCell>
+              <TableCell>{items_actual[0].timeEnd}</TableCell>
+            </TableRow>
+          )}
+        </TableBody>
       </Table>
 
       <h1 className="mt-10">ALL PRICESS:</h1>

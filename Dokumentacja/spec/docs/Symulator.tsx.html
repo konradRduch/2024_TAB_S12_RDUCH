@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Framework Documentation Symulator.tsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">framework documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="..."
+                        >
+                            Respository
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Interfaces</h3><ul><li><a href="Hint.html">Hint</a></li><li><a href="Items.html">Items</a></li><li><a href="Lift.html">Lift</a></li><li><a href="PassInfo.html">PassInfo</a></li><li><a href="SimulationStats.html">SimulationStats</a></li><li><a href="SymulatorPass.html">SymulatorPass</a></li><li><a href="SymulatorTicket.html">SymulatorTicket</a></li></ul><h3>Components</h3><ul><li><a href="AdminHarmonogramComp.html">AdminHarmonogramComp</a></li><li><a href="AdminLiftsComp.html">AdminLiftsComp</a></li><li><a href="AdminPricesComp.html">AdminPricesComp</a></li><li><a href="AdminReportComp.html">AdminReportComp</a></li><li><a href="CardWithForm.html">CardWithForm</a></li><li><a href="Harmonogram.html">Harmonogram</a></li><li><a href="Hints.html">Hints</a></li><li><a href="ResumeComp.html">ResumeComp</a></li><li><a href="SymulatorComp.html">SymulatorComp</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TicketComp">TicketComp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>Symulator.tsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from "react";
+import { OrderCard } from "./OrderCard";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import axios from "axios";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { differenceInMinutes, parseISO } from "date-fns";
+
+/**
+ * SymulatorTicket interface for ticket data.
+ * @typedef {Object} SymulatorTicket
+ * @property {number|string} liftId - The ID of the lift.
+ * @property {number|string} [ticketId] - The optional ticket ID.
+ * @property {never} [passId] - Ensure passId is not present in SymulatorTicket.
+ */
+interface SymulatorTicket {
+  liftId: number | string;
+  ticketId?: number | string; // Make ticketId optional
+  passId?: never; // Ensure passId is not present in SymulatorTicket
+}
+
+/**
+ * SymulatorPass interface for pass data.
+ * @typedef {Object} SymulatorPass
+ * @property {number|string} liftId - The ID of the lift.
+ * @property {number|string} [passId] - The optional pass ID.
+ * @property {never} [ticketId] - Ensure ticketId is not present in SymulatorPass.
+ */
+
+interface SymulatorPass {
+  liftId: number | string;
+  passId?: number | string; // Make passId optional
+  ticketId?: never; // Ensure ticketId is not present in SymulatorPass
+}
+
+/**
+ * SimulationStats interface for simulation statistics.
+ * @typedef {Object} SimulationStats
+ * @property {boolean} active - Indicates if the simulation is active.
+ * @property {number} totalDistance - The total distance covered in the simulation.
+ * @property {string} timeStart - The start time of the simulation.
+ * @property {string} timeEnd - The end time of the simulation.
+ * @property {number} descentsNumber - The number of descents.
+ * @property {number} amountOfRidesLeft - The amount of rides left.
+ */
+interface SimulationStats {
+  active: boolean;
+  totalDistance: number;
+  timeStart: string;
+  timeEnd: string;
+  descentsNumber: number;
+  amountOfRidesLeft: number;
+}
+
+/**
+ * SymulatorComp component for simulation.
+ * @component
+ * @returns {JSX.Element} The rendered component.
+ */
+export function SymulatorComp() {
+  const [formData, setFormData] = useState&lt;SymulatorTicket | SymulatorPass>({
+    liftId: "",
+  });
+  const [stats, setStats] = useState&lt;SimulationStats | null>(null);
+  const [type, setType] = useState("Ticket");
+  const [timeLeft, setTimeLeft] = useState&lt;string | null>(null);
+
+  /**
+   * Handles input change for form data.
+   * @param {React.ChangeEvent&lt;HTMLInputElement>} e - The input change event.
+   */
+  const handleInputChange = (e: React.ChangeEvent&lt;HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  /**
+   * Handles the submission of the simulation form.
+   * @param {React.FormEvent} event - The form submission event.
+   */
+  const handleSimulationSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    try {
+      let endpoint = "";
+      if ("ticketId" in formData &amp;&amp; formData.ticketId) {
+        endpoint = "liftTicket";
+      } else if ("passId" in formData &amp;&amp; formData.passId) {
+        endpoint = "liftPass";
+      } else {
+        throw new Error("No ticket or pass ID provided.");
+      }
+
+      await axios.post(
+        `http://localhost:8080/${endpoint}/bounce${endpoint}`,
+        formData
+      );
+
+      const response = await axios.get(
+        `http://localhost:8080/${endpoint}/summary`,
+        {
+          params: formData,
+        }
+      );
+
+      setStats(response.data);
+      setFormData({ liftId: "" });
+    } catch (error) {
+      console.error("Error:", error);
+      // Display alert
+      alert("Error: Incorrect data entered.");
+      // Clear the form data
+      setFormData({ liftId: "" });
+    }
+  };
+
+  useEffect(() => {
+    if (stats?.timeEnd) {
+      const endTime = parseISO(stats.timeEnd);
+      const now = new Date();
+      const minutesLeft = differenceInMinutes(endTime, now);
+      setTimeLeft(formatTimeLeft(minutesLeft));
+    } else {
+      setTimeLeft(null);
+    }
+  }, [stats]);
+
+  /**
+   * Formats the time left in the simulation.
+   * @param {number} minutes - The number of minutes left.
+   * @returns {string} The formatted time left.
+   */
+  const formatTimeLeft = (minutes: number): string => {
+    const days = Math.floor(minutes / (24 * 60));
+    const hours = Math.floor((minutes % (24 * 60)) / 60);
+    const remainingMinutes = minutes % 60;
+    return `${days}d-${hours}h-${remainingMinutes}m`;
+  };
+
+  return (
+    &lt;>
+      &lt;div className="flex gap-4">
+        &lt;OrderCard title="ID SCANNER">
+          &lt;div className="flex justify-around gap-10">
+            &lt;Select onValueChange={(value: string) => setType(value)}>
+              &lt;SelectTrigger id="category">
+                &lt;SelectValue placeholder="Ticket" />
+              &lt;/SelectTrigger>
+              &lt;SelectContent position="popper">
+                &lt;SelectItem value="Ticket">Ticket&lt;/SelectItem>
+                &lt;SelectItem value="Pass">Pass&lt;/SelectItem>
+              &lt;/SelectContent>
+            &lt;/Select>
+
+            {type === "Ticket" ? (
+              &lt;Input
+                className="mb-4"
+                placeholder="Ticket ID"
+                name="ticketId"
+                value={formData.ticketId || ""}
+                onChange={handleInputChange}
+              >&lt;/Input>
+            ) : (
+              &lt;Input
+                className="mb-4"
+                placeholder="Pass ID"
+                name="passId"
+                value={formData.passId || ""}
+                onChange={handleInputChange}
+              >&lt;/Input>
+            )}
+          &lt;/div>
+
+          &lt;label htmlFor="ID">Lift ID: &lt;/label>
+          &lt;Input
+            className="mb-4"
+            placeholder="LIFT ID"
+            name="liftId"
+            value={formData.liftId}
+            onChange={handleInputChange}
+          >&lt;/Input>
+
+          &lt;div className="flex justify-around">
+            &lt;Button onClick={handleSimulationSubmit}>Simulate&lt;/Button>
+          &lt;/div>
+        &lt;/OrderCard>
+
+        {stats &amp;&amp; (
+          &lt;OrderCard title="SIMULATION RESULTS">
+            &lt;h1>
+              ACCESS: {stats.active ? "SUCCESSFULLY PASSED" : "ACCESS DENIED"}
+            &lt;/h1>
+            &lt;p>Active: {stats.active ? "YES" : "NO"}&lt;/p>
+            {type === "Ticket" ? (
+              &lt;p>Amount of Rides Left: {stats.amountOfRidesLeft}&lt;/p>
+            ) : (
+              &lt;p>Amount of Rides: {stats.descentsNumber}&lt;/p>
+            )}
+            &lt;p>Total distance: {stats.totalDistance} m&lt;/p>
+            &lt;p>Time left: {timeLeft}&lt;/p>
+          &lt;/OrderCard>
+        )}
+      &lt;/div>
+    &lt;/>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

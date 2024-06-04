@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Framework Documentation AdminPrices.tsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">framework documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="..."
+                        >
+                            Respository
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Interfaces</h3><ul><li><a href="Hint.html">Hint</a></li><li><a href="Items.html">Items</a></li><li><a href="Lift.html">Lift</a></li><li><a href="PassInfo.html">PassInfo</a></li><li><a href="SimulationStats.html">SimulationStats</a></li><li><a href="SymulatorPass.html">SymulatorPass</a></li><li><a href="SymulatorTicket.html">SymulatorTicket</a></li></ul><h3>Components</h3><ul><li><a href="AdminHarmonogramComp.html">AdminHarmonogramComp</a></li><li><a href="AdminLiftsComp.html">AdminLiftsComp</a></li><li><a href="AdminPricesComp.html">AdminPricesComp</a></li><li><a href="AdminReportComp.html">AdminReportComp</a></li><li><a href="CardWithForm.html">CardWithForm</a></li><li><a href="Harmonogram.html">Harmonogram</a></li><li><a href="Hints.html">Hints</a></li><li><a href="ResumeComp.html">ResumeComp</a></li><li><a href="SymulatorComp.html">SymulatorComp</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TicketComp">TicketComp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>AdminPrices.tsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import axios from "axios";
+import { useState, useEffect } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "./ui/button";
+import { Card } from "./ui/card";
+import { Input } from "./ui/input";
+
+/**
+ * Items interface represents a price list item object.
+ * @typedef {Object} Items
+ * @property {number} id - The unique identifier of the price list item.
+ * @property {string} timeStart - The start time of the price validity.
+ * @property {string} timeEnd - The end time of the price validity.
+ * @property {number} ticketPrice - The price of a ticket.
+ * @property {boolean} passPrice - Indicates if it's a pass price.
+ */
+
+interface Items {
+  id: number;
+  timeStart: string;
+  timeEnd: string;
+  ticketPrice: number;
+  passPrice: boolean;
+}
+
+/**
+ * AdminPricesComp is a React functional component for managing price lists.
+ * @component
+ * @returns {JSX.Element} - The JSX code for AdminPricesComp component.
+ */
+
+export function AdminPricesComp() {
+  const [newHarmonogram, setNewHarmonogram] = useState({
+    timeStart: "",
+    timeEnd: "",
+    ticketPrice: "",
+    passPrice: "",
+  });
+  const [items, setItems] = useState&lt;Items[]>([]);
+  const [items_actual, setItems_actual] = useState&lt;Items[]>([]);
+
+  /**
+   * Handles the form submission for adding a new price list item.
+   * @param {React.FormEvent&lt;HTMLFormElement>} event - The form submission event.
+   */
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+
+    axios
+      .post("http://localhost:8080/priceLists/addPriceList", newHarmonogram)
+      .then((response) => {
+        setNewHarmonogram({
+          timeStart: "",
+          timeEnd: "",
+          ticketPrice: "",
+          passPrice: "",
+        });
+        fetchItems();
+        window.location.reload();
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  /**
+   * Fetches the list of price list items from the API.
+   */
+  const fetchItems = () => {
+    axios
+      .get("http://localhost:8080/priceLists")
+      .then((response) => setItems(response.data))
+      .catch((error) => console.error("Error:", error));
+  };
+
+  /**
+   * Fetches the actual list of price list items from the API and updates state.
+   */
+  const fetchItems_actuall = () => {
+    axios
+      .get("http://localhost:8080/priceLists/actual")
+      .then((response) => {
+        // Sort items by some criteria, e.g., ID in descending order
+        const sortedItems = response.data.sort(
+          (a: Items, b: Items) => b.id - a.id
+        );
+        // Get the last item from the sorted list
+        const lastItem = sortedItems[0];
+        // Update state with the last pass price and ticket price
+        setItems_actual((prevValues) => ({
+          ...prevValues,
+          price: lastItem.passPrice,
+          pricePerRide: lastItem.ticketPrice,
+        }));
+        // Update state with all items
+        setItems_actual(sortedItems);
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  useEffect(() => {
+    fetchItems();
+    fetchItems_actuall();
+  }, []);
+
+  /**
+   * Handles the input change for the price list form.
+   * @param {React.ChangeEvent&lt;HTMLInputElement>} e - The input change event.
+   */
+  const handleInputChange = (e: React.ChangeEvent&lt;HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setNewHarmonogram((Harmonogram) => ({
+      ...Harmonogram,
+      [name]: value,
+    }));
+  };
+
+  return (
+    &lt;>
+      &lt;p>Prices&lt;/p>
+      &lt;Card className="mt-4">
+        &lt;div className="flex gap-4 p-10">
+          &lt;Input
+            placeholder="Pass price"
+            name="passPrice"
+            value={newHarmonogram.passPrice}
+            onChange={handleInputChange}
+          >&lt;/Input>
+          &lt;Input
+            placeholder="Ticket price"
+            name="ticketPrice"
+            value={newHarmonogram.ticketPrice}
+            onChange={handleInputChange}
+          >&lt;/Input>
+          &lt;Input
+            placeholder="Time start"
+            name="timeStart"
+            value={newHarmonogram.timeStart}
+            onChange={handleInputChange}
+          >&lt;/Input>
+          &lt;Input
+            placeholder="Time end"
+            name="timeEnd"
+            value={newHarmonogram.timeEnd}
+            onChange={handleInputChange}
+          >&lt;/Input>
+          &lt;Button onClick={handleSubmit}>ADD&lt;/Button>
+        &lt;/div>
+      &lt;/Card>
+      &lt;h1 className="mt-10">ACTUALL PRICESS:&lt;/h1>
+      &lt;Table className="mt-12 w-1/2 mx-auto">
+        &lt;TableHeader>
+          &lt;TableRow>
+            &lt;TableHead>ID&lt;/TableHead>
+            &lt;TableHead>Pass Price&lt;/TableHead>
+            &lt;TableHead>Ticket Price&lt;/TableHead>
+            &lt;TableHead>Time Start&lt;/TableHead>
+            &lt;TableHead>TimeEnd&lt;/TableHead>
+          &lt;/TableRow>
+        &lt;/TableHeader>
+        &lt;TableBody>
+          {Array.isArray(items_actual) &amp;&amp; items_actual.length > 0 &amp;&amp; (
+            &lt;TableRow>
+              &lt;TableCell className="font-medium">
+                {items_actual[0].id}
+              &lt;/TableCell>
+              &lt;TableCell>{items_actual[0].passPrice}&lt;/TableCell>
+              &lt;TableCell>{items_actual[0].ticketPrice}&lt;/TableCell>
+              &lt;TableCell>{items_actual[0].timeStart}&lt;/TableCell>
+              &lt;TableCell>{items_actual[0].timeEnd}&lt;/TableCell>
+            &lt;/TableRow>
+          )}
+        &lt;/TableBody>
+      &lt;/Table>
+
+      &lt;h1 className="mt-10">ALL PRICESS:&lt;/h1>
+      &lt;Table className="mt-12 w-1/2 mx-auto">
+        &lt;TableHeader>
+          &lt;TableRow>
+            &lt;TableHead>ID&lt;/TableHead>
+            &lt;TableHead>Pass Price&lt;/TableHead>
+            &lt;TableHead>Ticket Price&lt;/TableHead>
+            &lt;TableHead>Time Start&lt;/TableHead>
+            &lt;TableHead>TimeEnd&lt;/TableHead>
+          &lt;/TableRow>
+        &lt;/TableHeader>
+        &lt;TableBody>
+          {Array.isArray(items) &amp;&amp;
+            items.map((item, index) => (
+              &lt;TableRow key={index}>
+                &lt;TableCell className="font-medium">{item.id}&lt;/TableCell>
+                &lt;TableCell>{item.passPrice}&lt;/TableCell>
+                &lt;TableCell>{item.ticketPrice}&lt;/TableCell>
+                &lt;TableCell>{item.timeStart}&lt;/TableCell>
+                &lt;TableCell>{item.timeEnd}&lt;/TableCell>
+              &lt;/TableRow>
+            ))}
+        &lt;/TableBody>
+      &lt;/Table>
+    &lt;/>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>
