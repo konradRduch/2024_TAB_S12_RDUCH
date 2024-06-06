@@ -1,0 +1,6 @@
+org.skistation
+org.skistation.controllers
+org.skistation.models
+org.skistation.models.DTO
+org.skistation.repositories
+org.skistation.services

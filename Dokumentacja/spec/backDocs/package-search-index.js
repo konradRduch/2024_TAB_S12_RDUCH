@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.skistation"},{"l":"org.skistation.controllers"},{"l":"org.skistation.models"},{"l":"org.skistation.models.DTO"},{"l":"org.skistation.repositories"},{"l":"org.skistation.services"}];updateSearchResults();
