@@ -1,18 +1,14 @@
 package org.skistation.controllers;
 
-
 import org.skistation.models.*;
 import org.skistation.models.DTO.BuyPassRequest;
-import org.skistation.models.DTO.BuyTicketRequest;
 import org.skistation.models.DTO.PassDTO;
-import org.skistation.models.DTO.TicketDTO;
 import org.skistation.services.ClientService;
 import org.skistation.services.OrderService;
 import org.skistation.services.PassService;
 import org.skistation.services.PriceListService;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,15 +16,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Controller for buying passes.
+ * It is responsible for handling requests related to buying passes.
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/buyPasses")
-public class BuyPassController {
+public class BuyPassController
+{
+    /**
+     * Service for managing clients.
+     */
     private final ClientService clientService;
+
+    /**
+     * Service for managing orders.
+     */
     private final OrderService orderService;
+
+    /**
+     * Service for managing passes.
+     */
     private final PassService passService;
+
+    /**
+     * Service for managing price lists.
+     */
     private final PriceListService priceListService;
 
+    /**
+     * Constructs a new BuyPassController with the specified services.
+     *
+     * @param clientService    the service for managing clients.
+     * @param orderService     the service for managing orders.
+     * @param passService      the service for managing passes.
+     * @param priceListService the service for managing price lists.
+     */
     public BuyPassController(ClientService clientService, OrderService orderService, PassService passService, PriceListService priceListService) {
         this.clientService = clientService;
         this.orderService = orderService;
@@ -36,6 +60,12 @@ public class BuyPassController {
         this.priceListService = priceListService;
     }
 
+    /**
+     * Buys a pass.
+     *
+     * @param request the request to buy a pass.
+     * @return a list of IDs of the bought passes.
+     */
     @PostMapping("")
     public List<String> buyPass(@RequestBody BuyPassRequest request) {
 
@@ -53,7 +83,8 @@ public class BuyPassController {
             if (clientService.getClientsByPhoneNumber(request.getClient().getPhone()) == null
                     && clientService.getClientsByEmailAddress(request.getClient().getEmail()) == null) {
                 clientService.saveClient(client);
-            } else {
+            }
+            else {
                 passIds.add("Error");
                 return passIds;
             }
@@ -75,9 +106,8 @@ public class BuyPassController {
         Float roundedDiscountPrice = Float.valueOf(df.format(discountPrice));
 
 
-
         // Normal passes
-        for(int i = 0; i < request.getNumberOfNormalPasses(); i++) {
+        for (int i = 0; i < request.getNumberOfNormalPasses(); i++) {
             Pass newNormalPass = new Pass(active, passDTO.passTypeName(), roundedNormalPrice,
                     newOrder, priceList, passDTO.timeStart(), passDTO.timeEnd(), false);
             Pass savedPass = passService.savePass(newNormalPass);
@@ -85,7 +115,7 @@ public class BuyPassController {
         }
 
         // Discount passes
-        for(int i = 0; i < request.getNumberOfDiscountPasses(); i++) {
+        for (int i = 0; i < request.getNumberOfDiscountPasses(); i++) {
             Pass newDiscountPass = new Pass(active, passDTO.passTypeName(), roundedDiscountPrice,
                     newOrder, priceList, passDTO.timeStart(), passDTO.timeEnd(), true);
             Pass savedPass = passService.savePass(newDiscountPass);
@@ -96,18 +126,25 @@ public class BuyPassController {
         return passIds;
     }
 
-
-
-    private Float calculatePassPrice(String type, Float price){
+    /**
+     * Calculates the price of a pass.
+     *
+     * @param type  the type of the pass.
+     * @param price the price of the pass.
+     * @return the calculated price.
+     */
+    private Float calculatePassPrice(String type, Float price) {
         Float discountFactor = 1.0f;
-        if(Objects.equals(type, "Day")){
-            discountFactor =1.0f;
-        }else if(Objects.equals(type, "Week")){
+        if (Objects.equals(type, "Day")) {
+            discountFactor = 1.0f;
+        }
+        else if (Objects.equals(type, "Week")) {
             discountFactor = 7.0f * 0.6f;
-        } else if (Objects.equals(type, "Month")) {
+        }
+        else if (Objects.equals(type, "Month")) {
             discountFactor = 30f * 0.4f;
         }
-    return price * discountFactor;
+        return price * discountFactor;
     }
 
 }
